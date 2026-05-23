@@ -73,7 +73,8 @@
 .btn {
     padding: 8px 18px;
     border: none;
-    border-radius: 99px; /* Bo tròn dạng pill */
+    border-radius: 99px;
+    /* Bo tròn dạng pill */
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
@@ -82,8 +83,10 @@
 
 /* Nút Đăng nhập */
 .btn-login {
-    background-color: #e1e7eb; /* Nền xám sáng */
-    color: #2b3035; /* Chữ màu tối */
+    background-color: #e1e7eb;
+    /* Nền xám sáng */
+    color: #2b3035;
+    /* Chữ màu tối */
 }
 
 .btn-login:hover {
@@ -92,10 +95,22 @@
 
 /* Nút Đăng ký */
 .btn-register {
-    background-color: #18181f; /* Nền xám tối hòa hợp với header */
-    color: #ffffff; /* Chữ màu trắng */
+    background-color: #18181f;
+    /* Nền xám tối hòa hợp với header */
+    color: #ffffff;
+    /* Chữ màu trắng */
 }
 
 .btn-register:hover {
     background-color: #3f3f4c;
+}
+
+.user-info {}
+
+.user-info {
+    color: white !important;
+}
+
+.user-info i {
+    color: white !important;
 }
