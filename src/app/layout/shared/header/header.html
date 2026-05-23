@@ -19,8 +19,11 @@
                 </a>
             </nav>
 
-            <div class="auth-buttons">
+            <div class="auth-buttons" *ngIf="(user$ | async) == null">
                 <button class="btn btn-login">Đăng nhập</button>
                 <button class="btn btn-register">Đăng ký</button>
+            </div>
+            <div class="user-info"  *ngIf="user$ | async as user">
+                <label for="">{{user.username}}</label>
             </div>
         </header>
