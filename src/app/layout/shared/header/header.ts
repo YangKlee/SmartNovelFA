@@ -6,6 +6,7 @@ import { User } from '../../../models/user/user.model';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-header',
   imports: [CommonModule, MatButtonModule, MatMenuModule],

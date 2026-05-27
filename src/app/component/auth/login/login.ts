@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 })
 export class Login implements OnInit {
   loginForm!: FormGroup;
+  showPassword = false;
+
   constructor(private frmBuilder: FormBuilder, private authServices: AuthServices, private router: Router) {
     // this.createForm();
   }
@@ -24,6 +26,11 @@ export class Login implements OnInit {
       txtPassword: [null, [Validators.required]]
     })
   }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
   doLogin() {
     if (this.loginForm.valid) {
       this.authServices.login(this.loginForm.get("txtUsername")?.value, this.loginForm.get("txtPassword")?.value).subscribe({
