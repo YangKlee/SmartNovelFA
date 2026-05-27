@@ -20,7 +20,7 @@
   max-width: 480px;
   padding: 40px;
   position: relative;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
 
@@ -85,11 +85,14 @@
 }
 
 .forgot-link {
+  cursor: pointer;
   color: #ef4444;
   font-size: 0.9rem;
   text-decoration: none;
   font-weight: 600;
 }
+
+
 
 .forgot-link:hover {
   text-decoration: underline;
