@@ -3,15 +3,17 @@ import { FormGroup, Validators } from '@angular/forms';
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common"
 import { AuthServices } from '../../../services/auth/auth-services';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class Login implements OnInit {
   loginForm!: FormGroup;
+  showPassword = false;
+
   constructor(private frmBuilder: FormBuilder, private authServices: AuthServices, private router: Router) {
     // this.createForm();
   }
@@ -24,6 +26,11 @@ export class Login implements OnInit {
       txtPassword: [null, [Validators.required]]
     })
   }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
   doLogin() {
     if (this.loginForm.valid) {
       this.authServices.login(this.loginForm.get("txtUsername")?.value, this.loginForm.get("txtPassword")?.value).subscribe({
