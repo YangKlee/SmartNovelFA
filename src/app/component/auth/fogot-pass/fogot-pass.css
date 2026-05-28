@@ -109,6 +109,35 @@
   color: #6b7280;
 }
 
+.input-with-button {
+  display: flex;
+  gap: 10px;
+}
+
+.input-with-button .input-wrapper {
+  flex: 1;
+}
+
+.action-btn {
+  background-color: #4b5563;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.action-btn:hover {
+  background-color: #374151;
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .submit-btn {
   width: 100%;
   background-color: #ff0000;

@@ -7,20 +7,36 @@
       <p>Nhập địa chỉ email của bạn để nhận liên kết đặt lại mật khẩu</p>
     </div>
 
-    <form [formGroup]="forgotForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="forgotForm">
       <div class="form-group">
         <label>ĐỊA CHỈ EMAIL</label>
-        <div class="input-wrapper">
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
-            </svg>
-          </span>
-          <input type="email" formControlName="email" placeholder="example@gmail.com">
+        <div class="input-with-button">
+          <div class="input-wrapper">
+            <span class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
+              </svg>
+            </span>
+            <input type="email" formControlName="email" placeholder="example@gmail.com">
+          </div>
+          <button type="button" class="action-btn" (click)="sendOTP()" [disabled]="!forgotForm.get('email')?.valid">GỬI</button>
         </div>
       </div>
 
-      <button type="submit" class="submit-btn" [disabled]="!forgotForm.valid">GỬI YÊU CẦU</button>
+      <div class="form-group">
+        <label>MÃ XÁC NHẬN (OTP)</label>
+        <div class="input-wrapper">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M2.5 9a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-5zm2-1a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1h-7z"/>
+              <path d="M4.5 5a3.5 3.5 0 1 1 7 0v2h-1V5a2.5 2.5 0 0 0-5 0v2h-1V5z"/>
+            </svg>
+          </span>
+          <input type="text" formControlName="otp" placeholder="Nhập mã OTP 6 số">
+        </div>
+      </div>
+
+      <button type="button" class="submit-btn" (click)="confirmOTP()" [disabled]="!forgotForm.get('otp')?.valid">XÁC NHẬN</button>
     </form>
 
     <div class="register-footer">

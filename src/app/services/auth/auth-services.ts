@@ -32,8 +32,15 @@ export class AuthServices {
       this.httpOptions
     );
   }
-  loadInfoUserLogined(): Observable<User> {
+  public loadInfoUserLogined(): Observable<User> {
     return this.httpClient.get<User>(`${this.URL_AUTH}/profile`);
+  }
+  public sendOtFogotPassword(email: string): Observable<any> {
+    return this.httpClient.post<any>(`${this.URL_AUTH}/SendEmailForgotPassword`, { Email: email,Token: "", OTP:"" }, this.httpOptions);
+  }
+  public verifyOTP(token: string,email: string, otp:string)
+  {
+      return this.httpClient.post<any>(`${this.URL_AUTH}/VerifyOTP`, { Email: email, Token: token, OTP:otp }, this.httpOptions);
   }
 
   // public saveCacheUserLogined() {
