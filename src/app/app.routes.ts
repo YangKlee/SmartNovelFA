@@ -6,6 +6,7 @@ import { Login } from './component/auth/login/login';
 import { DashboardLayout } from './layout/dashboard-layout/dashboard-layout';
 import { Register } from './component/auth/register/register';
 import { FogotPass } from './component/auth/fogot-pass/fogot-pass';
+import { RecoveryPass } from './component/auth/recovery-pass/recovery-pass';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -19,7 +20,8 @@ export const routes: Routes = [
         path: "auth", component: AuthLayout, children: [
             { path: "login", component: Login },
             { path: "register", component: Register },
-            { path: "forgot-password", component: FogotPass }
+            { path: "forgot-password", component: FogotPass },
+            {path: "recovery-pass", component:RecoveryPass}
         ]
     },
     // nhánh layout dashboard, sau này nhớ thêm chặn quyền truy cập ở đây

@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthServices } from '../../../services/auth/auth-services';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-fogot-pass',
@@ -14,9 +15,10 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 export class FogotPass implements OnInit {
   forgotForm!: FormGroup;
   token: string = "";
-  timeCowndownLabel =  new BehaviorSubject<string>("");
+  timeCowndownLabel = new BehaviorSubject<string>("");
   constructor(private fb: FormBuilder,
     private authService: AuthServices,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -32,7 +34,8 @@ export class FogotPass implements OnInit {
         next: (res) => {
           if (res.code === 200) {
             alert("Mã OTP đã được gửi đến email của bạn");
-            this.token = res.token;
+            this.token = res.token || res.Token;
+            this.authService.tokenRecoveryPassword = res.tokenRecovery || res.TokenRecovery;
           } else {
             alert(res.content);
             this.token = "";
@@ -53,12 +56,15 @@ export class FogotPass implements OnInit {
   confirmOTP() {
     if (this.forgotForm.get('otp')?.valid) {
       // Gọi API xác nhận OTP ở đây
-      this.authService.verifyOTP(this.token, "", this.forgotForm.get('otp')?.value).subscribe({
-        next: (res)=>{
-          alert(res.content);
+      this.authService.verifyOTP(this.token, this.authService.tokenRecoveryPassword, this.forgotForm.get('email')?.value, this.forgotForm.get('otp')?.value).subscribe({
+        next: (res) => {
+
+          // next sang recovery password
+          this.router.navigate(["auth/recovery-pass"])
+
         },
-        error: (err)=>{
-           alert(err.error.content);
+        error: (err) => {
+          alert(err.error.content);
         }
       })
     } else {

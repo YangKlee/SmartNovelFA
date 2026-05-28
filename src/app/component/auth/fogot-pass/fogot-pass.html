@@ -1,4 +1,4 @@
-<div class="login-overlay">
+﻿<div class="login-overlay">
   <div class="login-card">
     <button class="close-btn" type="button" aria-label="Close" routerLink="/auth/login">X</button>
     
@@ -21,6 +21,9 @@
           </div>
           <button type="button" class="action-btn" (click)="sendOTP()" [disabled]="!forgotForm.get('email')?.valid">GỬI {{timeCowndownLabel|async}}</button>
         </div>
+        <div class="error-msg" *ngIf="forgotForm.get('email')?.invalid && (forgotForm.get('email')?.dirty || forgotForm.get('email')?.touched)">
+          Vui lòng nhập địa chỉ email hợp lệ.
+        </div>
       </div>
 
       <div class="form-group">
@@ -33,6 +36,9 @@
             </svg>
           </span>
           <input type="text" formControlName="otp" placeholder="Nhập mã OTP 6 số">
+        </div>
+        <div class="error-msg" *ngIf="forgotForm.get('otp')?.invalid && (forgotForm.get('otp')?.dirty || forgotForm.get('otp')?.touched)">
+          Vui lòng nhập mã OTP.
         </div>
       </div>
 
