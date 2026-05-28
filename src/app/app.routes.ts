@@ -4,7 +4,7 @@ import { AuthLayout } from "./layout/auth-layout/auth-layout"
 import path from 'node:path';
 import { Login } from './component/auth/login/login';
 import { DashboardLayout } from './layout/dashboard-layout/dashboard-layout';
-import { Regist } from './component/auth/regist/regist';
+import { Register } from './component/auth/register/register';
 import { FogotPass } from './component/auth/fogot-pass/fogot-pass';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
@@ -18,7 +18,7 @@ export const routes: Routes = [
     {
         path: "auth", component: AuthLayout, children: [
             { path: "login", component: Login },
-            { path: "register", component: Regist },
+            { path: "register", component: Register },
             { path: "forgot-password", component: FogotPass }
         ]
     },

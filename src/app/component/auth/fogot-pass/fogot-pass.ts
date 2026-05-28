@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthServices } from '../../../services/auth/auth-services';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-fogot-pass',
@@ -14,7 +14,7 @@ import { Observable, of } from 'rxjs';
 export class FogotPass implements OnInit {
   forgotForm!: FormGroup;
   token: string = "";
-
+  timeCowndownLabel =  new BehaviorSubject<string>("");
   constructor(private fb: FormBuilder,
     private authService: AuthServices,
   ) { }

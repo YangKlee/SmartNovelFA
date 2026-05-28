@@ -19,7 +19,7 @@
             </span>
             <input type="email" formControlName="email" placeholder="example@gmail.com">
           </div>
-          <button type="button" class="action-btn" (click)="sendOTP()" [disabled]="!forgotForm.get('email')?.valid">GỬI</button>
+          <button type="button" class="action-btn" (click)="sendOTP()" [disabled]="!forgotForm.get('email')?.valid">GỬI {{timeCowndownLabel|async}}</button>
         </div>
       </div>
 
