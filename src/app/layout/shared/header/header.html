@@ -1,178 +1,38 @@
 <header class="main-header">
+  <a routerLink="/" class="logo">Logo</a>
 
-    <!-- Logo website
-         routerLink="/"
-         => khi nhấn logo sẽ quay về trang chủ -->
-    <a routerLink="/" class="logo">
-        Logo
-    </a>
+  <nav class="nav-links">
+    <div class="dropdown" *ngFor="let item of menus">
+      <a class="nav-item" [routerLink]="item.urlLink || '/'">
+        <i *ngIf="item.iconBootstrap" [class]="item.iconBootstrap"></i>
+        <span>{{item.content}}</span>
+        <i *ngIf="item.children?.length" class="bi bi-chevron-down ms-icon"></i>
+      </a>
 
-    <!-- Thanh navbar -->
-    <nav class="nav-links">
-
-        <!--
-            *ngFor
-            => lặp qua từng menu trong mảng menus
-
-            item là từng object menu lấy từ database
-        -->
-        <div class="dropdown"
-             *ngFor="let item of menus">
-
-            <!-- Menu cha -->
-            <a class="nav-item"
-               [routerLink]="item.urlLink || '/'">
-
-                <!--
-                    *ngIf
-                    => chỉ hiện icon nếu menu có iconBootstrap
-                -->
-                <i *ngIf="item.iconBootstrap"
-                   [class]="item.iconBootstrap">
-                </i>
-
-                <!-- Nội dung menu -->
-                <span>
-                    {{item.content}}
-                </span>
-
-                <!--
-                    Hiện icon mũi tên nếu menu có menu con
-                -->
-                <i *ngIf="item.children.length > 0"
-                   class="bi bi-chevron-down ms-icon">
-                </i>
-
-            </a>
-
-            <!-- Dropdown menu con -->
-            <div class="dropdown-menu"
-                 *ngIf="item.children.length > 0">
-
-                <!--
-                    Lặp qua các menu con
-                -->
-                <a *ngFor="let child of item.children"
-                   [routerLink]="child.urlLink || '/'">
-
-                    <!-- Icon menu con -->
-                    <i *ngIf="child.iconBootstrap"
-                       [class]="child.iconBootstrap">
-                    </i>
-
-                    <!-- Nội dung menu con -->
-                    <span>
-                        {{child.content}}
-                    </span>
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </nav>
-
-    <!--
-        Nếu chưa đăng nhập
-        => hiện nút login/register
-    -->
-    <div class="auth-buttons"
-         *ngIf="(user$ | async) == null">
-
-        <!-- Nút đăng nhập -->
-        <button class="btn btn-login"
-                (click)="logibBtn()">
-
-            Đăng nhập
-
-        </button>
-
-        <!-- Nút đăng ký -->
-        <button class="btn btn-register">
-
-            Đăng ký
-
-        </button>
-
+      <div class="dropdown-menu" *ngIf="item.children?.length">
+        <a *ngFor="let child of item.children" [routerLink]="child.urlLink || '/'">
+          {{child.content}}
+        </a>
+      </div>
     </div>
+  </nav>
 
-    <!--
-        Nếu đã đăng nhập
-        => hiện username + dropdown user
-    -->
-    <button matButton
-            [matMenuTriggerFor]="userMenu"
-            class="user-info"
-            *ngIf="user$ | async as user">
+  <div class="auth-buttons" *ngIf="(user$ | async) == null">
+    <button class="btn btn-login" (click)="loginBtn()">Đăng nhập</button>
+    <button class="btn btn-register">Đăng ký</button>
+  </div>
 
-        <!-- Icon user -->
-        <i class="bi bi-person-circle"></i>
-
-        <!-- Username -->
-        {{user.username}}
-
+  <div class="user-dropdown" *ngIf="user$ | async as user">
+    <button class="user-info">
+      <i class="bi bi-person-circle"></i>
+      <span>{{user.username}}</span>
     </button>
 
-    <!-- Dropdown user -->
-    <mat-menu #userMenu="matMenu">
-
-        <!--
-            roleMenus
-            => menu admin/mod/author
-        -->
-        <ng-container *ngFor="let role of roleMenus">
-
-            <!-- Menu cha -->
-            <button mat-menu-item
-                    [routerLink]="role.urlLink || '/'">
-
-                <!-- Icon -->
-                <i *ngIf="role.iconBootstrap"
-                   [class]="role.iconBootstrap">
-                </i>
-
-                <!-- Nội dung -->
-                <span>
-                    {{role.content}}
-                </span>
-
-            </button>
-
-            <!-- Menu con -->
-            <button mat-menu-item
-                    *ngFor="let child of role.children"
-                    [routerLink]="child.urlLink || '/'">
-
-                <!-- Dấu phân cấp -->
-                <span class="submenu-prefix">
-                    └
-                </span>
-
-                <!-- Nội dung -->
-                <span>
-                    {{child.content}}
-                </span>
-
-            </button>
-
-        </ng-container>
-
-        <!-- Đường kẻ -->
-        <mat-divider></mat-divider>
-
-        <!-- Logout -->
-        <button mat-menu-item
-                (click)="doLogout()">
-
-            <i class="bi bi-box-arrow-right"></i>
-
-            <span>
-                Đăng xuất
-            </span>
-
-        </button>
-
-    </mat-menu>
-
+    <div class="user-dropdown-menu">
+      <a *ngFor="let role of roleMenus" [routerLink]="role.urlLink || '/'">
+        <i *ngIf="role.iconBootstrap" [class]="role.iconBootstrap"></i>
+        <span>{{role.content}}</span>
+      </a>
+    </div>
+  </div>
 </header>
