@@ -48,6 +48,9 @@ export class AuthServices {
   public recoveryPass(body: any): Observable<any> {
     return this.httpClient.post<any>(`${this.URL_AUTH}/recoveryPassword`, body, this.httpOptions);
   }
+  public checkLogin(): Observable<any> {
+    return this.httpClient.get<any>(`${this.URL_AUTH}/checkLogin`);
+  }
   // public saveCacheUserLogined() {
   //   if (isPlatformBrowser(this.platformId)) {
   //     this.loadInfoUserLogined().subscribe(
