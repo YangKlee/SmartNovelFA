@@ -7,11 +7,12 @@ import { DashboardLayout } from './layout/dashboard-layout/dashboard-layout';
 import { Register } from './component/auth/register/register';
 import { FogotPass } from './component/auth/fogot-pass/fogot-pass';
 import { RecoveryPass } from './component/auth/recovery-pass/recovery-pass';
+import { Account } from './component/common/account/account';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
         path: "", component: UserLayout, children: [
-
+            { path: "account", component: Account },
         ]
     },
     { path: "auth", redirectTo: "auth/login", pathMatch: "full" },

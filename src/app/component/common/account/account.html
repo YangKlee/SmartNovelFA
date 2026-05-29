@@ -1,0 +1,53 @@
+<div class="account">
+    <h1 class="title">TÀI KHOẢN NGƯỜI DÙNG</h1>
+    <div class="profile-wrapper">
+        
+        <div class="sidebar">
+            <div class="profile-card">
+                <div class="avatar-wrap">
+                    <img src="https://via.placeholder.com/100" alt="Avatar">
+                </div>
+                <h2 class="username">{{userData?.username}}</h2>
+                <p class="role">{{userData?.roleId}}</p>
+            </div>
+
+            <div class="btn-group-custom">
+                <button class="btn-custom"><i class="fas fa-edit"></i> Sửa thông tin</button>
+                <button class="btn-custom"><i class="fas fa-unlock-alt"></i> Đổi mật khẩu</button>
+                <button class="btn-custom"><i class="fas fa-envelope"></i> Đổi Email</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <h2 class="user-inf-title">Thông tin người dùng</h2>
+            <div class="table-wrapper">
+                <table class="table table-hover mb-0">
+                    <tbody>
+                        <tr>
+                            <td class="col-label">UID</td>
+                            <td class="text-secondary">{{userData?.uid}}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-label">Tên hiển thị</td>
+                            <td class="text-secondary">{{userData?.displayName}}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-label">Email</td>
+                            <td class="text-secondary">{{userData?.email}}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-label">Ngày sinh</td>
+                            <td class="text-secondary">{{userData?.birthday ?? "Chưa cập nhật"}}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-label">Di động</td>
+                            <td class="text-secondary">{{userData?.phone}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

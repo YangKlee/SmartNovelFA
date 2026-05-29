@@ -10,20 +10,18 @@ import { environment } from '../../env';
   providedIn: 'root',
 })
 export class UserServices {
-
-  private userLogined: User | null = null;
-
   private URL_USER = `${environment.apiUrl}/User`;
 
   constructor(private httpClient: HttpClient) {}
-
-  private getHttpOptions() {
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      })
-    };
+  private URL_Account = `${environment.apiUrl}/Account`
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': "application/json"
+    }),
+  };
+  public getUserInfo(): Observable<User>
+  {
+    return this.httpClient.get<any>(`${this.URL_Account}/accountInfo`);
   }
 
 
