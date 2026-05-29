@@ -5,6 +5,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { User } from '../../../models/user/user.model';
 import { UserServices } from '../../../services/user/user-services';
 import { Router } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-account',
   imports: [MatTableModule, MatPaginatorModule],
@@ -12,9 +13,8 @@ import { Router } from '@angular/router';
   styleUrl: './account.css',
 })
 export class Account implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   userData!: User;
-  constructor(private userServices: UserServices, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) { };
+  constructor(private userServices: UserServices, private router: Router, @Inject(PLATFORM_ID) private platformId: Object, private cdr: ChangeDetectorRef) { };
   ngOnInit() {
     this.getUserLoginAccount();
   }
@@ -22,6 +22,7 @@ export class Account implements OnInit {
     this.userServices.getUserInfo().subscribe({
       next: (res) => {
         this.userData = res;
+        this.cdr.detectChanges();
       },
       error: () => {
         if (isPlatformBrowser(this.platformId)) {
