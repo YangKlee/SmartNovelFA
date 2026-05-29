@@ -10,6 +10,7 @@ import { RecoveryPass } from './component/auth/recovery-pass/recovery-pass';
 import { Account } from './component/common/account/account';
 import { authGuard } from './guards/auth-guard';
 import { ModifyInfo } from './component/common/modify-info/modify-info';
+import { ChangePassword } from './component/common/change-password/change-password';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -19,7 +20,8 @@ export const routes: Routes = [
                 data: {
                     requiredRoles: ['admin', 'moderator', 'author', 'reader']
                 }, children: [
-                    { path: "update-info", component: ModifyInfo }
+                    { path: "update-info", component: ModifyInfo },
+                    { path: "change-password", component: ChangePassword }
                 ]
             },
         ]

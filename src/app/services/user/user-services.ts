@@ -28,10 +28,13 @@ export class UserServices {
   }
 
   public getUserInfo(): Observable<User> {
-    return this.httpClient.get<any>(`${this.URL_Account}/accountInfo`);
+    return this.httpClient.get<any>(`${this.URL_Account}/accountInfo`, this.httpOptions);
   }
   public updateInfoAccount(body: any): Observable<any> {
-    return this.httpClient.post<any>(`${this.URL_Account}/updateInfoAccount`, body);
+    return this.httpClient.post<any>(`${this.URL_Account}/updateInfoAccount`, body, this.httpOptions);
+  }
+  public changePassword(oldPassword: string, newPassword: string): Observable<any> {
+    return this.httpClient.post<any>(`${this.URL_Account}/changePassword`, { oldPassword, newPassword }, this.httpOptions);
   }
 
 
