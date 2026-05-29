@@ -9,6 +9,7 @@ import { FogotPass } from './component/auth/fogot-pass/fogot-pass';
 import { RecoveryPass } from './component/auth/recovery-pass/recovery-pass';
 import { Account } from './component/common/account/account';
 import { authGuard } from './guards/auth-guard';
+import { ModifyInfo } from './component/common/modify-info/modify-info';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -17,7 +18,9 @@ export const routes: Routes = [
                 path: "account", component: Account, canActivate: [authGuard],
                 data: {
                     requiredRoles: ['admin', 'moderator', 'author', 'reader']
-                }
+                }, children: [
+                    { path: "update-info", component: ModifyInfo }
+                ]
             },
         ]
     },

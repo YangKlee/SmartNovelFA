@@ -4,11 +4,11 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { User } from '../../../models/user/user.model';
 import { UserServices } from '../../../services/user/user-services';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet, RouterLinkWithHref } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-account',
-  imports: [MatTableModule, MatPaginatorModule],
+  imports: [MatTableModule, MatPaginatorModule, RouterOutlet, RouterLinkWithHref, RouterOutlet],
   templateUrl: './account.html',
   styleUrl: './account.css',
 })
