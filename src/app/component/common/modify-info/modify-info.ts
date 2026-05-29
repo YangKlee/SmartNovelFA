@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
-
+import { User } from '../../../models/user/user.model';
+import { UserServices } from '../../../services/user/user-services';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-modify-info',
   standalone: true,
@@ -24,26 +26,40 @@ export class ModifyInfo implements OnInit {
   modifyForm!: FormGroup;
 
   // Giả lập data truyền vào hoặc lấy từ service (có thể lấy từ @Input hoặc Service)
-  userData: any = {
-    uid: 'UID-12345',
-    username: 'nguyenvana',
-    displayName: 'Nguyễn Văn A',
-    email: 'nva@gmail.com',
-    phone: '0987654321'
-  };
+  userData!: User;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private userServices: UserServices,
+    private cdr: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnInit(): void {
+    this.getUserLoginInfo();
     this.modifyForm = this.fb.group({
-      uid: [{ value: this.userData.uid, disabled: true }],
-      username: [{ value: this.userData.username, disabled: true }],
-      displayName: [this.userData.displayName, [Validators.required]],
-      email: [this.userData.email, [Validators.required, Validators.email]],
-      phone: [this.userData.phone, [Validators.required, Validators.pattern(/^[0-9]{10,11}$/)]],
+      username: [{ value: "", disabled: true }],
+      displayName: ["", [Validators.required]],
+      email: ["", [Validators.required, Validators.email]],
+      phone: ["", [Validators.required, Validators.pattern(/^[0-9]{10,11}$/)]],
     });
   }
-
+  getUserLoginInfo() {
+    this.userServices.getUserInfo().subscribe({
+      next: (res) => {
+        this.userData = res;
+        this.modifyForm.patchValue({
+          uid: res.uid,
+          username: res.username,
+          displayName: res.displayName,
+          email: res.email,
+          phone: res.phone
+        });
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        if (isPlatformBrowser(this.platformId)) {
+          alert("Không lấy được thông tin tài khoản, phiên đăng nhập không hợp lệ");
+        }
+      }
+    })
+  }
   onSubmit() {
     if (this.modifyForm.valid) {
       console.log('Form Data:', this.modifyForm.getRawValue());
