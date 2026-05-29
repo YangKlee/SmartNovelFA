@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { User } from '../../../models/user/user.model';
 import { UserServices } from '../../../services/user/user-services';
 import { ChangeDetectorRef } from '@angular/core';
@@ -28,15 +28,21 @@ export class ModifyInfo implements OnInit {
   // Giả lập data truyền vào hoặc lấy từ service (có thể lấy từ @Input hoặc Service)
   userData!: User;
 
-  constructor(private fb: FormBuilder, private userServices: UserServices,
-    private cdr: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(
+    private fb: FormBuilder,
+    private userServices: UserServices,
+    private cdr: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
     this.getUserLoginInfo();
     this.modifyForm = this.fb.group({
       username: [{ value: "", disabled: true }],
       displayName: ["", [Validators.required]],
-      email: ["", [Validators.required, Validators.email]],
+      birthday: [""],
       phone: ["", [Validators.required, Validators.pattern(/^[0-9]{10,11}$/)]],
     });
   }
@@ -45,10 +51,9 @@ export class ModifyInfo implements OnInit {
       next: (res) => {
         this.userData = res;
         this.modifyForm.patchValue({
-          uid: res.uid,
           username: res.username,
           displayName: res.displayName,
-          email: res.email,
+          birthday: res.birthday,
           phone: res.phone
         });
         this.cdr.detectChanges();
@@ -62,9 +67,26 @@ export class ModifyInfo implements OnInit {
   }
   onSubmit() {
     if (this.modifyForm.valid) {
-      console.log('Form Data:', this.modifyForm.getRawValue());
-      // Gọi service cập nhật thông tin tại đây
-      alert('Cập nhật thông tin thành công!');
+      const formValue = this.modifyForm.getRawValue();
+      const body = {
+        displayName: formValue.displayName,
+        birthday: formValue.birthday,
+        phone: formValue.phone
+      };
+
+      this.userServices.updateInfoAccount(body).subscribe({
+        next: (res) => {
+          alert('Cập nhật thông tin thành công!');
+          this.userServices.notifyUserUpdated();
+          this.router.navigate(['../'], { relativeTo: this.route });
+        },
+        error: (err) => {
+          console.error(err);
+
+          const errorMessage = err.error?.Msg || 'Cập nhật thất bại. Vui lòng thử lại!';
+          alert(errorMessage);
+        }
+      });
     } else {
       this.modifyForm.markAllAsTouched();
     }

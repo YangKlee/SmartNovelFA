@@ -20,15 +20,11 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Email</mat-label>
-                <input matInput type="email" formControlName="email" placeholder="Nhập email">
-                <mat-error *ngIf="modifyForm.get('email')?.hasError('required')">
-                    Email không được để trống
-                </mat-error>
-                <mat-error *ngIf="modifyForm.get('email')?.hasError('email')">
-                    Email không hợp lệ
-                </mat-error>
+                <mat-label>Ngày sinh</mat-label>
+                <input matInput type="date" formControlName="birthday">
             </mat-form-field>
+
+
 
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Số điện thoại</mat-label>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { User } from '../../models/user/user.model';
 import { LoginRespone } from '../../models/auth/login-respone';
@@ -12,16 +12,26 @@ import { environment } from '../../env';
 export class UserServices {
   private URL_USER = `${environment.apiUrl}/User`;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
   private URL_Account = `${environment.apiUrl}/Account`
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': "application/json"
     }),
   };
-  public getUserInfo(): Observable<User>
-  {
+
+  private userUpdatedSource = new Subject<void>();
+  userUpdated$ = this.userUpdatedSource.asObservable();
+
+  public notifyUserUpdated() {
+    this.userUpdatedSource.next();
+  }
+
+  public getUserInfo(): Observable<User> {
     return this.httpClient.get<any>(`${this.URL_Account}/accountInfo`);
+  }
+  public updateInfoAccount(body: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.URL_Account}/updateInfoAccount`, body);
   }
 
 
