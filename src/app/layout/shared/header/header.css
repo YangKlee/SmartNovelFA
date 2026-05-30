@@ -153,5 +153,9 @@
   transition: background 0.2s ease;
 }
 
-.user-dropdown-menu a:hover { background: rgba(255,255,255,0.08); }
-.dropdown-divider { height: 1px; margin: 8px 0; background: rgba(255,255,255,0.1); }
+.user-dropdown-menu a:hover {
+   background: rgba(255,255,255,0.08); 
+}
+.dropdown-divider {
+   height: 1px; margin: 8px 0; background: rgba(255,255,255,0.1); 
+}

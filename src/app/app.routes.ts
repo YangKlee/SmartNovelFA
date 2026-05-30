@@ -4,6 +4,7 @@ import {AuthLayout} from "./layout/auth-layout/auth-layout"
 import path from 'node:path';
 import { Login } from './component/auth/login/login';
 import { DashboardLayout } from './layout/dashboard-layout/dashboard-layout';
+import { NovelDetail } from './component/reading-system/novel-detail/novel-detail';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {path:"", component:UserLayout, children:[
@@ -18,4 +19,13 @@ export const routes: Routes = [
     {path:"dashboard", component:DashboardLayout, children:[
         
     ]},
+
+    // nhánh đọc truyện k quan tâm đăng nhập hay chưa đều có thể đọc
+    {path: 'truyen/:slug', loadComponent: () =>
+    //Lazy Loading ở cấp độ Component tra gg để biết thêm chi tiết mục đích là để web tải nhanh hơn chắc dị :))
+    import('./component/reading-system/novel-detail/novel-detail')
+      .then(m => m.NovelDetail), 
+    children:[
+
+    ]}
 ];

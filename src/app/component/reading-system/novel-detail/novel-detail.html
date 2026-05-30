@@ -1,0 +1,55 @@
+<div *ngIf="isLoading">
+    Đang tải...
+</div>
+
+<div *ngIf="!isLoading && novel">
+
+    <h1>
+        {{ novel.title }}
+    </h1>
+
+    <img
+        [src]="novel.imageNovelUrl"
+        width="250"
+        alt="Ảnh bìa">
+
+    <p>
+        {{ novel.description }}
+    </p>
+
+    <h3>
+        Tác giả:
+        {{ novel.authorName }}
+    </h3>
+
+    <div>
+
+        <span
+            *ngFor="let category of novel.categories">
+
+            {{ category }}
+
+        </span>
+
+    </div>
+
+    <hr>
+
+    <h2>Mục lục</h2>
+
+    <div
+        *ngFor="let chapter of chapters">
+
+        Chương {{ chapter.chaperOrder }}
+        -
+        {{ chapter.chapterTitle }}
+
+    </div>
+
+</div>
+
+<div *ngIf="!isLoading && !novel">
+
+    Không tìm thấy truyện
+
+</div>
