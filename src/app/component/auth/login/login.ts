@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common"
 import { AuthServices } from '../../../services/auth/auth-services';
 import { Router } from '@angular/router';
+import { MenuNavServices } from '../../../services/menu-nav/menu-nav-services';
 @Component({
   selector: 'app-login',
   imports: [CommonModule, ReactiveFormsModule],
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class Login implements OnInit {
   loginForm!: FormGroup;
-  constructor(private frmBuilder: FormBuilder, private authServices: AuthServices, private router: Router) {
+  constructor(private frmBuilder: FormBuilder,private navServices: MenuNavServices, private authServices: AuthServices, private router: Router) {
     // this.createForm();
   }
   ngOnInit() {
@@ -30,6 +31,7 @@ export class Login implements OnInit {
         next: (res) => {
           localStorage.setItem("token", res.token);
           //this.authServices.saveCacheUserLogined();
+          this.navServices.updateHeader(true);
           this.router.navigate(['/']);
 
         },

@@ -1,4 +1,5 @@
 <header class="main-header">
+
   <a routerLink="/" class="logo">Logo</a>
 
   <nav class="nav-links">
@@ -17,12 +18,12 @@
     </div>
   </nav>
 
-  <div class="auth-buttons" *ngIf="(user$ | async) == null">
+  <div class="auth-buttons" *ngIf="user == null">
     <button class="btn btn-login" (click)="loginBtn()">Đăng nhập</button>
     <button class="btn btn-register">Đăng ký</button>
   </div>
 
-  <div class="user-dropdown" *ngIf="user$ | async as user">
+  <div class="user-dropdown" *ngIf="user">
     <button class="user-info">
       <i class="bi bi-person-circle"></i>
       <span>{{user.username}}</span>

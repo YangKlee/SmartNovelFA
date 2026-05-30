@@ -1,7 +1,7 @@
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, BehaviorSubject, of } from 'rxjs';
+import { Observable, BehaviorSubject, of, Subject } from 'rxjs';
 import { User } from "../../models/user/user.model"
 import { LoginRespone } from "../../models/auth/login-respone"
 import { Login } from '../../component/auth/login/login';
@@ -15,6 +15,7 @@ export class AuthServices {
       'Content-Type': "application/json"
     }),
   };
+
 
   private URL_AUTH = `${environment.apiUrl}/Auth`
 
