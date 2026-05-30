@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core
 import { isPlatformBrowser } from '@angular/common';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { User } from '../../../models/user/user.model';
 import { UserServices } from '../../../services/user/user-services';
 import { Router, RouterOutlet, RouterLinkWithHref } from '@angular/router';
@@ -9,7 +11,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-account',
-  imports: [MatTableModule, MatPaginatorModule, RouterOutlet, RouterLinkWithHref, RouterOutlet],
+  imports: [MatTableModule, MatPaginatorModule, RouterOutlet, RouterLinkWithHref, MatButtonModule, MatIconModule],
   templateUrl: './account.html',
   styleUrl: './account.css',
 })
