@@ -1,0 +1,54 @@
+<mat-card class="novel-card" appearance="outlined">
+  <div class="novel-content-wrapper">
+    <div class="cover-section">
+      @if (novel.imageNovelUrl != null) {
+        <img [src]="novel.imageNovelUrl" alt="Cover" class="cover-img" />
+      } @else {
+        <div class="cover-placeholder"></div>
+      }
+    </div>
+
+    <div class="info-section">
+      <h2 class="novel-title">{{ novel.title }}</h2>
+      
+      <div class="summary-box">
+        <p><i>{{ novel.description}}</i></p>
+      </div>
+
+      <div class="meta-row">
+        <span class="meta-item">Tác giả: <strong>{{ novel.authorName}}</strong></span>
+        <span class="meta-item">Tình trạng: {{ novel.status }}</span>
+        <span class="meta-item">{{ novel.countChapter }} chương</span>
+      </div>
+
+      <div class="stats-box">
+        <div class="stat-column">
+          <span class="stat-number black">{{ novel.countChapterPublic }}</span>
+          <span class="stat-label">Chương đã đăng</span>
+        </div>
+        <div class="stat-column">
+          <span class="stat-number red">{{ novel.countChapterDraf }}</span>
+          <span class="stat-label">Bản nháp</span>
+        </div>
+        <div class="stat-column">
+          <span class="stat-label">{{novel.countChapterRemove}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-card-actions class="action-bar">
+    <div class="action-buttons">
+      <button mat-flat-button class="btn-orange">Xem truyện</button>
+      <button mat-flat-button class="btn-indigo">Quản lý chương</button>
+      <button mat-flat-button class="btn-blue">Chỉnh sửa</button>
+      <button mat-flat-button color="warn">Xóa</button>
+    </div>
+    
+    <div class="social-metrics">
+      <div class="metric"><mat-icon>visibility</mat-icon> {{ novel.viewCount }}</div>
+      <div class="metric"><mat-icon>star</mat-icon> {{ novel.novelRating }}</div>
+      <div class="metric"><mat-icon>chat</mat-icon> {{ novel.novelCountComment }}</div>
+    </div>
+  </mat-card-actions>
+</mat-card>
