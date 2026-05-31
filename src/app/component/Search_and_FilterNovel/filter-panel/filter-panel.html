@@ -7,7 +7,7 @@
       <span class="row-label">Tình trạng:</span>
       <div class="options-group">
         <label *ngFor="let status of statusOptions">
-          <input type="radio" name="statusGroup" [value]="status.value" [(ngModel)]="selectedStatus" (change)="onFilterChange()" />
+          <input type="radio" name="statusGroup" [value]="status.value" [(ngModel)]="selectedStatus" />
           {{ status.label }}
         </label>
       </div>
@@ -16,7 +16,7 @@
     <div class="filter-row">
       <span class="row-label">Độ dài chương:</span>
       <div class="options-group">
-        <select [(ngModel)]="selectedMinChapters" (change)="onFilterChange()" class="dropdown-select">
+        <select [(ngModel)]="selectedMinChapters" class="dropdown-select">
           <option *ngFor="let len of lengthOptions" [value]="len.value">{{ len.label }}</option>
         </select>
       </div>
@@ -46,7 +46,7 @@
     <div class="filter-row dynamic-section" *ngIf="selectedSortBy === 'author'">
       <span class="row-label text-primary">Chọn Tác giả:</span>
       <div class="options-group">
-        <select [(ngModel)]="selectedAuthorId" (change)="onFilterChange()" class="dropdown-select border-primary">
+        <select [(ngModel)]="selectedAuthorId" class="dropdown-select border-primary">
           <option value="">-- Tất cả tác giả --</option>
           <option *ngFor="let author of authorOptions" [value]="author.uid">{{ author.displayName }}</option>
         </select>
@@ -57,7 +57,7 @@
       <span class="row-label text-primary">Đánh giá tối thiểu:</span>
       <div class="options-group">
         <label *ngFor="let rate of ratingOptions" class="radio-block">
-          <input type="radio" name="ratingGroup" [value]="rate.value" [(ngModel)]="selectedMinRating" (change)="onFilterChange()" />
+          <input type="radio" name="ratingGroup" [value]="rate.value" [(ngModel)]="selectedMinRating" />
           {{ rate.label }}
         </label>
       </div>
@@ -66,7 +66,6 @@
     <hr class="divider">
 
     <div class="search-bottom-section">
-      
       <button class="btn-submit-filter" (click)="onFilterChange()">Tìm truyện</button>
     </div>
   </div>

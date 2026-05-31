@@ -12,29 +12,26 @@ import { CategoryService } from '../../../services/category/category-services';
   styleUrl: './filter-panel.css'
 })
 export class FilterPanelComponent implements OnInit {
-// Sửa lại status và lengthOptions
-statusOptions = [
-  { label: 'Tất cả', value: '' },
-  { label: 'Hoàn thành', value: 'ACTIVE' }, // Vì DB chỉ có ACTIVE, ta mặc định chọn cái này
-  { label: 'Còn tiếp', value: 'ONGOING' },
-  { label: 'Tạm ngưng', value: 'PAUSED' }
-];
+  statusOptions = [
+    { label: 'Tất cả', value: '' },
+    { label: 'Hoàn thành', value: 'ACTIVE' },
+    { label: 'Còn tiếp', value: 'ONGOING' },
+    { label: 'Tạm ngưng', value: 'PAUSED' }
+  ];
 
-lengthOptions = [
-  { label: 'Mọi độ dài', value: 0 },
-  { label: '1-50 chương', value: 1 },    // 1: Đại diện cho dải 1-50
-  { label: '51-100 chương', value: 2 },  // 2: Đại diện cho dải 51-100
-  { label: '101-150 chương', value: 3 }  // 3: Đại diện cho dải 101-150
-];
+  lengthOptions = [
+    { label: 'Mọi độ dài', value: 0 },
+    { label: '1-50 chương', value: 1 },
+    { label: '51-100 chương', value: 2 },
+    { label: '101-150 chương', value: 3 }
+  ];
 
   sortOptions = [
-   
     { label: 'Lọc theo Thể loại', value: 'category' },
     { label: 'Lọc theo Tác giả', value: 'author' },
     { label: 'Lọc theo Rating', value: 'rating' }
   ];
 
-  // Khởi tạo mốc Rating cố định
   ratingOptions = [
     { label: 'Tất cả đánh giá', value: 0 },
     { label: 'Từ ⭐ 4.0 trở lên', value: 4.0 },
@@ -42,20 +39,19 @@ lengthOptions = [
     { label: 'Truyện điểm tuyệt đối (5.0)', value: 5.0 }
   ];
 
-  categoryOptions: any[] = []; 
-  authorOptions: any[] = []; // Chứa danh sách tác giả từ DB
+  categoryOptions: any[] = [];
+  authorOptions: any[] = [];
 
   searchKeyword: string = '';
   selectedStatus: string = '';
   selectedMinChapters: number = 0;
   selectedSortBy: string = '';
   
-  // Các biến binding riêng cho 3 nhánh lọc
-  selectedCategories: string[] = []; 
+  selectedCategories: string[] = [];
   selectedAuthorId: string = '';
   selectedMinRating: number = 0;
 
-  currentUserId: string = 'U004'; 
+  currentUserId: string = 'U004';
   filteredNovels: any[] = [];
 
   constructor(private http: HttpClient, private categoryService: CategoryService) {}
@@ -67,25 +63,25 @@ lengthOptions = [
       error: (err) => console.error("Lỗi tải thể loại:", err)
     });
 
-    // 2. Lấy dữ liệu Tác giả từ bảng User (Cần tạo API này ở backend)
+    // 2. Lấy dữ liệu Tác giả
     this.http.get<any[]>('https://localhost:7134/api/Users/authors').subscribe({
       next: (data) => this.authorOptions = data,
       error: (err) => console.error("Lỗi tải danh sách tác giả:", err)
     });
 
-    this.onFilterChange();
+    // Đã xóa this.onFilterChange() để không tự động tải dữ liệu khi khởi động
   }
 
-  // Khi người dùng đổi Kiểu lọc (Lọc theo thể loại / Lọc theo tác giả / Rating)
+  // Khi người dùng đổi Kiểu lọc (Lọc theo thể loại / Tác giả / Rating)
   onMainSortChange() {
-    // Reset các bộ lọc nhánh tránh giữ lại dữ liệu cũ bị xung đột
+    // Chỉ reset giá trị các bộ lọc con để giao diện sạch sẽ
     this.selectedCategories = [];
     this.selectedAuthorId = '';
     this.selectedMinRating = 0;
-    
-    this.onFilterChange();
+    // Không gọi this.onFilterChange() ở đây
   }
 
+  // Cập nhật trạng thái checkbox, không gọi API
   toggleCategory(catId: string) {
     const index = this.selectedCategories.indexOf(catId);
     if (index > -1) {
@@ -93,19 +89,17 @@ lengthOptions = [
     } else {
       this.selectedCategories.push(catId);
     }
-    this.onFilterChange();
   }
 
+  // Hàm này chỉ được gọi khi nhấn nút "Tìm truyện"
   onFilterChange() {
     let queryParams: string[] = [];
 
-   
     if (this.selectedStatus) queryParams.push(`status=${this.selectedStatus}`);
     if (this.selectedMinChapters > 0) queryParams.push(`minChapters=${this.selectedMinChapters}`);
     if (this.selectedSortBy) queryParams.push(`sortBy=${this.selectedSortBy}`);
     if (this.currentUserId) queryParams.push(`currentUid=${this.currentUserId}`);
 
-    // Đẩy param nhánh con dựa trên điều kiện lọc đang chọn
     if (this.selectedSortBy === 'category' && this.selectedCategories.length > 0) {
       queryParams.push(`categoryId=${encodeURIComponent(this.selectedCategories.join(','))}`);
     }
