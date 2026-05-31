@@ -31,6 +31,7 @@ export class Header implements OnInit, OnDestroy {
   private headerSub: any;
 
   ngOnInit(): void {
+
     // Chỉ chạy trên môi trường trình duyệt
     if (isPlatformBrowser(this.platformId)) {
         this.headerSub = this.menuNavServices.headerUpdate$.subscribe(e=>{
@@ -44,6 +45,7 @@ export class Header implements OnInit, OnDestroy {
             }
         });
     }
+    this.menuNavServices.updateHeader(true);
   }
 
   ngOnDestroy(): void {
