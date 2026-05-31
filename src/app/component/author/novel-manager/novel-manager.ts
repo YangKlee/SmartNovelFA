@@ -21,11 +21,18 @@ export class NovelManager implements OnInit {
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.novels$ = this.novelServices.getUserNovel();
+      this.novelServices.reloadNovelList.subscribe(e=>{
+        if(e)
+        {
+             this.novels$ = this.novelServices.getUserNovel();
+             this.novelServices.reloadNovelList.next(false);
+        }
+      })
     } else {
       this.novels$ = of([]);
     }
   }
   ngOnDestroy() {
-
+    this.novelServices.reloadNovelList.unsubscribe();
   }
 }

@@ -145,7 +145,7 @@ label {
 .form-control, .custom-select {
   border-radius: 8px;
   border: 1px solid #d1d5db;
-  padding: 10px 16px;
+  padding: 5px 10px;
   font-size: 15px;
   box-shadow: none;
   transition: border-color 0.2s;

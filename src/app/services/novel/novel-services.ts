@@ -17,9 +17,15 @@ export class NovelServices {
     }),
   };
   private URL_NOVEL = `${environment.apiUrl}/Novel`
+  public reloadNovelList = new BehaviorSubject<boolean>(false);
   constructor(private httpClient: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) { }
   public getUserNovel(): Observable<any>
   {
     return this.httpClient.get<any>(`${this.URL_NOVEL}/getUserNovel`, this.httpOptions);
+  }
+
+  public createNovel(formData:FormData)
+  {
+    return this.httpClient.post<any>(`${this.URL_NOVEL}/createNovel`, formData);
   }
 }
