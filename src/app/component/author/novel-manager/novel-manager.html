@@ -1,7 +1,7 @@
 <div class="story-management-wrapper">
   <div class="story-header">
     <h1 class="story-title">Quản lý truyện</h1>
-    <button class="btn-create">
+    <button type="button" class="btn-create" [routerLink]="['./create-novel']">
       <i class="bi bi-plus-circle"></i> Tạo truyện mới
     </button>
   </div>
@@ -18,3 +18,4 @@
     </div>
 </div>
 </div>
+<router-outlet></router-outlet>
