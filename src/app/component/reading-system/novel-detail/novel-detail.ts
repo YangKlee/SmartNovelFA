@@ -58,7 +58,7 @@ export class NovelDetail implements OnInit {
 
           this.novel = res;
 
-          if (res?.novelId) {
+          if (res?.novelId) { 
 
             this.loadChapters(
               res.novelId
