@@ -34,16 +34,15 @@ export class Header implements OnInit, OnDestroy {
 
     // Chỉ chạy trên môi trường trình duyệt
     if (isPlatformBrowser(this.platformId)) {
-        this.headerSub = this.menuNavServices.headerUpdate$.subscribe(e=>{
-            if(e)
-            {
-              this.loadPublicMenu();
-              this.loadUserInfo();
-              this.cdr.detectChanges();
-              console.log("load header");
-              this.menuNavServices.updateHeader(false);
-            }
-        });
+      this.headerSub = this.menuNavServices.headerUpdate$.subscribe(e => {
+        if (e) {
+          this.loadPublicMenu();
+          this.loadUserInfo();
+          this.cdr.detectChanges();
+          console.log("load header");
+          this.menuNavServices.updateHeader(false);
+        }
+      });
     }
     this.menuNavServices.updateHeader(true);
   }
@@ -67,6 +66,7 @@ export class Header implements OnInit, OnDestroy {
         next: (res: MenuNav[]) => {
 
           this.menus = res;
+          this.cdr.detectChanges();
         },
 
         error: (err) => {
@@ -92,6 +92,7 @@ export class Header implements OnInit, OnDestroy {
       },
       error: () => {
         this.user = null;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -116,6 +117,7 @@ export class Header implements OnInit, OnDestroy {
           next: (res: MenuNav[]) => {
 
             this.roleMenus = res;
+            this.cdr.detectChanges();
           },
 
           error: (err) => {
@@ -141,6 +143,7 @@ export class Header implements OnInit, OnDestroy {
           next: (res: MenuNav[]) => {
 
             this.roleMenus = res;
+            this.cdr.detectChanges();
           },
 
           error: (err) => {
@@ -166,6 +169,7 @@ export class Header implements OnInit, OnDestroy {
           next: (res: MenuNav[]) => {
 
             this.roleMenus = res;
+            this.cdr.detectChanges();
           },
 
           error: (err) => {
@@ -191,6 +195,7 @@ export class Header implements OnInit, OnDestroy {
           next: (res: MenuNav[]) => {
 
             this.roleMenus = res;
+            this.cdr.detectChanges();
           },
 
           error: (err) => {
@@ -210,6 +215,7 @@ export class Header implements OnInit, OnDestroy {
     else {
 
       this.roleMenus = [];
+      this.cdr.detectChanges();
     }
   }
 
