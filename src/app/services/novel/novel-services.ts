@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class NovelServices {
-apiUrl = 'http://localhost:7134/api';
+apiUrl = 'http://localhost:5283/api';
 
   constructor(
     private http: HttpClient

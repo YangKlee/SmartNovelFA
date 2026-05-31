@@ -8,7 +8,10 @@ import { NovelDetail } from './component/reading-system/novel-detail/novel-detai
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {path:"", component:UserLayout, children:[
-        
+    {path: 'truyen/:slug', loadComponent: () =>
+    //Lazy Loading ở cấp độ Component tra gg để biết thêm chi tiết mục đích là để web tải nhanh hơn chắc dị :))
+    import('./component/reading-system/novel-detail/novel-detail')
+      .then(m => m.NovelDetail)} 
     ]},
     {path:"auth", redirectTo:"auth/login", pathMatch:"full"},
     // nhánh layout login
@@ -20,12 +23,4 @@ export const routes: Routes = [
         
     ]},
 
-    // nhánh đọc truyện k quan tâm đăng nhập hay chưa đều có thể đọc
-    {path: 'truyen/:slug', loadComponent: () =>
-    //Lazy Loading ở cấp độ Component tra gg để biết thêm chi tiết mục đích là để web tải nhanh hơn chắc dị :))
-    import('./component/reading-system/novel-detail/novel-detail')
-      .then(m => m.NovelDetail), 
-    children:[
-
-    ]}
 ];
