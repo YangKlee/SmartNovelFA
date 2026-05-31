@@ -1,3 +1,5 @@
+import { User } from "../user/user.model";
+
 export class Novel {
     novelId?: string;
   title?: string;
@@ -9,13 +11,13 @@ export class Novel {
   status?: string;
   uid?: string;
   viewCount?: number;   
-  authorName?: string;
+  author?: User;
   countChapter?: number;
   countChapterPublic?:number;
   countChapterDraf?:number;
   countChapterRemove?:number;
   novelRating?:number;
-  novelCountComment?:number;
+  authorName?: string;
   likeCount?: number;
   createTime?: Date | string; 
   updateTime?: Date | string;

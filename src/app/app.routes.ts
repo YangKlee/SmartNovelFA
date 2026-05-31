@@ -11,6 +11,7 @@ import { Account } from './component/common/account/account';
 import { authGuard } from './guards/auth-guard';
 import { ModifyInfo } from './component/common/modify-info/modify-info';
 import { ChangePassword } from './component/common/change-password/change-password';
+import { NovelManager } from './component/author/novel-manager/novel-manager';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -39,7 +40,9 @@ export const routes: Routes = [
     // nhánh layout dashboard, sau này nhớ thêm chặn quyền truy cập ở đây
     {
         path: "dashboard", component: DashboardLayout, children: [
-
+            {path: "author", children:[
+                {path:"novel-manager", component:NovelManager}
+            ]}
         ]
     },
 ];

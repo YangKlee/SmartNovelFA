@@ -11,27 +11,28 @@
     <div class="info-section">
       <h2 class="novel-title">{{ novel.title }}</h2>
       
-      <div class="summary-box">
+      <div class="summary-box"> 
         <p><i>{{ novel.description}}</i></p>
       </div>
 
       <div class="meta-row">
-        <span class="meta-item">Tác giả: <strong>{{ novel.authorName}}</strong></span>
+        <span *ngIf="novel.authorName != null" class="meta-item">Tác giả: <strong>{{ novel.authorName}}</strong></span>
         <span class="meta-item">Tình trạng: {{ novel.status }}</span>
         <span class="meta-item">{{ novel.countChapter }} chương</span>
       </div>
 
       <div class="stats-box">
         <div class="stat-column">
-          <span class="stat-number black">{{ novel.countChapterPublic }}</span>
+          <span class="stat-number green">{{ novel.countChapterPublic }}</span>
           <span class="stat-label">Chương đã đăng</span>
         </div>
         <div class="stat-column">
-          <span class="stat-number red">{{ novel.countChapterDraf }}</span>
+          <span class="stat-number black">{{ novel.countChapterDraf }}</span>
           <span class="stat-label">Bản nháp</span>
         </div>
         <div class="stat-column">
-          <span class="stat-label">{{novel.countChapterRemove}}</span>
+          <span class="stat-number red">{{ novel.countChapterRemove }}</span>
+          <span class="stat-label">Đã gỡ</span>
         </div>
       </div>
     </div>
@@ -48,7 +49,7 @@
     <div class="social-metrics">
       <div class="metric"><mat-icon>visibility</mat-icon> {{ novel.viewCount }}</div>
       <div class="metric"><mat-icon>star</mat-icon> {{ novel.novelRating }}</div>
-      <div class="metric"><mat-icon>chat</mat-icon> {{ novel.novelCountComment }}</div>
+      <div class="metric"><mat-icon>chat</mat-icon> {{ novel.likeCount }}</div>
     </div>
   </mat-card-actions>
 </mat-card>
