@@ -1,5 +1,20 @@
-<div class="novel-list">
+<div class="story-management-wrapper">
+  <div class="story-header">
+    <h1 class="story-title">Quản lý truyện</h1>
+    <button class="btn-create">
+      <i class="bi bi-plus-circle"></i> Tạo truyện mới
+    </button>
+  </div>
+
+  <div class="story-controls">
+    <select class="status-dropdown">
+      <option value="all">Tất cả trạng thái</option>
+      </select>
+    <input type="text" class="search-input" placeholder="Tìm kiếm truyện...">
+  </div>
+  <div class="novel-list">
     <div *ngFor="let n of (novels$ | async)"  class="novel-item-warpper">
         <app-novel-lange-item [novel]="n"></app-novel-lange-item>
     </div>
+</div>
 </div>

@@ -17,21 +17,27 @@
 
       <div class="meta-row">
         <span *ngIf="novel.authorName != null" class="meta-item">Tác giả: <strong>{{ novel.authorName}}</strong></span>
-        <span class="meta-item">Tình trạng: {{ novel.status }}</span>
+        <span class="meta-item">Trạng thái truyện: <span [ngStyle]="{
+          'background-color': novel.status == 'Public' ? 'green' :
+             novel.status == 'Reject' ? 'red' : 'gray',
+          'color': 'white',
+          'padding': '5px',
+          'border-radius': '10px'
+        }">{{ novel.status }}</span></span>
         <span class="meta-item">{{ novel.countChapter }} chương</span>
       </div>
 
       <div class="stats-box">
-        <div class="stat-column">
-          <span class="stat-number green">{{ novel.countChapterPublic }}</span>
+        <div class="stat-tag tag-green">
+          <span class="stat-number">{{ novel.countChapterPublic }}</span>
           <span class="stat-label">Chương đã đăng</span>
         </div>
-        <div class="stat-column">
-          <span class="stat-number black">{{ novel.countChapterDraf }}</span>
+        <div class="stat-tag tag-gray">
+          <span class="stat-number">{{ novel.countChapterDraf }}</span>
           <span class="stat-label">Bản nháp</span>
         </div>
-        <div class="stat-column">
-          <span class="stat-number red">{{ novel.countChapterRemove }}</span>
+        <div class="stat-tag tag-red">
+          <span class="stat-number">{{ novel.countChapterRemove }}</span>
           <span class="stat-label">Đã gỡ</span>
         </div>
       </div>
@@ -40,10 +46,10 @@
 
   <mat-card-actions class="action-bar">
     <div class="action-buttons">
-      <button mat-flat-button class="btn-orange">Xem truyện</button>
-      <button mat-flat-button class="btn-indigo">Quản lý chương</button>
-      <button mat-flat-button class="btn-blue">Chỉnh sửa</button>
-      <button mat-flat-button color="warn">Xóa</button>
+      <button mat-flat-button class="btn-orange"><i class="bi bi-book"></i> Xem truyện</button>
+      <button mat-flat-button class="btn-indigo"><i class="bi bi-list-task"></i> Quản lý chương</button>
+      <button mat-flat-button class="btn-blue"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
+      <button mat-flat-button color="warn"><i class="bi bi-trash"></i> Xóa</button>
     </div>
     
     <div class="social-metrics">
