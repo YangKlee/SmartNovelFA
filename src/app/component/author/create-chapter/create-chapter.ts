@@ -11,6 +11,7 @@ import { QuillModule } from 'ngx-quill';
 import { QuillEditorComponent } from 'ngx-quill';
 import { ChapterServices } from '../../../services/chapter/chapter-services';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PreviewChapter } from '../preview-chapter/preview-chapter';
 
 @Component({
   selector: 'app-create-chapter',
@@ -25,7 +26,8 @@ import { ActivatedRoute, Router } from '@angular/router';
     MatIconModule,
     MatCheckboxModule,
     QuillEditorComponent,
-    FormsModule
+    FormsModule,
+    PreviewChapter
   ],
   templateUrl: './create-chapter.html',
   styleUrl: './create-chapter.css',
@@ -42,7 +44,7 @@ export class CreateChapter implements OnInit {
   ) { }
 
   public htmlContent = '<p>Xin chào! Đây là bản <strong>demo</strong> của Quill Editor.</p>';
-
+  public isDisplayPreviewForm = false;
   // Tùy chỉnh thanh công cụ (Toolbar)
   public editorModules = {
     toolbar: [
@@ -102,5 +104,13 @@ export class CreateChapter implements OnInit {
 
   closePopup(): void {
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+  toggleDisplatForm() {
+    if(this.isDisplayPreviewForm)
+      this.isDisplayPreviewForm = false;
+    else
+    {
+      this.isDisplayPreviewForm = true;
+    }
   }
 }

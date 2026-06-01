@@ -1,6 +1,11 @@
 <div class="chapter-manager-container">
   <div class="header-section">
-    <h2 class="page-title">Quản lý chương</h2>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <button mat-icon-button routerLink="/dashboard/author/novel-manager" aria-label="Quay lại">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2 class="page-title">Quản lý chương</h2>
+    </div>
     <button [routerLink]="['create-chapter']" mat-flat-button class="add-btn">
       <mat-icon>add</mat-icon>
       Thêm chương mới
