@@ -97,7 +97,7 @@ export class ChapterManagerment implements OnInit {
   }
 
   onViewChapter(chapter: Chapter) {
-    console.log('View chapter:', chapter);
+    this.router.navigate(['/novel', this.selectedNovelID, 'chapter', chapter.chapterId]);
   }
 
   onEditChapter(chapter: Chapter) {

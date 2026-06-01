@@ -24,8 +24,12 @@ export class NovelServices {
     return this.httpClient.get<any>(`${this.URL_NOVEL}/getUserNovel`, this.httpOptions);
   }
 
-  public createNovel(formData:FormData)
+  public createNovel(formData:FormData): Observable<any>
   {
     return this.httpClient.post<any>(`${this.URL_NOVEL}/createNovel`, formData);
+  }
+    public getInfoNovelForReader(id: String):   Observable<any>
+  {
+    return this.httpClient.get<any>(`${this.URL_NOVEL}/getInfoNovelForReader/${id}`, this.httpOptions);
   }
 }

@@ -22,7 +22,9 @@ export class PreviewChapter implements OnChanges {
   //changes chứa danh sách tất cả những biến vừa bị thay đổi
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['content']) {
-      this.safeContent = this.sanitizer.bypassSecurityTrustHtml(this.content);
+      // Làm sạch &nbsp; như bên trang đọc để màn preview không bị lỗi đứt chữ
+      const cleanedData = this.content ? this.content.replace(/&nbsp;/g, ' ') : '';
+      this.safeContent = this.sanitizer.bypassSecurityTrustHtml(cleanedData);
     }
   }
 

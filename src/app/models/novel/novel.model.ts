@@ -11,7 +11,8 @@ export class Novel {
   status?: string;
   uid?: string;
   viewCount?: number;   
-  author?: User;
+  authorId?: string;
+
   countChapter?: number;
   countChapterPublic?:number;
   countChapterDraf?:number;
