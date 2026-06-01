@@ -19,4 +19,8 @@ export class ChapterServices {
   {
     return this.httpClient.get<any>(`${this.URL_CHAPTER}/getChapterByNovel/${novelID}`)
   }
+  public createChapter(novelID:string, body: any)
+  {
+     return this.httpClient.post<any>(`${this.URL_CHAPTER}/createChapter/${novelID}`, body, this.httpOptions)
+  }
 }

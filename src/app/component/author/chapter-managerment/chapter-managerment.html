@@ -20,15 +20,6 @@
     </div>
 
     <div class="search-filter-row">
-      <!-- <mat-form-field appearance="fill" subscriptSizing="dynamic" class="custom-field status-filter">
-        <mat-icon matPrefix>filter_alt</mat-icon>
-        <mat-select [(ngModel)]="selectedFilter">
-          <mat-option *ngFor="let filter of filters" [value]="filter.value">
-            {{ filter.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field> -->
-
       <mat-form-field appearance="fill" subscriptSizing="dynamic" class="custom-field search-box">
         <input matInput placeholder="Tìm kiếm theo tiêu đề hoặc nội dung...." [(ngModel)]="searchQuery">
         <mat-icon matSuffix>search</mat-icon>

@@ -1,6 +1,6 @@
 <div class="popup-overlay">
   <div class="create-chapter-container">
-    <button class="btn-close-popup">
+    <button class="btn-close-popup" type="button" (click)="closePopup()">
       <mat-icon>close</mat-icon>
     </button>
 
@@ -40,6 +40,9 @@
       </mat-form-field>
 
       <!-- Khu vực chừa trống cho Editor sau này -->
+      <div style="margin-bottom: 8px;">
+        <mat-checkbox formControlName="allowComment" color="primary">Cho phép bình luận chương này</mat-checkbox>
+      </div>
       <div class="editor-placeholder">
         <quill-editor 
         formControlName="content" 

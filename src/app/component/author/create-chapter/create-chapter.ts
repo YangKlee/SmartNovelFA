@@ -6,8 +6,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { QuillModule } from 'ngx-quill';
 import { QuillEditorComponent } from 'ngx-quill';
+import { ChapterServices } from '../../../services/chapter/chapter-services';
+import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-create-chapter',
   standalone: true,
@@ -19,6 +23,7 @@ import { QuillEditorComponent } from 'ngx-quill';
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
+    MatCheckboxModule,
     QuillEditorComponent,
     FormsModule
   ],
@@ -27,8 +32,15 @@ import { QuillEditorComponent } from 'ngx-quill';
 })
 export class CreateChapter implements OnInit {
   chapterForm!: FormGroup;
+  novelId: string = '';
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private chapterServices: ChapterServices,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
+
   public htmlContent = '<p>Xin chào! Đây là bản <strong>demo</strong> của Quill Editor.</p>';
 
   // Tùy chỉnh thanh công cụ (Toolbar)
@@ -43,21 +55,52 @@ export class CreateChapter implements OnInit {
     ]
   };
   ngOnInit(): void {
+    this.novelId = this.route.parent?.snapshot.paramMap.get('id') ?? '';
+
     this.chapterForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(255)]],
       chapterOrder: ['', [Validators.required, Validators.min(1)]],
       status: ['public', Validators.required],
       description: [''],
+      allowComment: [true],
       content: ['<p>Xin chào! Đây là bản <strong>demo</strong> của Quill Editor.</p>', Validators.required]
     });
   }
 
   onSubmit(): void {
     if (this.chapterForm.valid) {
-      console.log('Form data:', this.chapterForm.value);
-      // Xử lý lưu chương ở đây
+      if (!this.novelId) {
+        alert("Lỗi: Không xác định được Novel ID");
+        return;
+      }
+
+      const formValue = this.chapterForm.value;
+      const payload = {
+        title: formValue.title,
+        oder: formValue.chapterOrder,
+        decrip: formValue.description,
+        status: formValue.status,
+        allowComment: formValue.allowComment,
+        content: formValue.content
+      };
+
+      this.chapterServices.createChapter(this.novelId, payload).subscribe({
+        next: (res) => {
+          console.log('Tạo chương thành công:', res);
+
+          this.router.navigate(['../'], { relativeTo: this.route });
+        },
+        error: (err) => {
+          console.error('Lỗi khi tạo chương:', err);
+          alert('Có lỗi xảy ra khi tạo chương!');
+        }
+      });
     } else {
       this.chapterForm.markAllAsTouched();
     }
+  }
+
+  closePopup(): void {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }
