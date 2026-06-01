@@ -36,17 +36,16 @@ export class ReadNovel implements OnInit {
   chapter!: Observable<Chapter>;
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-
       this.novelId = params.get('novelID');
       this.chapterId = params.get('chapterID');
       console.log('Lấy thành công Novel ID:', this.novelId);
       console.log('Lấy thành công Chapter ID:', this.chapterId);
-    });
-    if (this.novelId != null && isPlatformBrowser(this.platformId)) {
-      this.novel = this.novelServices.getInfoNovelForReader(this.novelId);
-    }
-    this.loadChapter();
 
+      if (this.novelId != null && isPlatformBrowser(this.platformId)) {
+        this.novel = this.novelServices.getInfoNovelForReader(this.novelId);
+      }
+      this.loadChapter();
+    });
   }
   loadChapter() {
     if (this.novelId != null && this.chapterId != null && isPlatformBrowser(this.platformId)) {
