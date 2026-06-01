@@ -32,7 +32,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
         if (typeof window !== 'undefined') {
-          localStorage.removeItem('token');
+          //localStorage.removeItem('token');
+
+          // sau này sửa sau
           router.navigate(['/auth/login']);
         }
       }

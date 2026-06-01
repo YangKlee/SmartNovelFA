@@ -14,6 +14,7 @@ import { ChangePassword } from './component/common/change-password/change-passwo
 import { NovelManager } from './component/author/novel-manager/novel-manager';
 import { CreateNovel } from './component/author/create-novel/create-novel';
 import { ChapterManagerment } from './component/author/chapter-managerment/chapter-managerment';
+import { CreateChapter } from './component/author/create-chapter/create-chapter';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -46,7 +47,9 @@ export const routes: Routes = [
                 {path:"novel-manager", component:NovelManager, children:[
                     {path: "create-novel", component:CreateNovel}
                 ]},
-                {path:"chapter-manager/:id", component:ChapterManagerment, children:[]}
+                {path:"chapter-manager/:id", component:ChapterManagerment, children:[
+                    {path: 'create-chapter', component:CreateChapter}
+                ]}
             ], canActivate: [authGuard],
                 data: {
                     requiredRoles: [ 'author']

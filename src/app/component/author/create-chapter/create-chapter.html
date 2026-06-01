@@ -41,7 +41,12 @@
 
       <!-- Khu vực chừa trống cho Editor sau này -->
       <div class="editor-placeholder">
-        <span>[Khu vực Editor sẽ được nhét vào đây]</span>
+        <quill-editor 
+        formControlName="content" 
+        [modules]="editorModules" 
+        theme="snow"
+        placeholder="Nhập nội dung của bạn vào đây...">
+      </quill-editor>
       </div>
 
       <div class="form-actions">

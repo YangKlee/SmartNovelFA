@@ -1,7 +1,7 @@
 <div class="chapter-manager-container">
   <div class="header-section">
     <h2 class="page-title">Quản lý chương</h2>
-    <button mat-flat-button class="add-btn">
+    <button [routerLink]="['create-chapter']" mat-flat-button class="add-btn">
       <mat-icon>add</mat-icon>
       Thêm chương mới
     </button>
@@ -56,12 +56,10 @@
   </div>
 
   <div class="chapter-list">
-    <app-chapter-manager-item 
-      *ngFor="let chapter of (chapters|async)" 
-      [chapter]="chapter"
-      (view)="onViewChapter($event)"
-      (edit)="onEditChapter($event)"
-      (delete)="onDeleteChapter($event)">
+    <app-chapter-manager-item *ngFor="let chapter of (chapters|async)" [chapter]="chapter"
+      (view)="onViewChapter($event)" (edit)="onEditChapter($event)" (delete)="onDeleteChapter($event)">
     </app-chapter-manager-item>
   </div>
 </div>
+
+<router-outlet></router-outlet>

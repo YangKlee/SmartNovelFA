@@ -10,8 +10,8 @@ import { Chapter } from '../../../models/chapter/chapter.model';
 import { Novel } from '../../../models/novel/novel.model';
 import { NovelServices } from '../../../services/novel/novel-services';
 import { ChapterServices } from '../../../services/chapter/chapter-services';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-
+import { ActivatedRoute, Route, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { QuillEditorComponent } from 'ngx-quill';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { Observable, of,catchError } from 'rxjs';
 
@@ -25,8 +25,11 @@ import { Observable, of,catchError } from 'rxjs';
     MatButtonModule,
     MatIconModule,
     FormsModule,
-    ChapterManagerItem
-  ],
+    ChapterManagerItem,
+    RouterLink,
+    RouterOutlet,
+    QuillEditorComponent
+],
   templateUrl: './chapter-managerment.html',
   styleUrl: './chapter-managerment.css',
 })
