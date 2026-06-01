@@ -43,7 +43,7 @@ export class CreateChapter implements OnInit {
     private router: Router
   ) { }
 
-  public htmlContent = '<p>Xin chào! Đây là bản <strong>demo</strong> của Quill Editor.</p>';
+  //public htmlContent = '<p>Xin chào! Đây là bản <strong>demo</strong> của Quill Editor.</p>';
   public isDisplayPreviewForm = false;
   // Tùy chỉnh thanh công cụ (Toolbar)
   public editorModules = {

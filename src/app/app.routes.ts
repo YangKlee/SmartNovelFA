@@ -15,6 +15,7 @@ import { NovelManager } from './component/author/novel-manager/novel-manager';
 import { CreateNovel } from './component/author/create-novel/create-novel';
 import { ChapterManagerment } from './component/author/chapter-managerment/chapter-managerment';
 import { CreateChapter } from './component/author/create-chapter/create-chapter';
+import { ReadNovel } from './component/common/read-novel/read-novel';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -27,7 +28,10 @@ export const routes: Routes = [
                     { path: "update-info", component: ModifyInfo },
                     { path: "change-password", component: ChangePassword }
                 ]
+               
             },
+             {path: "novel/:novelID/chapter/:chapterID", component:ReadNovel}
+     
         ]
     },
     { path: "auth", redirectTo: "auth/login", pathMatch: "full" },
