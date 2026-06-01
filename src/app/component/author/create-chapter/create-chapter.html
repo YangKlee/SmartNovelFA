@@ -1,1 +1,57 @@
-<p>create-chapter works!</p>
+<div class="popup-overlay">
+  <div class="create-chapter-container">
+    <button class="btn-close-popup">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <div class="form-header">
+      <h2>Thêm Chương Mới</h2>
+    </div>
+
+    <form class="chapter-form" [formGroup]="chapterForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Tiêu đề chương (Title)</mat-label>
+          <input matInput placeholder="Nhập tiêu đề chương..." formControlName="title">
+          <mat-error *ngIf="chapterForm.get('title')?.hasError('required')">Tiêu đề không được để trống</mat-error>
+          <mat-error *ngIf="chapterForm.get('title')?.hasError('maxlength')">Tiêu đề không được quá 255 ký tự</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="max-width: 200px;">
+          <mat-label>Thứ tự chương</mat-label>
+          <input matInput type="number" placeholder="Ví dụ: 1" formControlName="chapterOrder">
+          <mat-error *ngIf="chapterForm.get('chapterOrder')?.hasError('required')">Thứ tự không được để trống</mat-error>
+          <mat-error *ngIf="chapterForm.get('chapterOrder')?.hasError('min')">Thứ tự chương phải &ge; 1</mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Trạng thái</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="public">Public (Công khai)</mat-option>
+          <mat-option value="draft">Draft (Bản nháp)</mat-option>
+        </mat-select>
+        <mat-error *ngIf="chapterForm.get('status')?.hasError('required')">Trạng thái bắt buộc chọn</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Mô tả (Description)</mat-label>
+        <textarea matInput rows="3" placeholder="Viết mô tả ngắn gọn cho chương này..." formControlName="description"></textarea>
+      </mat-form-field>
+
+      <!-- Khu vực chừa trống cho Editor sau này -->
+      <div class="editor-placeholder">
+        <span>[Khu vực Editor sẽ được nhét vào đây]</span>
+      </div>
+
+      <div class="form-actions">
+        <button mat-stroked-button type="button" class="btn-preview">
+          <mat-icon>visibility</mat-icon> Xem trước
+        </button>
+        <button mat-flat-button color="primary" type="submit" class="btn-save" [disabled]="chapterForm.invalid">
+          <mat-icon>save</mat-icon> Lưu chương
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
