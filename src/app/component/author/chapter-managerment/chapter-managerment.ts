@@ -61,31 +61,36 @@ export class ChapterManagerment implements OnInit {
   }
 
   getInfo() {
-    this.novels = this.novelServices.getUserNovel().pipe(
-      catchError(err => {
-        console.error(err);
-        return of([]);
-      })
-    );
+    if (isPlatformBrowser(this.platformId)) {
+      this.novels = this.novelServices.getUserNovel().pipe(
+        catchError(err => {
+          console.error(err);
+          return of([]);
+        })
+      );
 
-    this.novels.subscribe(e => {
-      this.selectedNovelID =
-        this.route.snapshot.paramMap.get('id') ?? '';
+      this.novels.subscribe(e => {
+        this.selectedNovelID =
+          this.route.snapshot.paramMap.get('id') ?? '';
 
-      this.selectedNovel =
-        e.find(n => n.novelId == this.selectedNovelID);
+        this.selectedNovel =
+          e.find(n => n.novelId == this.selectedNovelID);
 
-      this.chapters = this.chapterServices
-        .getChapterByNovel(this.selectedNovelID)
-        .pipe(
-          catchError(err => {
-            console.error(err);
-            return of([]);
-          })
-        );
+        this.chapters = this.chapterServices
+          .getChapterByNovel(this.selectedNovelID)
+          .pipe(
+            catchError(err => {
+              console.error(err);
+              return of([]);
+            })
+          );
 
-      this.crl.detectChanges();
-    });
+        this.crl.detectChanges();
+      });
+    } else {
+      this.novels = of([]);
+      this.chapters = of([]);
+    }
   }
 
   onViewChapter(chapter: Chapter) {
