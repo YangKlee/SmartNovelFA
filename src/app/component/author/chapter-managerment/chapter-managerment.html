@@ -1,0 +1,67 @@
+<div class="chapter-manager-container">
+  <div class="header-section">
+    <h2 class="page-title">Quản lý chương</h2>
+    <button mat-flat-button class="add-btn">
+      <mat-icon>add</mat-icon>
+      Thêm chương mới
+    </button>
+  </div>
+
+  <div class="filter-section">
+    <div class="novel-select-row">
+      <span class="label">Chọn truyện:</span>
+      <mat-form-field appearance="fill" subscriptSizing="dynamic" class="custom-field novel-select">
+        <mat-select [(ngModel)]="selectedNovel">
+          <mat-option *ngFor="let novel of novels" [value]="novel.id">
+            {{ novel.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="search-filter-row">
+      <mat-form-field appearance="fill" subscriptSizing="dynamic" class="custom-field status-filter">
+        <mat-icon matPrefix>filter_alt</mat-icon>
+        <mat-select [(ngModel)]="selectedFilter">
+          <mat-option *ngFor="let filter of filters" [value]="filter.value">
+            {{ filter.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" subscriptSizing="dynamic" class="custom-field search-box">
+        <input matInput placeholder="Tìm kiếm theo tiêu đề hoặc nội dung...." [(ngModel)]="searchQuery">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card total">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Tổng số chương</div>
+      </div>
+      <div class="stat-card public">
+        <div class="stat-number">2</div>
+        <div class="stat-label">Đã đăng</div>
+      </div>
+      <div class="stat-card draft">
+        <div class="stat-number">1</div>
+        <div class="stat-label">Bản nháp</div>
+      </div>
+      <div class="stat-card removed">
+        <div class="stat-number">1</div>
+        <div class="stat-label">Đã gỡ</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapter-list">
+    <app-chapter-manager-item 
+      *ngFor="let chapter of filteredChapters" 
+      [chapter]="chapter"
+      (view)="onViewChapter($event)"
+      (edit)="onEditChapter($event)"
+      (delete)="onDeleteChapter($event)">
+    </app-chapter-manager-item>
+  </div>
+</div>

@@ -46,8 +46,8 @@
 
   <mat-card-actions class="action-bar">
     <div class="action-buttons">
-      <button mat-flat-button class="btn-orange"><i class="bi bi-book"></i> Xem truyện</button>
-      <button mat-flat-button class="btn-indigo"><i class="bi bi-list-task"></i> Quản lý chương</button>
+      <button  mat-flat-button class="btn-orange"><i class="bi bi-book"></i> Xem truyện</button>
+      <button type="button" [routerLink]="['/dashboard/author/chapter-manager', novel.novelId]" mat-flat-button class="btn-indigo"><i class="bi bi-list-task"></i> Quản lý chương</button>
       <button mat-flat-button class="btn-blue"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
       <button mat-flat-button color="warn"><i class="bi bi-trash"></i> Xóa</button>
     </div>

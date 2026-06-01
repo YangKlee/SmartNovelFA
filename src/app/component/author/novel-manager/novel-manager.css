@@ -1,8 +1,6 @@
-/* Container bao bọc toàn bộ component */
 .story-management-wrapper {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   width: 100%;
-  max-width: 1000px;
   padding: 16px;
 }
 
