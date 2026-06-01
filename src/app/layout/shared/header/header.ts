@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID, ChangeDetectorRef, NgZone, AfterViewInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { BehaviorSubject, forkJoin } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
 
 import { AuthServices } from '../../../services/auth/auth-services';
@@ -15,8 +15,7 @@ import { MenuNav } from '../../../models/menu-nav/menu-nav.model';
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
-export class Header implements OnInit {
-  // Dữ liệu người dùng và menu điều hướng
+export class Header implements OnInit, AfterViewInit {
   public user$ = new BehaviorSubject<User | null>(null);
   public menus: MenuNav[] = [];
   public roleMenus: MenuNav[] = [];
@@ -25,182 +24,84 @@ export class Header implements OnInit {
     private authServices: AuthServices,
     private menuNavServices: MenuNavServices,
     private router: Router,
+    private cdr: ChangeDetectorRef,
+    private zone: NgZone, // Ép Angular chạy các tác vụ bất đồng bộ an toàn
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
-    // Chỉ chạy trên môi trường trình duyệt
+    // Để cho Server SSR chạy render khung HTML rỗng trước, không can thiệp logic ở đây
+  }
+
+  // Chờ cho toàn bộ giao diện HTML dựng xong xuôi trên Trình duyệt mới bắt đầu đổ dữ liệu vào
+  ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.loadPublicMenu();
-      this.loadUserInfo();
+      // Chạy trong NgZone để đảm bảo Angular bắt được sự thay đổi của Client mà không báo lỗi check
+      this.zone.run(() => {
+        this.loadPublicMenu();
+        this.loadUserInfo();
+      });
     }
   }
 
-  // Tải menu chung công khai
- // =========================================
-// LOAD MENU CHUNG
-// =========================================
-
-private loadPublicMenu(): void {
-
-  // role 5 = menu chung
-  this.menuNavServices
-    .getMenuByRole("5")
-    .subscribe({
-
-      next: (res: MenuNav[]) => {
-
-        this.menus = res;
+  /**
+   * TẢI MENU CHUNG (ROLE = 5)
+   */
+  private loadPublicMenu(): void {
+    this.menuNavServices.getMenuByRole("5").subscribe({
+      next: (res: any) => {
+        this.menus = res && res.data ? res.data : res;
+        this.cdr.detectChanges(); // Cập nhật UI ngay sau khi mảng menus có dữ liệu
       },
-
-      error: (err) => {
-
-        console.error(
-          'Lỗi tải menu chung:',
-          err
-        );
-      }
+      error: (err) => console.error('Lỗi tải menu chung:', err)
     });
-}
+  }
 
-  // Tải thông tin user đã đăng nhập
+  /**
+   * TẢI THÔNG TIN TÀI KHOẢN ĐÃ ĐĂNG NHẬP
+   */
   private loadUserInfo(): void {
-    this.authServices.loadInfoUserLogined()?.subscribe(user => {
-      this.user$.next(user);
-      if (user?.roleId) {
-        this.loadRoleMenu(user.roleId.toString());
-      }
+    this.authServices.loadInfoUserLogined()?.subscribe({
+      next: (user) => {
+        this.user$.next(user);
+        if (user && user.roleId) {
+          this.loadRoleMenu(user.roleId.toString());
+        }
+      },
+      error: (err) => console.error('Lỗi tải user:', err)
     });
   }
 
-  // Tải menu riêng dựa theo phân quyền (Role)
-  // =========================================
-// LOAD MENU ROLE
-// =========================================
+  /**
+   * TẢI MENU RIÊNG THEO ROLE ID (CHẠY SAU KHI USER ĐÃ ĐƯỢC XÁC THỰC)
+   */
+  private loadRoleMenu(roleId: string): void {
+    if (!roleId || ["1", "2", "3", "4"].indexOf(roleId) === -1) {
+      this.roleMenus = [];
+      return;
+    }
 
-private loadRoleMenu(roleId: string): void {
-
-  // =====================================
-  // ADMIN
-  // =====================================
-
-  if (roleId === "1") {
-
-    this.menuNavServices
-      .getMenuByRole("1")
-      .subscribe({
-
-        next: (res: MenuNav[]) => {
-
-          this.roleMenus = res;
-        },
-
-        error: (err) => {
-
-          console.error(
-            'Lỗi tải menu Admin:',
-            err
-          );
-        }
-      });
+    this.menuNavServices.getMenuByRole(roleId).subscribe({
+      next: (res: any) => {
+        this.roleMenus = res && res.data ? res.data : res;
+        // Bắt buộc ép Angular quét lại cây DOM tại thời điểm này để lọt mảng roleMenus vào vòng lặp html
+        this.cdr.markForCheck();
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error(`Lỗi tải menu role ${roleId}:`, err)
+    });
   }
 
-  // =====================================
-  // MODERATOR
-  // =====================================
-
-  else if (roleId === "2") {
-
-    this.menuNavServices
-      .getMenuByRole("2")
-      .subscribe({
-
-        next: (res: MenuNav[]) => {
-
-          this.roleMenus = res;
-        },
-
-        error: (err) => {
-
-          console.error(
-            'Lỗi tải menu Moderator:',
-            err
-          );
-        }
-      });
-  }
-
-  // =====================================
-  // AUTHOR
-  // =====================================
-
-  else if (roleId === "3") {
-
-    this.menuNavServices
-      .getMenuByRole("3")
-      .subscribe({
-
-        next: (res: MenuNav[]) => {
-
-          this.roleMenus = res;
-        },
-
-        error: (err) => {
-
-          console.error(
-            'Lỗi tải menu Author:',
-            err
-          );
-        }
-      });
-  }
-
-  // =====================================
-  // USER THƯỜNG (ROLE 4)
-  // =====================================
-
-  else if (roleId === "4") {
-
-    this.menuNavServices
-      .getMenuByRole("4")
-      .subscribe({
-
-        next: (res: MenuNav[]) => {
-
-          this.roleMenus = res;
-        },
-
-        error: (err) => {
-
-          console.error(
-            'Lỗi tải menu User:',
-            err
-          );
-        }
-      });
-  }
-
-  // =====================================
-  // KHÔNG CÓ ROLE
-  // =====================================
-
-  else {
-
-    this.roleMenus = [];
-  }
-}
-
-  // Đăng xuất và xóa session
   public doLogout(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('token');
       this.user$.next(null);
       this.roleMenus = [];
+      this.cdr.detectChanges();
     }
     this.router.navigate(['/auth/login']);
   }
 
-  // Điều hướng đến trang đăng nhập
   public loginBtn(): void {
     this.router.navigate(['/auth/login']);
   }
