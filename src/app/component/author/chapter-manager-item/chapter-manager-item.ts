@@ -19,17 +19,7 @@ import { Chapter } from '../../../models/chapter/chapter.model';
   styleUrl: './chapter-manager-item.css',
 })
 export class ChapterManagerItem {
-  @Input() chapter: Chapter = {
-    chapterId: '1',
-    chaperOrder: 1,
-    novelId: 'novel1',
-    chapterTitle: 'Chương 1: Khởi đầu',
-    summaryChapter: 'Đêm đã khuya, ánh trăng nhạt nhòa chiếu qua khe cửa sổ. Trong căn phòng tối, một bóng người đang ngồi trước bàn làm việc...',
-    status: 'public',
-    createTime: new Date('2026-05-01T00:00:00'),
-    updateTime: new Date('2026-05-01T00:00:00')
-  };
-
+  @Input() chapter!: Chapter;
   @Output() view = new EventEmitter<Chapter>();
   @Output() edit = new EventEmitter<Chapter>();
   @Output() delete = new EventEmitter<Chapter>();

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,6 +7,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { ChapterManagerItem } from '../chapter-manager-item/chapter-manager-item';
 import { Chapter } from '../../../models/chapter/chapter.model';
+import { Novel } from '../../../models/novel/novel.model';
+import { NovelServices } from '../../../services/novel/novel-services';
+import { ChapterServices } from '../../../services/chapter/chapter-services';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+
+import { Inject, PLATFORM_ID } from '@angular/core';
+import { Observable, of,catchError } from 'rxjs';
 
 @Component({
   selector: 'app-chapter-managerment',
@@ -23,71 +30,61 @@ import { Chapter } from '../../../models/chapter/chapter.model';
   templateUrl: './chapter-managerment.html',
   styleUrl: './chapter-managerment.css',
 })
-export class ChapterManagerment {
-  selectedNovel: string = 'novel1';
+export class ChapterManagerment implements OnInit {
+  selectedNovel?: Novel;
   searchQuery: string = '';
-  selectedFilter: string = 'all';
 
-  novels = [
-    { id: 'novel1', name: 'Hành trình đi tìm giấc ngủ' },
-    { id: 'novel2', name: 'Một câu chuyện khác' }
-  ];
+  novels!: Observable<Novel[]>;
+  selectedNovelID: string = '';
 
-  filters = [
-    { value: 'all', viewValue: 'Tất cả (4)' },
-    { value: 'public', viewValue: 'Đã đăng (2)' },
-    { value: 'draft', viewValue: 'Bản nháp (1)' },
-    { value: 'removed', viewValue: 'Đã gỡ (1)' }
-  ];
+  chapters!: Observable<Chapter[]>;
 
-  chapters: Chapter[] = [
-    {
-      chapterId: '1',
-      chaperOrder: 1,
-      novelId: 'novel1',
-      chapterTitle: 'Chương 1: Khởi đầu',
-      status: 'public',
-      summaryChapter: 'Đêm đã khuya, ánh trăng nhạt nhòa chiếu qua khe cửa sổ. Trong căn phòng tối, một bóng người đang ngồi trước bàn làm việc, ánh mắt dõi theo những dòng ...',
-      updateTime: '1/5/2026',
-      createTime: '1/5/2026'
-    },
-    {
-      chapterId: '2',
-      chaperOrder: 2,
-      novelId: 'novel1',
-      chapterTitle: 'Chương 2: Thử thách đầu tiên',
-      status: 'public',
-      summaryChapter: 'Sáng hôm sau, anh nhận được email từ một công ty công nghệ lớn. Họ muốn mời anh tham gia một dự án quan trọng, một cơ hội mà bất kỳ lập trình viên nào...',
-      updateTime: '3/5/2026',
-      createTime: '3/5/2026'
-    },
-    {
-      chapterId: '3',
-      chaperOrder: 3,
-      novelId: 'novel1',
-      chapterTitle: 'Chương 1: Khởi đầu',
-      status: 'draft',
-      summaryChapter: 'Đêm đã khuya, ánh trăng nhạt nhòa chiếu qua khe cửa sổ. Trong căn phòng tối, một bóng người đang ngồi trước bàn làm việc, ánh mắt dõi theo những dòng ...',
-      updateTime: '15/5/2026'
-    },
-    {
-      chapterId: '4',
-      chaperOrder: 4,
-      novelId: 'novel1',
-      chapterTitle: 'Chương 4: 7749 giúp bạn đi ngủ',
-      status: 'removed',
-      summaryChapter: 'Chương này đã bị gỡ do vi phạm quy định cộng đồng....',
-      updateTime: '12/5/2026'
-    }
-  ];
+  constructor(
+    private novelServices: NovelServices,
+    private chapterServices: ChapterServices,
+    private router: Router,
+    private route: ActivatedRoute,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private crl: ChangeDetectorRef
+  ) {}
 
-  get filteredChapters() {
-    return this.chapters.filter(chapter => {
-      const titleMatch = chapter.chapterTitle.toLowerCase().includes(this.searchQuery.toLowerCase());
-      const summaryMatch = chapter.summaryChapter ? chapter.summaryChapter.toLowerCase().includes(this.searchQuery.toLowerCase()) : false;
-      const matchesSearch = titleMatch || summaryMatch;
-      const matchesFilter = this.selectedFilter === 'all' || chapter.status === this.selectedFilter;
-      return matchesSearch && matchesFilter;
+  ngOnInit() {
+    this.getInfo();
+  }
+
+  onNovelChange() {
+    this.router.navigate([
+      '/dashboard/author/chapter-manager',
+      this.selectedNovelID
+    ]);
+    this.getInfo();
+  }
+
+  getInfo() {
+    this.novels = this.novelServices.getUserNovel().pipe(
+      catchError(err => {
+        console.error(err);
+        return of([]);
+      })
+    );
+
+    this.novels.subscribe(e => {
+      this.selectedNovelID =
+        this.route.snapshot.paramMap.get('id') ?? '';
+
+      this.selectedNovel =
+        e.find(n => n.novelId == this.selectedNovelID);
+
+      this.chapters = this.chapterServices
+        .getChapterByNovel(this.selectedNovelID)
+        .pipe(
+          catchError(err => {
+            console.error(err);
+            return of([]);
+          })
+        );
+
+      this.crl.detectChanges();
     });
   }
 
