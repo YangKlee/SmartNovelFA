@@ -1,7 +1,7 @@
  import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from '../../env';
 import ur from '@angular/common/locales/ur';
 import { Chapter } from '../../models/chapter/chapter.model';
@@ -15,6 +15,7 @@ export class ChapterServices {
       'Content-Type': "application/json"
     }),
   };
+  isReloadChapterManagerment = new BehaviorSubject<boolean>(false);
   constructor(private httpClient: HttpClient) { }
   public getChapterByNovel(novelID: string)
   {

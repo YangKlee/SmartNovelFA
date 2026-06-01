@@ -35,7 +35,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           //localStorage.removeItem('token');
 
           // sau này sửa sau
-          //router.navigate(['/auth/login']);
+          router.navigate(['/auth/login']);
         }
       }
       return throwError(() => error);

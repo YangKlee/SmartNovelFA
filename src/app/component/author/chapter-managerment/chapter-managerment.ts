@@ -53,6 +53,14 @@ export class ChapterManagerment implements OnInit {
 
   ngOnInit() {
     this.getInfo();
+    this.chapterServices.isReloadChapterManagerment.subscribe(e=>{
+      if(e)
+      {
+        this.getInfo();
+        this.chapterServices.isReloadChapterManagerment.next(false);
+      }
+    })
+    
   }
 
   onNovelChange() {

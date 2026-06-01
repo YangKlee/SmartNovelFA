@@ -89,7 +89,7 @@ export class CreateChapter implements OnInit {
       this.chapterServices.createChapter(this.novelId, payload).subscribe({
         next: (res) => {
           console.log('Tạo chương thành công:', res);
-
+          this.chapterServices.isReloadChapterManagerment.next(true);
           this.router.navigate(['../'], { relativeTo: this.route });
         },
         error: (err) => {
