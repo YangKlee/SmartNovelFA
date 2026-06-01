@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -6,7 +6,8 @@ import { NovelServices } from '../../../services/novel/novel-services';
 import { Router } from '@angular/router';
 import { Category } from '../../../models/category/category.model';
 import { CategoryServices } from '../../../services/category/category-services';
-
+import { ActivatedRoute } from '@angular/router';
+import { Novel } from '../../../models/novel/novel.model';
 @Component({
   selector: 'app-create-novel',
   standalone: true,
@@ -14,26 +15,20 @@ import { CategoryServices } from '../../../services/category/category-services';
   templateUrl: './create-novel.html',
   styleUrl: './create-novel.css',
 })
-export class CreateNovel {
+export class CreateNovel implements OnInit {
   novelForm: FormGroup;
   coverPreview: string | null = null;
   bannerPreview: string | null = null;
   coverFile: File | null = null;
   bannerFile: File | null = null;
   genreList!: Category[];
-
+  novelIdEdit: string | null = null;
+  novelDataEdit: Novel | null = null;
   constructor(private fb: FormBuilder, private novelServices: NovelServices,
-     private categoryServices:CategoryServices, private router: Router, private cdr: ChangeDetectorRef) {
+     private categoryServices:CategoryServices, private router: Router,
+      private cdr: ChangeDetectorRef, private route: ActivatedRoute) {
     
-    this.categoryServices.getAllActiveCategory().subscribe({
-      next: (res)=>{
-        this.genreList = res;
 
-      },
-      error: (res)=>{
-        console.error(res);
-      }
-    })
     this.novelForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(255)]],
       description: [''],
@@ -42,7 +37,31 @@ export class CreateNovel {
       genres: [[]]
     });
   }
+  ngOnInit()
+  {
+        this.categoryServices.getAllActiveCategory().subscribe({
+      next: (res)=>{
+        this.genreList = res;
 
+      },
+      error: (res)=>{
+        console.error(res);
+      }
+    })
+    this.route.paramMap.subscribe(params => {
+      // Tên biến truyền vào hàm get() phải khớp 100% với tên đặt ở file Routing ('idNovel')
+      this.novelIdEdit = params.get('idNovel'); 
+      if(this.novelIdEdit != null)
+      {
+        this.novelServices.getInfoNovelForReader(this.novelIdEdit).subscribe({
+          next: (res)=>{
+            this.novelDataEdit = res;
+          }
+        })
+      }
+
+    });
+  }
   // --- XỬ LÝ DANH SÁCH THỂ LOẠI (GENRES) ---
 
   // Getter lấy mảng ID thể loại hiện tại ngắn gọn hơn

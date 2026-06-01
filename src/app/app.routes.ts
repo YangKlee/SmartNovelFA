@@ -49,7 +49,8 @@ export const routes: Routes = [
         path: "dashboard", component: DashboardLayout, children: [
             {path: "author", children:[
                 {path:"novel-manager", component:NovelManager, children:[
-                    {path: "create-novel", component:CreateNovel}
+                    {path: "create-novel", component:CreateNovel},
+                    {path: "modify-novel/:idNovel", component:CreateNovel}
                 ]},
                 {path:"chapter-manager/:id", component:ChapterManagerment, children:[
                     {path: 'create-chapter', component:CreateChapter}
