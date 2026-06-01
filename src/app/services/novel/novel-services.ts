@@ -32,4 +32,9 @@ export class NovelServices {
   {
     return this.httpClient.get<any>(`${this.URL_NOVEL}/getInfoNovelForReader/${id}`, this.httpOptions);
   }
+
+  public updateNovel(id: string, formData: FormData): Observable<any>
+  {
+    return this.httpClient.put<any>(`${this.URL_NOVEL}/updateNovel/${id}`, formData);
+  }
 }

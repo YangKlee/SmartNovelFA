@@ -2,7 +2,7 @@
   <div class="create-novel-container">
     <button [routerLink]="['/dashboard/author/novel-manager']" class="btn-close-popup"><i class="bi bi-x"></i></button>
     <div class="form-header">
-      <h2>Tạo Truyện Mới</h2>
+      <h2>{{ novelDataEdit ? 'Cập Nhật Truyện' : 'Tạo Truyện Mới' }}</h2>
     </div>
 
     <form [formGroup]="novelForm" (ngSubmit)="onSubmit()" class="novel-form">
@@ -106,7 +106,7 @@
           <!-- Submit Button -->
           <div class="form-actions mt-4">
             <button type="submit" class="btn btn-primary btn-submit">
-              <i class="bi bi-save"></i> Lưu Truyện
+              <i class="bi bi-save"></i> {{ novelDataEdit ? 'Cập Nhật' : 'Lưu Truyện' }}
             </button>
           </div>
         </div>

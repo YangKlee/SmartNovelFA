@@ -56,6 +56,24 @@ export class CreateNovel implements OnInit {
         this.novelServices.getInfoNovelForReader(this.novelIdEdit).subscribe({
           next: (res)=>{
             this.novelDataEdit = res;
+            
+            // Patch form với dữ liệu cũ
+            this.novelForm.patchValue({
+              title: res.title,
+              description: res.description,
+              ageRating: res.ageRating || 6,
+              status: res.status || 'Public'
+            });
+
+            // Set preview cho ảnh (URL trả về từ API)
+            if (res.imageNovelUrl) this.coverPreview = res.imageNovelUrl;
+            if (res.imageBanerNovelUrl) this.bannerPreview = res.imageBanerNovelUrl;
+
+            // Nếu API có trả về list category thì map id ra để tick checkbox
+            if (res.categories && Array.isArray(res.categories)) {
+              const genreIds = res.categories.map((c: any) => c.categoryId);
+              this.novelForm.get('genres')?.setValue(genreIds);
+            }
           }
         })
       }
@@ -136,17 +154,33 @@ export class CreateNovel implements OnInit {
       if (this.bannerFile) {
         formData.append('bannerImage', this.bannerFile, this.bannerFile.name);
       }
-      this.novelServices.createNovel(formData).subscribe({
-        next: (res)=>{
-          alert("Thêm thành công!");
-           this.novelServices.reloadNovelList.next(true);
-          this.router.navigate(['dashboard/author/novel-manager']);
-        },
-        error: (err)=>{
-          alert("Có lỗi xảy ra");
-          console.error(err.error.msg);
-        }
-      })
+      if (this.novelIdEdit != null && this.novelDataEdit != null) {
+        // Chế độ Edit (Cập nhật)
+        this.novelServices.updateNovel(this.novelIdEdit, formData).subscribe({
+          next: (res)=>{
+            alert("Cập nhật thành công!");
+             this.novelServices.reloadNovelList.next(true);
+            this.router.navigate(['dashboard/author/novel-manager']);
+          },
+          error: (err)=>{
+            alert("Có lỗi xảy ra khi cập nhật");
+            console.error(err?.error?.msg || err);
+          }
+        });
+      } else {
+        // Chế độ Create (Thêm mới)
+        this.novelServices.createNovel(formData).subscribe({
+          next: (res)=>{
+            alert("Thêm thành công!");
+             this.novelServices.reloadNovelList.next(true);
+            this.router.navigate(['dashboard/author/novel-manager']);
+          },
+          error: (err)=>{
+            alert("Có lỗi xảy ra khi thêm mới");
+            console.error(err?.error?.msg || err);
+          }
+        });
+      }
     } else {
       this.novelForm.markAllAsTouched();
     }
