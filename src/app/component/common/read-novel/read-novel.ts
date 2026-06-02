@@ -73,6 +73,7 @@ export class ReadNovel implements OnInit {
 
           // bỏ qua tính năng an toàn angular, k cho angular lượt bớt các thẻ html
           this.safeHtmlContent = this.sanitizer.bypassSecurityTrustHtml(cleanedData);
+          this.crl.markForCheck();
           this.crl.detectChanges();
         },
         error: (err) => {
