@@ -6,7 +6,9 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthServices } from '../../../services/auth/auth-services';
 import { MenuNavServices } from '../../../services/menu-nav/menu-nav-services';
 import { User } from '../../../models/user/user.model';
-import { MenuNav } from '../../../models/menu-nav/menu-nav.model';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',

@@ -1,0 +1,47 @@
+<div class="modify-info-container">
+    <div class="form-wrapper">
+        <h2 class="form-title">CẬP NHẬT THÔNG TIN</h2>
+        <form [formGroup]="modifyForm" (ngSubmit)="onSubmit()" class="custom-form">
+
+            <div class="form-row">
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Username</mat-label>
+                    <input matInput formControlName="username">
+                </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Tên hiển thị</mat-label>
+                <input matInput formControlName="displayName" placeholder="Nhập tên hiển thị">
+                <mat-error *ngIf="modifyForm.get('displayName')?.hasError('required')">
+                    Tên hiển thị không được để trống
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Ngày sinh</mat-label>
+                <input matInput type="date" formControlName="birthday">
+            </mat-form-field>
+
+
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Số điện thoại</mat-label>
+                <input matInput type="tel" formControlName="phone" placeholder="Nhập số điện thoại">
+                <mat-error *ngIf="modifyForm.get('phone')?.hasError('required')">
+                    Số điện thoại không được để trống
+                </mat-error>
+                <mat-error *ngIf="modifyForm.get('phone')?.hasError('pattern')">
+                    Số điện thoại không hợp lệ (10-11 chữ số)
+                </mat-error>
+            </mat-form-field>
+
+            <div class="action-btn-group">
+                <button mat-raised-button type="button" class="btn-cancel" routerLink="../">Hủy</button>
+                <button mat-raised-button type="submit" class="btn-submit">Lưu Thay Đổi</button>
+            </div>
+
+        </form>
+    </div>
+</div>

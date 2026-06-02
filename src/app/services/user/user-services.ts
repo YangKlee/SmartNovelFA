@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { User } from '../../models/user/user.model';
 import { LoginRespone } from '../../models/auth/login-respone';
@@ -10,20 +10,31 @@ import { environment } from '../../env';
   providedIn: 'root',
 })
 export class UserServices {
-
-  private userLogined: User | null = null;
-
   private URL_USER = `${environment.apiUrl}/User`;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
+  private URL_Account = `${environment.apiUrl}/Account`
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': "application/json"
+    }),
+  };
 
-  private getHttpOptions() {
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      })
-    };
+  private userUpdatedSource = new Subject<void>();
+  userUpdated$ = this.userUpdatedSource.asObservable();
+
+  public notifyUserUpdated() {
+    this.userUpdatedSource.next();
+  }
+
+  public getUserInfo(): Observable<User> {
+    return this.httpClient.get<any>(`${this.URL_Account}/accountInfo`, this.httpOptions);
+  }
+  public updateInfoAccount(body: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.URL_Account}/updateInfoAccount`, body, this.httpOptions);
+  }
+  public changePassword(oldPassword: string, newPassword: string): Observable<any> {
+    return this.httpClient.post<any>(`${this.URL_Account}/changePassword`, { oldPassword, newPassword }, this.httpOptions);
   }
 
 
