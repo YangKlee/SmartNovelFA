@@ -1,3 +1,5 @@
+import { User } from "../user/user.model";
+
 export class Novel {
     novelId?: string;
   title?: string;
@@ -8,10 +10,16 @@ export class Novel {
   imageBanerNovelUrl?: string;
   status?: string;
   uid?: string;
-  viewCount?: number;   // int? trong C# chuyển thành number trong TS
+  viewCount?: number;   
+  authorId?: string;
+
+  countChapter?: number;
+  countChapterPublic?:number;
+  countChapterDraf?:number;
+  countChapterRemove?:number;
+  novelRating?:number;
+  authorName?: string;
   likeCount?: number;
-  createTime?: Date | string; // Có thể xử lý dạng Date hoặc chuỗi ISO String từ API
+  createTime?: Date | string; 
   updateTime?: Date | string;
-
-
 }

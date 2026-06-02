@@ -11,6 +11,11 @@ import { Account } from './component/common/account/account';
 import { authGuard } from './guards/auth-guard';
 import { ModifyInfo } from './component/common/modify-info/modify-info';
 import { ChangePassword } from './component/common/change-password/change-password';
+import { NovelManager } from './component/author/novel-manager/novel-manager';
+import { CreateNovel } from './component/author/create-novel/create-novel';
+import { ChapterManagerment } from './component/author/chapter-managerment/chapter-managerment';
+import { CreateChapter } from './component/author/create-chapter/create-chapter';
+import { ReadNovel } from './component/common/read-novel/read-novel';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -23,7 +28,10 @@ export const routes: Routes = [
                     { path: "update-info", component: ModifyInfo },
                     { path: "change-password", component: ChangePassword }
                 ]
+               
             },
+             {path: "novel/:novelID/chapter/:chapterID", component:ReadNovel}
+     
         ]
     },
     { path: "auth", redirectTo: "auth/login", pathMatch: "full" },
@@ -39,7 +47,18 @@ export const routes: Routes = [
     // nhánh layout dashboard, sau này nhớ thêm chặn quyền truy cập ở đây
     {
         path: "dashboard", component: DashboardLayout, children: [
-
+            {path: "author", children:[
+                {path:"novel-manager", component:NovelManager, children:[
+                    {path: "create-novel", component:CreateNovel},
+                    {path: "modify-novel/:idNovel", component:CreateNovel}
+                ]},
+                {path:"chapter-manager/:id", component:ChapterManagerment, children:[
+                    {path: 'create-chapter', component:CreateChapter}
+                ]}
+            ], canActivate: [authGuard],
+                data: {
+                    requiredRoles: [ 'author']
+                }, }
         ]
     },
 ];

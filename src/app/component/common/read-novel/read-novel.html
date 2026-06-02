@@ -1,0 +1,37 @@
+<div class="reading-background">
+  <div class="reading-paper">
+    <div class="reading-header">
+      <div class="title-container">
+        <h1 class="novel-title">{{(novel|async)?.title}}</h1>
+        <h2 class="chapter-title">Chương {{(chapter|async)?.chaperOrder}}: {{(chapter|async)?.chapterTitle}}</h2>
+      </div>
+
+      <div class="toolbar-actions">
+        <!-- Nút Aa (Định dạng văn bản) -->
+        <button mat-icon-button matTooltip="Định dạng hiển thị" aria-label="Font settings">
+          <mat-icon>text_format</mat-icon>
+        </button>
+        <!-- Nút Star -->
+        <button mat-icon-button matTooltip="Đánh dấu / Yêu thích" aria-label="Bookmark">
+          <mat-icon>star_border</mat-icon>
+        </button>
+        <!-- Nút Bell -->
+        <button mat-icon-button matTooltip="Theo dõi thông báo" aria-label="Subscribe">
+          <mat-icon>notifications_none</mat-icon>
+        </button>
+        <!-- Nút Plus -->
+        <button mat-icon-button matTooltip="Thêm vào danh sách" aria-label="Add to list">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div  class="reading-content ql-snow">
+      <div class="content ql-editor" [innerHTML]="safeHtmlContent">
+        
+      </div>
+    </div>
+  </div>
+</div>
