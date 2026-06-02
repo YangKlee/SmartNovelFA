@@ -4,7 +4,7 @@ export class Novel {
     novelId?: string;
   title?: string;
   slug?: string;
-  description?: string; 
+  description?: string; // Dấu ? tương đương với string? (nullable)
   ageRating?: string;
   imageNovelUrl?: string;
   imageBanerNovelUrl?: string;

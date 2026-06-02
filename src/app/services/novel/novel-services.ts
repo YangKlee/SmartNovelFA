@@ -1,4 +1,7 @@
 
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Novel } from '../../models/novel/novel.model';
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -11,11 +14,33 @@ import { environment } from "../../env"
   providedIn: 'root',
 })
 export class NovelServices {
+apiUrl = 'http://localhost:5283/api';
+
+  constructor(
+    private http: HttpClient
+  ) { }
+  private httpOptions = {
     private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': "application/json"
     }),
   };
+  getNovel(slug: string) :Observable<Novel>{
+
+    return this.http.get<any>(
+      `${this.apiUrl}/novel/${slug}`,
+      this.httpOptions
+    );
+  }
+
+  getChapters(novelId: string) {
+
+    return this.http.get(
+      `${this.apiUrl}/novel/${novelId}/chapters`,
+      this.httpOptions
+    );
+  }
+  
   private URL_NOVEL = `${environment.apiUrl}/Novel`
   public reloadNovelList = new BehaviorSubject<boolean>(false);
   constructor(private httpClient: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) { }

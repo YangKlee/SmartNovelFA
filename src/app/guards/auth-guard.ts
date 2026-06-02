@@ -15,7 +15,6 @@ export const authGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-
   return authServices.checkLogin().pipe(
     map((res) => {
       const userRole = res.Role || res.role;
