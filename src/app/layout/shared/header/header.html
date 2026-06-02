@@ -36,11 +36,12 @@
     <!-- Hộp menu xổ xuống khi HOVER vào Avatar -->
     <div class="user-dropdown-menu">
       <!-- Hiện danh sách menu theo loại tài khoản -->
-      <a *ngFor="let role of roleMenus" [routerLink]="role.urlLink || '/'">
+      <a *ngFor="let role of roleMenus" [routerLink]="role.urlLink === '/auth/login' ? null : (role.urlLink || '/')"
+        (click)="role.urlLink === '/auth/login' ? doLogout() : null">
         <i *ngIf="role.iconBootstrap" [class]="role.iconBootstrap"></i>
         <span>{{ role.content }}</span>
       </a>
-      
+
     </div>
   </div>
 </header>

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, PLATFORM_ID, ChangeDetectorRef, NgZone, AfterViewInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { AuthServices } from '../../../services/auth/auth-services';
 import { MenuNavServices } from '../../../services/menu-nav/menu-nav-services';
@@ -9,6 +9,7 @@ import { User } from '../../../models/user/user.model';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
+import { MenuNav } from '../../../models/menu-nav/menu-nav.model';
 
 @Component({
   selector: 'app-header',
@@ -29,7 +30,7 @@ export class Header implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private zone: NgZone, // Ép Angular chạy các tác vụ bất đồng bộ an toàn
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Để cho Server SSR chạy render khung HTML rỗng trước, không can thiệp logic ở đây
@@ -53,6 +54,9 @@ export class Header implements OnInit, AfterViewInit {
     this.menuNavServices.getMenuByRole("5").subscribe({
       next: (res: any) => {
         this.menus = res && res.data ? res.data : res;
+        //hông ép giao diện vẽ lại ngay lập tức, mà chỉ đánh dấu để chờ Angular đi ngang 
+        // check sự thay đổi r quét
+        this.cdr.markForCheck();
         this.cdr.detectChanges(); // Cập nhật UI ngay sau khi mảng menus có dữ liệu
       },
       error: (err) => console.error('Lỗi tải menu chung:', err)
@@ -63,6 +67,14 @@ export class Header implements OnInit, AfterViewInit {
    * TẢI THÔNG TIN TÀI KHOẢN ĐÃ ĐĂNG NHẬP
    */
   private loadUserInfo(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.user$.next(null);
+        return;
+      }
+    }
+
     this.authServices.loadInfoUserLogined()?.subscribe({
       next: (user) => {
         this.user$.next(user);
