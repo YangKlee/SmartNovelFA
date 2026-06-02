@@ -1,32 +1,46 @@
 <header class="main-header">
-    <a href="#" class="logo">Logo</a>
+  <!-- LOGO BÊN TRÁI -->
+  <a routerLink="/" class="logo">Logo</a>
 
-    <nav class="nav-links">
-        <a href="#" class="nav-item">
-            <i class="bi bi-house"></i> Trang chủ
-        </a>
-        <a href="#" class="nav-item">
-            <i class="bi bi-list-ul"></i> Thể loại <i class="bi bi-chevron-down ms-icon"></i>
-        </a>
-        <a href="#" class="nav-item">
-            <i class="bi bi-bar-chart"></i> Bảng xếp hạng <i class="bi bi-chevron-down ms-icon"></i>
-        </a>
-        <a href="#" class="nav-item">
-            <i class="bi bi-search"></i> Tìm truyện
-        </a>
-        <a href="#" class="nav-item">
-            <i class="bi bi-people"></i> Tác giả
-        </a>
-    </nav>
+  <!-- THANH MENU CHUNG (MẶC ĐỊNH LUÔN HIỆN GIỮA THANH HEADER) -->
+  <nav class="nav-links">
+    <div class="dropdown" *ngFor="let item of menus">
+      <a class="nav-item" [routerLink]="item.urlLink || '/'">
+        <i *ngIf="item.iconBootstrap" [class]="item.iconBootstrap"></i>
+        <span>{{ item.content }}</span>
+        <i *ngIf="item.children?.length" class="bi bi-chevron-down ms-icon"></i>
+      </a>
 
-    <div class="auth-buttons" *ngIf="(user$ | async) == null">
-        <button class="btn btn-login" (click)="logibBtn()">Đăng nhập</button>
-        <button class="btn btn-register">Đăng ký</button>
+      <!-- Dropdown cấp 2 của menu chung -->
+      <div class="dropdown-menu" *ngIf="item.children?.length">
+        <a *ngFor="let child of item.children" [routerLink]="child.urlLink || '/'">
+          {{ child.content }}
+        </a>
+      </div>
     </div>
-    <button matButton [matMenuTriggerFor]="menu" class="user-info" *ngIf="user$ | async as user">
-        <i class="bi bi-person-circle"></i>{{user.username}}
+  </nav>
+
+  <!-- KHU VỰC BÊN PHẢI: CHƯA ĐĂNG NHẬP -->
+  <div class="auth-buttons" *ngIf="(user$ | async) == null">
+    <button class="btn btn-login" (click)="loginBtn()">Đăng nhập</button>
+    <button class="btn btn-register">Đăng ký</button>
+  </div>
+
+  <!-- KHU VỰC BÊN PHẢI: ĐÃ ĐĂNG NHẬP (DI CHUỘT VÀO HIỆN ROLE MENU) -->
+  <div class="user-dropdown" *ngIf="user$ | async as user">
+    <button class="user-info">
+      <i class="bi bi-person-circle"></i>
+      <span>{{ user.username }}</span>
     </button>
-    <mat-menu #menu="matMenu">
-        <button (click)="doLogout()" mat-menu-item>Đăng xuất</button>
-    </mat-menu>
+
+    <!-- Hộp menu xổ xuống khi HOVER vào Avatar -->
+    <div class="user-dropdown-menu">
+      <!-- Hiện danh sách menu theo loại tài khoản -->
+      <a *ngFor="let role of roleMenus" [routerLink]="role.urlLink || '/'">
+        <i *ngIf="role.iconBootstrap" [class]="role.iconBootstrap"></i>
+        <span>{{ role.content }}</span>
+      </a>
+      
+    </div>
+  </div>
 </header>
