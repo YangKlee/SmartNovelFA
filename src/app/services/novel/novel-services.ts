@@ -6,7 +6,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { User } from "../../models/user/user.model";
 import { LoginRespone } from "../../models/auth/login-respone";
 import { environment } from "../../env";
-
+import { Pagination } from "../../models/pagination/pagination"
 @Injectable({
   providedIn: 'root',
 })
@@ -38,11 +38,16 @@ export class NovelServices {
       this.httpOptions
     );
   }
-  
-  public getUserNovel(): Observable<any> {
-    return this.httpClient.get<any>(`${this.URL_NOVEL}/getUserNovel`, this.httpOptions);
-  }
 
+  public getUserNovel(pageNumber: number = 1, pageSize: number = 10000000): Observable<any> {
+    const params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+    return this.httpClient.get<any>(`${this.URL_NOVEL}/getUserNovel`, { params });
+  }
+  public getTotalCountUserNovel(): Observable<number> {
+    return this.httpClient.get<number>(`${this.URL_NOVEL}/getUserNovel/count`);
+  }
   public createNovel(formData: FormData): Observable<any> {
     return this.httpClient.post<any>(`${this.URL_NOVEL}/createNovel`, formData);
   }
@@ -54,8 +59,22 @@ export class NovelServices {
   public updateNovel(id: string, formData: FormData): Observable<any> {
     return this.httpClient.put<any>(`${this.URL_NOVEL}/modifyNovel/${id}`, formData);
   }
-  public deleteNovel(id:string): Observable<any>
-  {
+  public deleteNovel(id: string): Observable<any> {
     return this.httpClient.delete<any>(`${this.URL_NOVEL}/deleteNovel/${id}`)
+  }
+  public seachNovelAuthor(status: string, keyword: string, pageNumber: number = 1, pageSize: number = 10000000): Observable<any> {
+    const params = new HttpParams()
+      .set('status', status)
+      .set('keyworld', keyword)
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+    return this.httpClient.get<any>(`${this.URL_NOVEL}/seachNovelAuthor`, { params });
+  }
+
+  public getTotalCountSeachNovelAuthor(status: string, keyword: string): Observable<number> {
+    const params = new HttpParams()
+      .set('status', status)
+      .set('keyworld', keyword);
+    return this.httpClient.get<number>(`${this.URL_NOVEL}/seachNovelAuthor/count`, { params });
   }
 }

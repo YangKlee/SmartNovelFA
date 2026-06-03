@@ -36,6 +36,9 @@ export class ReadNovel implements OnInit {
   chapter!: Observable<Chapter>;
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
+      if (isPlatformBrowser(this.platformId)) {
+        window.scrollTo(0, 0);
+      }
       this.novelId = params.get('novelID');
       this.chapterId = params.get('chapterID');
       console.log('Lấy thành công Novel ID:', this.novelId);

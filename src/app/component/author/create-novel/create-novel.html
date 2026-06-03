@@ -96,7 +96,7 @@
             <label>Trạng thái (Status) <span class="required">*</span></label>
             <select class="custom-select" formControlName="status">
               <option value="Public">Public (Công khai)</option>
-              <option value="Draf">Draf (Bản nháp)</option>
+              <option value="Draft">Draft (Bản nháp)</option>
             </select>
             <div *ngIf="novelForm.get('status')?.invalid && novelForm.get('status')?.touched" class="text-danger mt-1">
               <small>Trạng thái là bắt buộc.</small>

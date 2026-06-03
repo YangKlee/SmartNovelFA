@@ -13,7 +13,10 @@ import { ChapterServices } from '../../../services/chapter/chapter-services';
 import { ActivatedRoute, Route, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { QuillEditorComponent } from 'ngx-quill';
 import { Inject, PLATFORM_ID } from '@angular/core';
-import { Observable, of,catchError } from 'rxjs';
+import { Observable, of, catchError } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { Pagination } from '../../common/pagination/pagination';
+import { ConfimDeleteRepype } from '../../common/confim-delete-repype/confim-delete-repype';
 
 @Component({
   selector: 'app-chapter-managerment',
@@ -28,8 +31,10 @@ import { Observable, of,catchError } from 'rxjs';
     ChapterManagerItem,
     RouterLink,
     RouterOutlet,
-    QuillEditorComponent
-],
+    QuillEditorComponent,
+    ConfimDeleteRepype,
+    Pagination
+  ],
   templateUrl: './chapter-managerment.html',
   styleUrl: './chapter-managerment.css',
 })
@@ -41,6 +46,14 @@ export class ChapterManagerment implements OnInit {
   selectedNovelID: string = '';
 
   chapters!: Observable<Chapter[]>;
+  isConfirmDeleteOpen: boolean = false;
+  chapterToDelete: Chapter | null = null;
+  
+  selectedStatus: string = 'all';
+  currentPage: number = 1;
+  pageSize: number = 5;
+  totalRecords: number = 0;
+  totalPages: number = 0;
 
   constructor(
     private novelServices: NovelServices,
@@ -49,18 +62,40 @@ export class ChapterManagerment implements OnInit {
     private route: ActivatedRoute,
     @Inject(PLATFORM_ID) private platformId: Object,
     private crl: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getInfo();
-    this.chapterServices.isReloadChapterManagerment.subscribe(e=>{
-      if(e)
-      {
-        this.getInfo();
-        this.chapterServices.isReloadChapterManagerment.next(false);
-      }
-    })
-    
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.chapters = this.chapterServices.isReloadChapterManagerment.pipe(
+        switchMap(() => {
+          if (!this.selectedNovelID) return of([]);
+
+          // Update total count
+          this.chapterServices.getTotalCountSeachChapterAuthor(
+            this.selectedNovelID, this.selectedStatus, this.searchQuery
+          ).subscribe({
+            next: (total) => {
+              this.totalRecords = total;
+              this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
+            },
+            error: (err) => console.error('Lỗi lấy tổng số lượng chương:', err)
+          });
+
+          return this.chapterServices.seachChapterAuthor(
+            this.selectedNovelID, this.selectedStatus, this.searchQuery, this.currentPage, this.pageSize
+          ).pipe(
+            catchError(err => {
+              console.error(err);
+              return of([]);
+            })
+          );
+        })
+      );
+    } else {
+      this.chapters = of([]);
+    }
   }
 
   onNovelChange() {
@@ -87,14 +122,7 @@ export class ChapterManagerment implements OnInit {
         this.selectedNovel =
           e.find(n => n.novelId == this.selectedNovelID);
 
-        this.chapters = this.chapterServices
-          .getChapterByNovel(this.selectedNovelID)
-          .pipe(
-            catchError(err => {
-              console.error(err);
-              return of([]);
-            })
-          );
+        this.chapterServices.isReloadChapterManagerment.next(true);
 
         this.crl.detectChanges();
       });
@@ -104,15 +132,52 @@ export class ChapterManagerment implements OnInit {
     }
   }
 
+  onStatusChange() {
+    this.currentPage = 1;
+    this.chapterServices.isReloadChapterManagerment.next(true);
+  }
+
+  onSearchChange() {
+    this.currentPage = 1;
+    this.chapterServices.isReloadChapterManagerment.next(true);
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.chapterServices.isReloadChapterManagerment.next(true);
+  }
+
   onViewChapter(chapter: Chapter) {
     this.router.navigate(['/novel', this.selectedNovelID, 'chapter', chapter.chapterId]);
   }
 
   onEditChapter(chapter: Chapter) {
-    console.log('Edit chapter:', chapter);
+    this.router.navigate(['./create-chapter'], {
+      relativeTo: this.route,
+      queryParams: { chapterId: chapter.chapterId }
+    });
   }
 
   onDeleteChapter(chapter: Chapter) {
-    console.log('Delete chapter:', chapter);
+    this.chapterToDelete = chapter;
+    this.isConfirmDeleteOpen = true;
+  }
+
+  handleDeleteConfirm(isConfirmed: boolean) {
+    if (isConfirmed && this.chapterToDelete) {
+      this.chapterServices.deleteChapter(this.chapterToDelete.chapterId).subscribe({
+        next: (res) => {
+          console.log('Xoá chương thành công:', res);
+          alert('Xoá chương thành công!');
+          this.getInfo();
+        },
+        error: (err) => {
+          console.error('Lỗi khi xoá chương:', err);
+          alert('Có lỗi xảy ra khi xoá chương!');
+        }
+      });
+    }
+    this.isConfirmDeleteOpen = false;
+    this.chapterToDelete = null;
   }
 }
