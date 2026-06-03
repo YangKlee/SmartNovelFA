@@ -11,7 +11,7 @@ import { Category } from '../../models/category/category.model';
 export class NovelService {
   private baseUrl = 'http://localhost:5283/api';
 
-  // Kho chứa dữ liệu lọc dùng chung cho cả filter-panel và search-bar
+  // Kho chứa dữ liệu lọc dùng chung cho cả filter-panel và search
   filterParams = {
     search: '',
     selectedCategoryId: '',
