@@ -1,10 +1,12 @@
 import { Component, OnInit, ChangeDetectorRef, } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser, Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NovelServices } from '../../../services/novel/novel-services';
 import { ChapterServices } from '../../../services/chapter/chapter-services';
 import { Novel } from '../../../models/novel/novel.model';
@@ -18,7 +20,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-read-novel',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, MatDividerModule, MatTooltipModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, MatDividerModule, MatTooltipModule, MatSidenavModule, MatListModule],
   templateUrl: './read-novel.html',
   styleUrl: './read-novel.css',
 })
@@ -28,12 +30,13 @@ export class ReadNovel implements OnInit {
   chapterIdSelected!: string | null;
   chapterFileUrl: string | null = null;
   safeHtmlContent!: SafeHtml;
-  constructor(private route: ActivatedRoute, private novelServices: NovelServices,
+  constructor(private route: ActivatedRoute, private router: Router, private novelServices: NovelServices,
     private chapterServices: ChapterServices, @Inject(PLATFORM_ID) private platformId: Object,
     private crl: ChangeDetectorRef, private http: HttpClient,
-    private sanitizer: DomSanitizer) { }
+    private sanitizer: DomSanitizer, private location: Location) { }
   novel!: Observable<Novel>;
   chapter!: Observable<Chapter>;
+  chapters$!: Observable<Chapter[]>;
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       if (isPlatformBrowser(this.platformId)) {
@@ -46,6 +49,7 @@ export class ReadNovel implements OnInit {
 
       if (this.novelId != null && isPlatformBrowser(this.platformId)) {
         this.novel = this.novelServices.getInfoNovelForReader(this.novelId);
+        this.chapters$ = this.chapterServices.getChapterByNovel(this.novelId);
       }
       this.loadChapter();
     });
@@ -86,5 +90,15 @@ export class ReadNovel implements OnInit {
         }
       })
     }
+  }
+
+  goToChapter(targetChapterId: string) {
+    if (this.novelId && targetChapterId) {
+      this.router.navigate(['/novel', this.novelId, 'chapter', targetChapterId]);
+    }
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
