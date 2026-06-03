@@ -52,6 +52,6 @@ export class NovelServices {
   }
 
   public updateNovel(id: string, formData: FormData): Observable<any> {
-    return this.httpClient.put<any>(`${this.URL_NOVEL}/updateNovel/${id}`, formData);
+    return this.httpClient.put<any>(`${this.URL_NOVEL}/modifyNovel/${id}`, formData);
   }
 }

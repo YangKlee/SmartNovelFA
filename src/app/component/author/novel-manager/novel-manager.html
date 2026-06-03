@@ -9,13 +9,13 @@
   <div class="story-controls">
     <select class="status-dropdown">
       <option value="all">Tất cả trạng thái</option>
-      </select>
+    </select>
     <input type="text" class="search-input" placeholder="Tìm kiếm truyện...">
   </div>
   <div class="novel-list">
-    <div *ngFor="let n of (novels$ | async)"  class="novel-item-warpper">
-        <app-novel-lange-item [novel]="n"></app-novel-lange-item>
+    <div *ngFor="let n of (novels$ | async)" class="novel-item-warpper">
+      <app-novel-lange-item [novel]="n" (delete)="onDeleteNovel(n)"></app-novel-lange-item>
     </div>
-</div>
+  </div>
 </div>
 <router-outlet></router-outlet>
