@@ -6,8 +6,10 @@ import { CommonModule } from "@angular/common"
 import { PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, of, Subscription } from 'rxjs';
+import { switchMap, startWith } from 'rxjs/operators';
 import { RouterLink, RouterModule, RouterOutlet } from "@angular/router";
 import { ConfimDeleteRepype } from '../../common/confim-delete-repype/confim-delete-repype';
+
 @Component({
   selector: 'app-novel-manager',
   imports: [NovelLangeItem, CommonModule, RouterModule, RouterOutlet, RouterLink, ConfimDeleteRepype],
@@ -16,32 +18,37 @@ import { ConfimDeleteRepype } from '../../common/confim-delete-repype/confim-del
 })
 export class NovelManager implements OnInit, OnDestroy {
   public novels$!: Observable<Novel[]>;
-  private reloadSub!: Subscription;
   constructor(private novelServices: NovelServices) { };
   private platformId = inject(PLATFORM_ID);
-  private isShowConfimDelete: boolean= false;
-  private contentDelete: string  = "Xác nhận xóa truyện chứ, mọi dữ liệu của truyện sẽ biến mất vĩnh viễn";
-  private confimName:string  = "";
+  
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      this.novels$ = this.novelServices.getUserNovel();
-      this.reloadSub = this.novelServices.reloadNovelList.subscribe(e => {
-        if (e) {
-          this.novels$ = this.novelServices.getUserNovel();
-          this.novelServices.reloadNovelList.next(false);
-        }
-      })
+      this.novels$ = this.novelServices.reloadNovelList.pipe(
+        switchMap(() => this.novelServices.getUserNovel())
+      );
     } else {
       this.novels$ = of([]);
     }
   }
+  
   ngOnDestroy() {
-    if (this.reloadSub) {
-      this.reloadSub.unsubscribe();
+    // No longer need to manually unsubscribe from reloadSub
+  }
+
+  onDeleteNovel(novel: Novel){
+    if(novel != null && novel.novelId != null)
+    {
+      this.novelServices.deleteNovel(novel.novelId).subscribe({
+        next: ()=>{
+          alert("Xóa truyện thành công!");
+          this.novelServices.reloadNovelList.next(true); // Triggers switchMap to fetch novels again
+        },
+        error: (err)=>{
+          alert("Xóa truyện không thành công");
+          console.error(err.error?.Msg || err);
+        }
+      })
     }
   }
-  onDeleteNovel(novel: Novel){
-    this.isShowConfimDelete = true;
-
-  }
 }
+

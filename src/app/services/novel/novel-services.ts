@@ -54,4 +54,8 @@ export class NovelServices {
   public updateNovel(id: string, formData: FormData): Observable<any> {
     return this.httpClient.put<any>(`${this.URL_NOVEL}/modifyNovel/${id}`, formData);
   }
+  public deleteNovel(id:string): Observable<any>
+  {
+    return this.httpClient.delete<any>(`${this.URL_NOVEL}/deleteNovel/${id}`)
+  }
 }
