@@ -1,37 +1,72 @@
-<div class="reading-background">
-  <div class="reading-paper">
-    <div class="reading-header">
-      <div class="title-container">
-        <h1 class="novel-title">{{(novel|async)?.title}}</h1>
-        <h2 class="chapter-title">Chương {{(chapter|async)?.chaperOrder}}: {{(chapter|async)?.chapterTitle}}</h2>
-      </div>
+<mat-sidenav-container class="reader-sidenav-container">
+  <!-- Sidebar Menu Danh sách chương -->
+  <mat-sidenav #sidenav mode="over" class="chapter-sidenav">
+    <div class="sidenav-header">
+      <h3>Danh sách chương</h3>
+    </div>
+    <mat-nav-list class="chapter-nav-list">
+      <a mat-list-item *ngFor="let c of (chapters$ | async)" (click)="goToChapter(c.chapterId); sidenav.close()"
+        [class.active-chapter]="c.chapterId === chapterId">
+        <span class="chapter-item-text">Chương {{ c.chaperOrder }}: {{ c.chapterTitle }}</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
 
-      <div class="toolbar-actions">
-        <!-- Nút Aa (Định dạng văn bản) -->
-        <button mat-icon-button matTooltip="Định dạng hiển thị" aria-label="Font settings">
-          <mat-icon>text_format</mat-icon>
-        </button>
-        <!-- Nút Star -->
-        <button mat-icon-button matTooltip="Đánh dấu / Yêu thích" aria-label="Bookmark">
-          <mat-icon>star_border</mat-icon>
-        </button>
-        <!-- Nút Bell -->
-        <button mat-icon-button matTooltip="Theo dõi thông báo" aria-label="Subscribe">
-          <mat-icon>notifications_none</mat-icon>
-        </button>
-        <!-- Nút Plus -->
-        <button mat-icon-button matTooltip="Thêm vào danh sách" aria-label="Add to list">
-          <mat-icon>add</mat-icon>
-        </button>
+  <!-- Nội dung đọc truyện -->
+  <mat-sidenav-content>
+    <div class="reading-background">
+      <!-- Hiển thị ảnh nền làm mờ nếu có banner -->
+      <ng-container *ngIf="(novel | async)?.imageBanerNovelUrl as bannerUrl">
+        <div class="banner-bg" [style.backgroundImage]="'url(' + bannerUrl + ')'"></div>
+        <div class="banner-overlay"></div>
+      </ng-container>
+
+      <div class="reading-paper">
+        <div class="reading-header">
+          <!-- Nút Quay lại -->
+          <button mat-icon-button class="back-btn" matTooltip="Quay lại" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+
+          <div class="title-container">
+            <h1 class="novel-title">{{(novel|async)?.title}}</h1>
+            <h2 class="chapter-title">Chương {{(chapter|async)?.chaperOrder}}: {{(chapter|async)?.chapterTitle}}</h2>
+          </div>
+
+          <div class="toolbar-actions">
+            <!-- Nút Aa (Định dạng văn bản) -->
+            <button mat-icon-button matTooltip="Định dạng hiển thị" aria-label="Font settings">
+              <mat-icon>text_format</mat-icon>
+            </button>
+            <!-- Nút Star -->
+            <button mat-icon-button matTooltip="Đánh dấu / Yêu thích" aria-label="Bookmark">
+              <mat-icon>star_border</mat-icon>
+            </button>
+            <!-- Nút Bell -->
+            <button mat-icon-button matTooltip="Theo dõi thông báo" aria-label="Subscribe">
+              <mat-icon>notifications_none</mat-icon>
+            </button>
+            <!-- Nút Plus -->
+            <button mat-icon-button matTooltip="Thêm vào danh sách" aria-label="Add to list">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="reading-content ql-snow">
+          <div class="content ql-editor" [innerHTML]="safeHtmlContent">
+          </div>
+        </div>
+
+        <!-- Nút Mục lục ở dưới cùng -->
+        <div class="reading-footer">
+          <button mat-flat-button class="toc-btn" (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon> Mục lục
+          </button>
+        </div>
       </div>
     </div>
-
-    <mat-divider></mat-divider>
-
-    <div  class="reading-content ql-snow">
-      <div class="content ql-editor" [innerHTML]="safeHtmlContent">
-        
-      </div>
-    </div>
-  </div>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

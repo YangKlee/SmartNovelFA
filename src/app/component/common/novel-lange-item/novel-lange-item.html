@@ -2,16 +2,16 @@
   <div class="novel-content-wrapper">
     <div class="cover-section">
       @if (novel.imageNovelUrl != null) {
-        <img [src]="novel.imageNovelUrl" alt="Cover" class="cover-img" />
+      <img [src]="novel.imageNovelUrl" alt="Cover" class="cover-img" />
       } @else {
-        <div class="cover-placeholder"></div>
+      <div class="cover-placeholder"></div>
       }
     </div>
 
     <div class="info-section">
       <h2 class="novel-title">{{ novel.title }}</h2>
-      
-      <div class="summary-box"> 
+
+      <div class="summary-box">
         <p><i>{{ novel.description}}</i></p>
       </div>
 
@@ -24,9 +24,20 @@
           'padding': '5px',
           'border-radius': '10px'
         }">{{ novel.status }}</span></span>
-        <span class="meta-item">{{ novel.countChapter }} chương</span>
-      </div>
 
+
+      </div>
+      <div class="meta-item">
+        Thể loại:
+        <ng-container *ngIf="novel.categories && novel.categories.length > 0; else noCat">
+          <span *ngFor="let c of novel.categories" class="meta-item">
+            #{{ c.name }}
+          </span>
+        </ng-container>
+        <ng-template #noCat>
+          <span style="color: red; font-size: 12px;">(Không có)</span>
+        </ng-template>
+      </div>
       <div class="stats-box">
         <div class="stat-tag tag-green">
           <span class="stat-number">{{ novel.countChapterPublic }}</span>
@@ -46,12 +57,14 @@
 
   <mat-card-actions class="action-bar">
     <div class="action-buttons">
-      <button  mat-flat-button class="btn-orange"><i class="bi bi-book"></i> Xem truyện</button>
-      <button type="button" [routerLink]="['/dashboard/author/chapter-manager', novel.novelId]" mat-flat-button class="btn-indigo"><i class="bi bi-list-task"></i> Quản lý chương</button>
-      <button mat-flat-button [routerLink]="['/dashboard/author/novel-manager/modify-novel', novel.novelId]" class="btn-blue"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
-      <button mat-flat-button color="warn"><i class="bi bi-trash"></i> Xóa</button>
+      <button mat-flat-button class="btn-orange"><i class="bi bi-book"></i> Xem truyện</button>
+      <button type="button" [routerLink]="['/dashboard/author/chapter-manager', novel.novelId]" mat-flat-button
+        class="btn-indigo"><i class="bi bi-list-task"></i> Quản lý chương</button>
+      <button mat-flat-button [routerLink]="['/dashboard/author/novel-manager/modify-novel', novel.novelId]"
+        class="btn-blue"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
+      <button (click)="doDelete(novel)" mat-flat-button color="warn"><i class="bi bi-trash"></i> Xóa</button>
     </div>
-    
+
     <div class="social-metrics">
       <div class="metric"><mat-icon>visibility</mat-icon> {{ novel.viewCount }}</div>
       <div class="metric"><mat-icon>star</mat-icon> {{ novel.novelRating }}</div>
@@ -59,3 +72,8 @@
     </div>
   </mat-card-actions>
 </mat-card>
+
+
+<app-confim-delete-repype *ngIf="showConfirmDelete" [content]="confirmContent" [contentValidate]="confirmValidate"
+  (isValidate)="handleConfirmDelete($event)">
+</app-confim-delete-repype>

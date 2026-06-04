@@ -1,0 +1,35 @@
+<div class="overlay">
+  <div class="popup-box mat-elevation-z8">
+    <div class="popup-header">
+      <h2 class="popup-title">
+        <mat-icon color="warn">warning</mat-icon>
+        Xác nhận xóa
+      </h2>
+      <button mat-icon-button (click)="onCancel()" class="close-btn" type="button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="popup-content">
+      <p class="warning-text">{{content}}</p>
+      
+      <div class="validate-section">
+        <p>Vui lòng nhập <strong class="highlight-text">{{contentValidate}}</strong> để xác nhận hành động này.</p>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nhập giá trị xác nhận</mat-label>
+          <input matInput name="confirmInput" [(ngModel)]="inputValue" #confirmInput="ngModel" [pattern]="contentValidate" placeholder="{{contentValidate}}" />
+          <mat-error *ngIf="confirmInput.invalid && (confirmInput.dirty || confirmInput.touched)">
+            Giá trị không trùng khớp!
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="popup-actions">
+      <button mat-stroked-button (click)="onCancel()" type="button">Hủy</button>
+      <button mat-flat-button color="warn" [disabled]="inputValue !== contentValidate" (click)="onConfirm()" type="button">
+        Xác nhận xóa
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="pagination">
+    <!-- Nút Trang đầu -->
+    <button (click)="onPageChange(1)" [disabled]="currentPage === 1" title="Trang đầu">
+        <i class="bi bi-chevron-double-left"></i>
+    </button>
+
+    <!-- Nút Trang trước -->
+    <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1" title="Trang trước">
+        <i class="bi bi-arrow-left-circle"></i>
+    </button>
+
+    <ng-container *ngFor="let page of visiblePages()">
+        <button (click)="onPageChange(page)" [class.active]="page === currentPage" class="page-number-btn">
+            {{ page }}
+        </button>
+    </ng-container>
+
+    <!-- Nút Trang sau -->
+    <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPage" title="Trang sau">
+        <i class="bi bi-arrow-right-circle"></i>
+    </button>
+
+    <!-- Nút Trang cuối -->
+    <button (click)="onPageChange(totalPage)" [disabled]="currentPage === totalPage" title="Trang cuối">
+        <i class="bi bi-chevron-double-right"></i>
+    </button>
+</div>
