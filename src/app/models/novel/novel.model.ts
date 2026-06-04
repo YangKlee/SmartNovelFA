@@ -1,3 +1,4 @@
+import { Category } from "../category/category.model";
 import { User } from "../user/user.model";
 
 export class Novel {
@@ -11,12 +12,12 @@ export class Novel {
   status?: string;
   uid?: string;
   viewCount?: number;   
-  author?: User;
+  authorId?: string;
+  categories?: Category[];
   countChapter?: number;
   countChapterPublic?:number;
   countChapterDraf?:number;
   countChapterRemove?:number;
-  categories?: string[];
   novelRating?:number;
   authorName?: string;
   likeCount?: number;
