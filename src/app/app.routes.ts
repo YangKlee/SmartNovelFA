@@ -17,10 +17,12 @@ import { ChapterManagerment } from './component/author/chapter-managerment/chapt
 import { CreateChapter } from './component/author/create-chapter/create-chapter';
 import { ReadNovel } from './component/common/read-novel/read-novel';
 import { NovelDetail } from './component/reading-system/novel-detail/novel-detail';
+import { Home } from './component/HomePage/home/home';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
         path: "", component: UserLayout, children: [
+            { path: "", component: Home },
             {
                 path: "account", component: Account, canActivate: [authGuard],
                 data: {
@@ -29,17 +31,17 @@ export const routes: Routes = [
                     { path: "update-info", component: ModifyInfo },
                     { path: "change-password", component: ChangePassword }
                 ]
-               
+
             },
-                {
+            {
                 path: "novel/:novelID",
                 children: [
-                    {path: "",component: NovelDetail},
-                    {path: "chapter/:chapterID", component:ReadNovel}
+                    { path: "", component: NovelDetail },
+                    { path: "chapter/:chapterID", component: ReadNovel }
                 ]
-                },
-             
-     
+            },
+
+
         ]
     },
     { path: "auth", redirectTo: "auth/login", pathMatch: "full" },
@@ -55,18 +57,24 @@ export const routes: Routes = [
     // nhánh layout dashboard, sau này nhớ thêm chặn quyền truy cập ở đây
     {
         path: "dashboard", component: DashboardLayout, children: [
-            {path: "author", children:[
-                {path:"novel-manager", component:NovelManager, children:[
-                    {path: "create-novel", component:CreateNovel},
-                    {path: "modify-novel/:idNovel", component:CreateNovel}
-                ]},
-                {path:"chapter-manager/:id", component:ChapterManagerment, children:[
-                    {path: 'create-chapter', component:CreateChapter}
-                ]}
-            ], canActivate: [authGuard],
+            {
+                path: "author", children: [
+                    {
+                        path: "novel-manager", component: NovelManager, children: [
+                            { path: "create-novel", component: CreateNovel },
+                            { path: "modify-novel/:idNovel", component: CreateNovel }
+                        ]
+                    },
+                    {
+                        path: "chapter-manager/:id", component: ChapterManagerment, children: [
+                            { path: 'create-chapter', component: CreateChapter }
+                        ]
+                    }
+                ], canActivate: [authGuard],
                 data: {
-                    requiredRoles: [ 'author']
-                }, }
+                    requiredRoles: ['author']
+                },
+            }
         ]
     },
 ];
