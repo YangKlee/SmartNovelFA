@@ -109,7 +109,7 @@
             </div>
 
             <div class="chapter-grid" *ngIf="chapters().length > 0; else noChaptersTemplate">
-                <a *ngFor="let chapter of chapters()" class="chapter-link" href="javascript:void(0)">
+                <a *ngFor="let chapter of chapters()" class="chapter-link" [routerLink]="['./chapter', chapter.chapterId]">
                     <i class="bi bi-bookmark"></i>
                     Chương {{ chapter.chaperOrder }}
                     -

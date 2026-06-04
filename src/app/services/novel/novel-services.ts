@@ -25,9 +25,9 @@ export class NovelServices {
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
-  public getNovel(slug: string): Observable<Novel> {
+  public getNovel(novelID: string): Observable<Novel> {
     return this.httpClient.get<any>(
-      `${environment.apiUrl}/novel/${slug}`,
+      `${environment.apiUrl}/novel/${novelID}`,
       this.httpOptions
     );
   }

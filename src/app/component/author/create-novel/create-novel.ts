@@ -21,13 +21,13 @@ export class CreateNovel implements OnInit {
   bannerPreview: string | null = null;
   coverFile: File | null = null;
   bannerFile: File | null = null;
-  genreList!: Category[];
+  genreList: Category[] = [];
   novelIdEdit: string | null = null;
   novelDataEdit: Novel | null = null;
   constructor(private fb: FormBuilder, private novelServices: NovelServices,
-     private categoryServices:CategoryServices, private router: Router,
-      private cdr: ChangeDetectorRef, private route: ActivatedRoute) {
-    
+    private categoryServices: CategoryServices, private router: Router,
+    private cdr: ChangeDetectorRef, private route: ActivatedRoute) {
+
 
     this.novelForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(255)]],
@@ -37,26 +37,24 @@ export class CreateNovel implements OnInit {
       genres: [[]]
     });
   }
-  ngOnInit()
-  {
-        this.categoryServices.getAllActiveCategory().subscribe({
-      next: (res)=>{
+  ngOnInit() {
+    this.categoryServices.getAllActiveCategory().subscribe({
+      next: (res) => {
         this.genreList = res;
 
       },
-      error: (res)=>{
+      error: (res) => {
         console.error(res);
       }
     })
     this.route.paramMap.subscribe(params => {
       // Tên biến truyền vào hàm get() phải khớp 100% với tên đặt ở file Routing ('idNovel')
-      this.novelIdEdit = params.get('idNovel'); 
-      if(this.novelIdEdit != null)
-      {
+      this.novelIdEdit = params.get('idNovel');
+      if (this.novelIdEdit != null) {
         this.novelServices.getInfoNovelForReader(this.novelIdEdit).subscribe({
-          next: (res)=>{
+          next: (res) => {
             this.novelDataEdit = res;
-            
+
             // Patch form với dữ liệu cũ
             this.novelForm.patchValue({
               title: res.title,
@@ -90,7 +88,7 @@ export class CreateNovel implements OnInit {
   // Lắng nghe sự kiện tick/bỏ tick checkbox
   onGenreChange(event: any, genreId: string) {
     const isChecked = event.target.checked;
-    
+
     if (isChecked) {
       // Tick chọn -> Thêm ID vào mảng
       const updatedGenres = [...this.selectedGenres, genreId];
@@ -135,12 +133,12 @@ export class CreateNovel implements OnInit {
 
   onSubmit() {
     if (this.novelForm.valid) {
-        const formData = new FormData();
-        formData.append('title', this.novelForm.get('title')?.value);
+      const formData = new FormData();
+      formData.append('title', this.novelForm.get('title')?.value);
       formData.append('description', this.novelForm.get('description')?.value);
       formData.append('ageRating', this.novelForm.get('ageRating')?.value);
       formData.append('status', this.novelForm.get('status')?.value);
-      
+
       // Đính kèm danh sách thể loại vào FormData để gửi lên Backend
       const genresToSubmit = this.selectedGenres;
       for (const genreId of genresToSubmit) {
@@ -157,12 +155,12 @@ export class CreateNovel implements OnInit {
       if (this.novelIdEdit != null && this.novelDataEdit != null) {
         // Chế độ Edit (Cập nhật)
         this.novelServices.updateNovel(this.novelIdEdit, formData).subscribe({
-          next: (res)=>{
+          next: (res) => {
             alert("Cập nhật thành công!");
-             this.novelServices.reloadNovelList.next(true);
+            this.novelServices.reloadNovelList.next(true);
             this.router.navigate(['dashboard/author/novel-manager']);
           },
-          error: (err)=>{
+          error: (err) => {
             alert("Có lỗi xảy ra khi cập nhật");
             console.error(err?.error?.msg || err);
           }
@@ -170,12 +168,12 @@ export class CreateNovel implements OnInit {
       } else {
         // Chế độ Create (Thêm mới)
         this.novelServices.createNovel(formData).subscribe({
-          next: (res)=>{
+          next: (res) => {
             alert("Thêm thành công!");
-             this.novelServices.reloadNovelList.next(true);
+            this.novelServices.reloadNovelList.next(true);
             this.router.navigate(['dashboard/author/novel-manager']);
           },
-          error: (err)=>{
+          error: (err) => {
             alert("Có lỗi xảy ra khi thêm mới");
             console.error(err?.error?.msg || err);
           }

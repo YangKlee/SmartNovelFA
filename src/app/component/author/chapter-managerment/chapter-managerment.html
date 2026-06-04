@@ -25,7 +25,8 @@
     </div>
 
     <div class="search-filter-row" style="display: flex; gap: 16px;">
-      <mat-form-field appearance="fill" subscriptSizing="dynamic" class="custom-field status-select" style="width: 200px;">
+      <mat-form-field appearance="fill" subscriptSizing="dynamic" class="custom-field status-select"
+        style="width: 200px;">
         <mat-select [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange()">
           <mat-option value="all">Tất cả trạng thái</mat-option>
           <mat-option value="public">Đã đăng</mat-option>
@@ -35,7 +36,8 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill" subscriptSizing="dynamic" class="custom-field search-box" style="flex: 1;">
-        <input matInput placeholder="Tìm kiếm theo tiêu đề hoặc nội dung...." [(ngModel)]="searchQuery" (keyup.enter)="onSearchChange()">
+        <input matInput placeholder="Tìm kiếm theo tiêu đề hoặc nội dung...." [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearchChange()">
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </div>
@@ -66,10 +68,8 @@
     </app-chapter-manager-item>
   </div>
 
-  <app-pagination *ngIf="totalPages > 1" 
-                  [currentPage]="currentPage" 
-                  [totalPage]="totalPages" 
-                  (pageChange)="onPageChange($event)">
+  <app-pagination *ngIf="totalPages > 1" [currentPage]="currentPage" [totalPage]="totalPages"
+    (pageChange)="onPageChange($event)">
   </app-pagination>
 </div>
 

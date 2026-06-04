@@ -29,24 +29,24 @@ export class NovelDetail implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const slug = params.get('slug');
-      console.log('Slug:', slug);
+      const novelid = params.get('novelID');
+      console.log('Slug:', novelid);
 
-      if (!slug) {
+      if (!novelid) {
         this.isLoading.set(false);
         this.cdr.detectChanges();
         return;
       }
 
-      this.loadNovel(slug);
+      this.loadNovel(novelid);
     });
   }
 
-  loadNovel(slug: string): void {
+  loadNovel(novelID: string): void {
     this.isLoading.set(true);
 
     this.novelService
-      .getNovel(slug)
+      .getNovel(novelID)
       .subscribe({
         next: (res: any) => {
           console.log('Novel API:', res);
