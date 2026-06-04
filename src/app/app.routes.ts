@@ -6,8 +6,9 @@ import { Login } from './component/auth/login/login';
 import { DashboardLayout } from './layout/dashboard-layout/dashboard-layout';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
-    {path:"", component:UserLayout, children:[
-        
+    {path:"", component:UserLayout, 
+        children:[
+        {path: "", component: DashboardLayout}
     ]},
     {path:"auth", redirectTo:"auth/login", pathMatch:"full"},
     // nhánh layout login

@@ -26,4 +26,8 @@ export class User {
   timeOutType?: string;
 
   creatorPoint?: number;
+
+  constructor(init?: Partial<User>) {
+    Object.assign(this, init);
+  }
 }
