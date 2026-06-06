@@ -1,0 +1,81 @@
+<div class="chapter-manager-container">
+  <div class="header-section">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <button mat-icon-button routerLink="/dashboard/author/novel-manager" aria-label="Quay lại">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2 class="page-title">Quản lý chương</h2>
+    </div>
+    <button [routerLink]="['create-chapter']" mat-flat-button class="add-btn">
+      <mat-icon>add</mat-icon>
+      Thêm chương mới
+    </button>
+  </div>
+
+  <div class="filter-section">
+    <div class="novel-select-row">
+      <span class="label">Chọn truyện:</span>
+      <mat-form-field appearance="fill" subscriptSizing="dynamic" class="custom-field novel-select">
+        <mat-select [(ngModel)]="selectedNovelID" (selectionChange)="onNovelChange()">
+          <mat-option *ngFor="let novel of (novels | async)" [value]="novel.novelId">
+            {{ novel.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="search-filter-row" style="display: flex; gap: 16px;">
+      <mat-form-field appearance="fill" subscriptSizing="dynamic" class="custom-field status-select"
+        style="width: 200px;">
+        <mat-select [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange()">
+          <mat-option value="all">Tất cả trạng thái</mat-option>
+          <mat-option value="public">Đã đăng</mat-option>
+          <mat-option value="draft">Bản nháp</mat-option>
+          <mat-option value="cancel">Đã gỡ</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" subscriptSizing="dynamic" class="custom-field search-box" style="flex: 1;">
+        <input matInput placeholder="Tìm kiếm theo tiêu đề hoặc nội dung...." [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearchChange()">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card total">
+        <div class="stat-number">{{selectedNovel?.countChapter}}</div>
+        <div class="stat-label">Tổng số chương</div>
+      </div>
+      <div class="stat-card public">
+        <div class="stat-number">{{selectedNovel?.countChapterPublic}}</div>
+        <div class="stat-label">Đã đăng</div>
+      </div>
+      <div class="stat-card draft">
+        <div class="stat-number">{{selectedNovel?.countChapterDraf}}</div>
+        <div class="stat-label">Bản nháp</div>
+      </div>
+      <div class="stat-card removed">
+        <div class="stat-number">{{selectedNovel?.countChapterRemove}}</div>
+        <div class="stat-label">Đã gỡ</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapter-list">
+    <app-chapter-manager-item *ngFor="let chapter of (chapters|async)" [chapter]="chapter"
+      (view)="onViewChapter($event)" (edit)="onEditChapter($event)" (delete)="onDeleteChapter($event)">
+    </app-chapter-manager-item>
+  </div>
+
+  <app-pagination *ngIf="totalPages > 1" [currentPage]="currentPage" [totalPage]="totalPages"
+    (pageChange)="onPageChange($event)">
+  </app-pagination>
+</div>
+
+<app-confim-delete-repype *ngIf="isConfirmDeleteOpen"
+  [content]="'Bạn có chắc chắn muốn xoá chương này không? Dữ liệu không thể khôi phục.'"
+  [contentValidate]="chapterToDelete?.chapterTitle || ''" (isValidate)="handleDeleteConfirm($event)">
+</app-confim-delete-repype>
+
+<router-outlet></router-outlet>

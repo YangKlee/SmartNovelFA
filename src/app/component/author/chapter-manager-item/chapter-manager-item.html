@@ -1,0 +1,59 @@
+<mat-card class="chapter-card" appearance="outlined">
+  <mat-card-content class="chapter-content">
+
+    <div class="chapter-header-row">
+      <div class="chapter-title-area">
+        <div class="chapter-order-badge" matTooltip="Thứ tự chương">
+          {{ chapter.chaperOrder }}
+        </div>
+        <h3 class="chapter-title">{{ chapter.chapterTitle }}</h3>
+
+        <span class="status-badge" [ngClass]="chapter.status">
+          <ng-container [ngSwitch]="chapter.status">
+            <span *ngSwitchCase="'public'">Đã đăng</span>
+            <span *ngSwitchCase="'draft'">Bản nháp</span>
+            <span *ngSwitchCase="'removed'">Đã gỡ</span>
+          </ng-container>
+          <mat-icon class="status-icon" *ngIf="chapter.status === 'public'">visibility</mat-icon>
+          <mat-icon class="status-icon" *ngIf="chapter.status === 'draft'">edit_note</mat-icon>
+          <mat-icon class="status-icon" *ngIf="chapter.status === 'removed'">error_outline</mat-icon>
+        </span>
+      </div>
+    </div>
+
+    <div class="chapter-snippet-container">
+      <div class="chapter-snippet">
+        {{ chapter.summaryChapter || 'Không có mô tả cho chương này.' }}
+      </div>
+    </div>
+
+    <div class="chapter-footer-row">
+      <div class="chapter-footer">
+        <span class="date-info" *ngIf="chapter.updateTime">
+          <mat-icon class="tiny-icon">update</mat-icon>
+          Cập nhật: {{ chapter.updateTime | date:'d/M/yyyy' }}
+        </span>
+        <span class="date-info" *ngIf="chapter.createTime">
+          <mat-icon class="tiny-icon">event</mat-icon>
+          Tạo: {{ chapter.createTime | date:'d/M/yyyy' }}
+        </span>
+      </div>
+
+      <div class="chapter-actions">
+        <button mat-stroked-button (click)="onView()" matTooltip="Xem trước chương">
+          <mat-icon>visibility</mat-icon>
+          Xem
+        </button>
+        <button mat-stroked-button color="primary" (click)="onEdit()" matTooltip="Chỉnh sửa chương">
+          <mat-icon>edit</mat-icon>
+          Sửa
+        </button>
+        <button mat-stroked-button color="warn" (click)="onDelete()" matTooltip="Xóa chương">
+          <mat-icon>delete</mat-icon>
+          Xóa
+        </button>
+      </div>
+    </div>
+
+  </mat-card-content>
+</mat-card>

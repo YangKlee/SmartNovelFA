@@ -1,0 +1,179 @@
+.filter-page-container {
+    background-color: #ffffff;
+    min-height: 100vh;
+    padding: 25px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* BẢNG BỌC NGOÀI CHỨA BỘ LỌC MÀU XANH NHẠT CHUẨN MẪU */
+.filter-box {
+    background-color: #f4fbfd;
+    border: 1px solid #ccebfa;
+    border-radius: 4px;
+    padding: 20px 25px;
+    max-width: 1100px;
+    margin: 0 auto 30px auto;
+}
+
+.filter-title {
+    font-size: 16px;
+    color: #555555;
+    margin: 0 0 10px 0;
+    font-weight: normal;
+}
+
+.divider {
+    border: 0;
+    border-top: 1px solid #bce1f4;
+    margin: 15px 0;
+}
+
+/* Thiết lập cấu trúc từng hàng lọc */
+.filter-row {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px dashed #d0e9f7; /* Đường nét đứt mảnh ngăn cách */
+}
+
+.filter-row:last-of-type {
+    border-bottom: none;
+}
+
+.row-label {
+    width: 110px;
+    font-weight: bold;
+    color: #222222;
+    font-size: 14px;
+    padding-top: 2px;
+}
+
+.options-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    flex: 1;
+}
+
+/* Dàn trang các mục checkbox thể loại thành lưới 5 cột bằng nhau */
+.options-group.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px 20px;
+}
+
+.options-group label {
+    font-size: 14px;
+    color: #333333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+}
+
+.options-group input[type="radio"], 
+.options-group input[type="checkbox"] {
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    margin: 0;
+}
+
+/* Phần khối tìm kiếm lớn bên dưới đáy bảng */
+.search-bottom-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.input-search-wrapper {
+    width: 55%;
+}
+
+.input-search-wrapper input {
+    width: 100%;
+    height: 38px;
+    padding: 0 15px;
+    border: 1px solid #a5d6f1;
+    border-radius: 20px; /* Bo tròn thanh nhập liệu */
+    outline: none;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.input-search-wrapper input:focus {
+    border-color: #3ebde5;
+    box-shadow: 0 0 4px rgba(62, 189, 229, 0.4);
+}
+
+.btn-submit-filter {
+    background: linear-gradient(to bottom, #7ce2f7, #3ebde5);
+    color: white;
+    border: 1px solid #33a8cb;
+    padding: 9px 45px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-submit-filter:hover {
+    background: #33a8cb;
+}
+
+/* VÙNG KẾT QUẢ HIỂN THỊ DANH SÁCH TRUYỆN */
+.results-section {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.result-heading {
+    color: #222222;
+    font-size: 18px;
+    margin-bottom: 20px;
+    border-left: 4px solid #3ebde5;
+    padding-left: 10px;
+}
+
+.novel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.novel-card {
+    background: #2b2b35; /* Màu xám tối đồng bộ giao diện header */
+    border-radius: 8px;
+    padding: 15px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.novel-info h5 {
+    margin: 0 0 8px 0;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.status-tag {
+    font-size: 12px;
+    color: #b3b3b3;
+    margin: 0;
+}
+
+/* THÔNG BÁO KHÔNG CÓ TRUYỆN CHỮ ĐỎ */
+.no-data-alert {
+    background-color: #2b2b35;
+    color: #ff6b6b;
+    border-radius: 14px;
+    padding: 24px;
+    font-size: 15px;
+    text-align: center;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+

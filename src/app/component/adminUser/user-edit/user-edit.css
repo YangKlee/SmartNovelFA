@@ -1,0 +1,124 @@
+/* Phủ mờ màn hình phía sau */
+.modal-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Hộp form hiển thị ở giữa */
+.modal-box {
+  background: #fff;
+  width: 450px;
+  max-width: 90%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+}
+
+.btn-close:hover { color: #f44336; }
+
+.inputs-area {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-weight: 500;
+  font-size: 14px;
+  color: #444;
+}
+
+.form-group input, .form-group select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Hiển thị viền đỏ khi Validate Form lỗi */
+.is-invalid {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.text-danger { color: #dc3545; }
+
+.row-group {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.row-group .col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.buttons-area {
+  padding: 16px 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-cancel {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-submit {
+  padding: 8px 16px;
+  border: none;
+  background: #007bff;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-submit:hover { background: #0056b3; }
+.btn-cancel:hover { background: #f1f1f1; }

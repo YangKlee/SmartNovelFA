@@ -1,0 +1,102 @@
+<div class="account-container">
+    <div class="account-header">
+        <h1 class="page-title">HỒ SƠ CÁ NHÂN</h1>
+        <p class="page-subtitle">Quản lý thông tin bảo mật và cài đặt tài khoản của bạn</p>
+    </div>
+
+    <div class="profile-wrapper">
+        <div class="sidebar">
+            <div class="profile-card">
+                <div class="avatar-wrap">
+                    @if (userData?.avartarUrl) {
+                        <img [src]="userData?.avartarUrl" alt="Avatar" class="avatar-img">
+                    } @else {
+                        <div class="avatar-placeholder">
+                            <mat-icon>person</mat-icon>
+                        </div>
+                    }
+                </div>
+                <h2 class="username">{{userData?.username || 'Người dùng'}}</h2>
+                <span class="role-badge">{{userData?.roleId || 'Thành viên'}}</span>
+            </div>
+
+            <div class="action-card">
+                <div class="btn-group-custom">
+                    <button mat-flat-button color="primary" class="compact-btn" routerLink="update-info">
+                        <mat-icon>edit</mat-icon>
+                        Sửa thông tin
+                    </button>
+                    <button mat-stroked-button color="primary" class="compact-btn" routerLink="change-password">
+                        <mat-icon>lock</mat-icon>
+                        Đổi mật khẩu
+                    </button>
+                    <button mat-stroked-button color="primary" class="compact-btn">
+                        <mat-icon>email</mat-icon>
+                        Đổi Email
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="info-card">
+                <div class="info-card-header">
+                    <mat-icon class="header-icon">account_circle</mat-icon>
+                    <h2 class="user-inf-title">Thông tin chi tiết</h2>
+                </div>
+                <div class="table-wrapper">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr>
+                                <td class="col-label">
+                                    <div class="label-with-icon">
+                                        <mat-icon class="row-icon">badge</mat-icon>
+                                        <span>UID</span>
+                                    </div>
+                                </td>
+                                <td class="col-value">{{userData?.uid || 'N/A'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-label">
+                                    <div class="label-with-icon">
+                                        <mat-icon class="row-icon">face</mat-icon>
+                                        <span>Tên hiển thị</span>
+                                    </div>
+                                </td>
+                                <td class="col-value">{{userData?.displayName || 'Chưa cập nhật'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-label">
+                                    <div class="label-with-icon">
+                                        <mat-icon class="row-icon">mail</mat-icon>
+                                        <span>Email</span>
+                                    </div>
+                                </td>
+                                <td class="col-value">{{userData?.email || 'Chưa cập nhật'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-label">
+                                    <div class="label-with-icon">
+                                        <mat-icon class="row-icon">cake</mat-icon>
+                                        <span>Ngày sinh</span>
+                                    </div>
+                                </td>
+                                <td class="col-value">{{userData?.birthday ?? "Chưa cập nhật"}}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-label">
+                                    <div class="label-with-icon">
+                                        <mat-icon class="row-icon">phone</mat-icon>
+                                        <span>Di động</span>
+                                    </div>
+                                </td>
+                                <td class="col-value">{{userData?.phone || 'Chưa cập nhật'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<router-outlet></router-outlet>
