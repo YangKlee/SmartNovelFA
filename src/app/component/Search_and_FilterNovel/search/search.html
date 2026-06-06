@@ -21,7 +21,7 @@
   <div class="search-result" *ngIf="showSearch && searchKeyword.trim() !== ''">
 
     <div class="novel-item" *ngFor="let novel of novels">
-      {{ novel.title }}
+      <span [routerLink]="['novel/',novel.novelId]">{{ novel.title }}</span>
     </div>
 
     <div class="novel-item no-result"
