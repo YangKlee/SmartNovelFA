@@ -57,7 +57,7 @@
 
   <mat-card-actions class="action-bar">
     <div class="action-buttons">
-      <button mat-flat-button class="btn-orange"><i class="bi bi-book"></i> Xem truyện</button>
+      <button mat-flat-button [routerLink]="['/novel', novel.novelId]" class="btn-orange"><i class="bi bi-book"></i> Xem truyện</button>
       <button type="button" [routerLink]="['/dashboard/author/chapter-manager', novel.novelId]" mat-flat-button
         class="btn-indigo"><i class="bi bi-list-task"></i> Quản lý chương</button>
       <button mat-flat-button [routerLink]="['/dashboard/author/novel-manager/modify-novel', novel.novelId]"

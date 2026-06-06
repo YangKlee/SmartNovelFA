@@ -50,8 +50,8 @@ export class ReadNovel implements OnInit {
       if (this.novelId != null && isPlatformBrowser(this.platformId)) {
         this.novel = this.novelServices.getInfoNovelForReader(this.novelId);
         this.chapters$ = this.chapterServices.getChapterByNovel(this.novelId);
+        this.loadChapter();
       }
-      this.loadChapter();
     });
   }
   loadChapter() {

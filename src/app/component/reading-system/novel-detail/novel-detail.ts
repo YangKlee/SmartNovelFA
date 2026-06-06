@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectorRef, signal } from '@angular/core'; // 1. Thêm signal từ @angular/core
+import { Component, OnInit, ChangeDetectorRef, signal, PLATFORM_ID, inject } from '@angular/core'; // 1. Thêm signal từ @angular/core
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 import { NovelServices } from '../../../services/novel/novel-services';
 
@@ -15,6 +15,7 @@ import { NovelServices } from '../../../services/novel/novel-services';
   styleUrl: './novel-detail.css'
 })
 export class NovelDetail implements OnInit {
+  private platformId = inject(PLATFORM_ID);
 
   // 2. Chuyển đổi các biến thông thường sang Angular Signals để triệt tiêu lỗi NG0100
   novel = signal<any>(null);
@@ -28,25 +29,30 @@ export class NovelDetail implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const slug = params.get('slug');
-      console.log('Slug:', slug);
 
-      if (!slug) {
+    if (isPlatformBrowser(this.platformId)) {
+      window.scrollTo(0, 0);
+    }
+
+    this.route.paramMap.subscribe(params => {
+      const novelid = params.get('novelID');
+      console.log('Slug:', novelid);
+
+      if (!novelid) {
         this.isLoading.set(false);
         this.cdr.detectChanges();
         return;
       }
 
-      this.loadNovel(slug);
+      this.loadNovel(novelid);
     });
   }
 
-  loadNovel(slug: string): void {
+  loadNovel(novelID: string): void {
     this.isLoading.set(true);
 
     this.novelService
-      .getNovel(slug)
+      .getNovel(novelID)
       .subscribe({
         next: (res: any) => {
           console.log('Novel API:', res);

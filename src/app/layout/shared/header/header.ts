@@ -1,25 +1,33 @@
-import { Component, Inject, OnInit, PLATFORM_ID, ChangeDetectorRef, NgZone, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, ChangeDetectorRef, NgZone, AfterViewInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
-import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterOutlet, RouterLink, RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AuthServices } from '../../../services/auth/auth-services';
 import { MenuNavServices } from '../../../services/menu-nav/menu-nav-services';
 import { User } from '../../../models/user/user.model';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
-import { Router } from '@angular/router';
 import { MenuNav } from '../../../models/menu-nav/menu-nav.model';
+import { SearchComponent } from '../../../component/Search_and_FilterNovel/search/search';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatButtonModule, MatMenuModule, RouterOutlet, RouterLink, FormsModule, SearchComponent],
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
 export class Header implements OnInit, AfterViewInit {
   public user$ = new BehaviorSubject<User | null>(null);
+  
+  showSearch = false;     // Trạng thái ẩn/hiện ô input tìm kiếm
+  searchKeyword = '';     // Biến binding kép ngModel cho từ khóa gõ vào
+  novels: any[] = [];     // Mảng chứa danh sách truyện kết quả hiển thị tại chỗ
+
   public menus: MenuNav[] = [];
   public roleMenus: MenuNav[] = [];
 
@@ -27,6 +35,7 @@ export class Header implements OnInit, AfterViewInit {
     private authServices: AuthServices,
     private menuNavServices: MenuNavServices,
     private router: Router,
+    private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private zone: NgZone, // Ép Angular chạy các tác vụ bất đồng bộ an toàn
     @Inject(PLATFORM_ID) private platformId: Object

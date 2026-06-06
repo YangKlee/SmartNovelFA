@@ -4,6 +4,7 @@
 
   <!-- THANH MENU CHUNG (MẶC ĐỊNH LUÔN HIỆN GIỮA THANH HEADER) -->
   <nav class="nav-links">
+    
     <div class="dropdown" *ngFor="let item of menus">
       <a class="nav-item" [routerLink]="item.urlLink || '/'">
         <i *ngIf="item.iconBootstrap" [class]="item.iconBootstrap"></i>
@@ -19,7 +20,7 @@
       </div>
     </div>
   </nav>
-
+  <app-search></app-search>
   <!-- KHU VỰC BÊN PHẢI: CHƯA ĐĂNG NHẬP -->
   <div class="auth-buttons" *ngIf="(user$ | async) == null">
     <button class="btn btn-login" (click)="loginBtn()">Đăng nhập</button>

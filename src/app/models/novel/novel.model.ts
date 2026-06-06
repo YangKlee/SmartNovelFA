@@ -5,7 +5,7 @@ export class Novel {
     novelId?: string;
   title?: string;
   slug?: string;
-  description?: string; // Dấu ? tương đương với string? (nullable)
+  description?: string; 
   ageRating?: string;
   imageNovelUrl?: string;
   imageBanerNovelUrl?: string;
@@ -23,4 +23,6 @@ export class Novel {
   likeCount?: number;
   createTime?: Date | string; 
   updateTime?: Date | string;
+
+
 }

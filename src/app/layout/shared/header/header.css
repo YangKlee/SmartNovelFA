@@ -153,6 +153,17 @@
   transition: background 0.2s ease;
 }
 
+
+
+.user-info {
+    color: white !important;
+}
+
+.user-info i {
+    color: white !important;
+}
+
+
 .user-dropdown-menu a:hover {
    background: rgba(255,255,255,0.08); 
 }

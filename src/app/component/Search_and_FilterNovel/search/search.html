@@ -1,0 +1,36 @@
+<div class="search-wrapper" [class.active]="showSearch">
+
+  <div class="search-trigger" *ngIf="!showSearch" (click)="toggleSearch()">
+    <i class="bi bi-search"></i>
+    <span>Tìm truyện</span>
+  </div>
+
+  <div class="search-box" *ngIf="showSearch">
+    <i class="bi bi-search"></i>
+
+    <input
+      type="text"
+      placeholder="Tìm truyện..."
+      [(ngModel)]="searchKeyword"
+      (input)="searchNovel()"
+    />
+
+    <i class="bi bi-x-lg close-icon" (click)="toggleSearch()"></i>
+  </div>
+
+  <div class="search-result" *ngIf="showSearch && searchKeyword.trim() !== ''">
+
+    <div class="novel-item" *ngFor="let novel of novels">
+      <span [routerLink]="['novel/',novel.novelId]">{{ novel.title }}</span>
+    </div>
+
+    <div class="novel-item no-result"
+         *ngIf="novels.length === 0"
+         style="color: #ff6b6b; cursor: default;">
+      <i class="bi bi-exclamation-circle"></i>
+      Không có truyện nào được tìm thấy
+    </div>
+
+  </div>
+
+</div>
