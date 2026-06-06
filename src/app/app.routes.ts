@@ -90,7 +90,8 @@ export const routes: Routes = [
                 data: {
                     requiredRoles: ['admin']
                 },
-            }
+            },
+          { path: "moderation", component: ModerationComponent }
         ]
     },
 ];
