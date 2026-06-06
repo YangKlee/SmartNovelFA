@@ -19,6 +19,7 @@ import { ReadNovel } from './component/common/read-novel/read-novel';
 import { NovelDetail } from './component/reading-system/novel-detail/novel-detail';
 import { Home } from './component/HomePage/home/home';
 import { FilterPanelComponent } from './component/Search_and_FilterNovel/filter-panel/filter-panel';
+import { UserManagerComponent } from './component/admin/user-manager/user-manager';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -75,10 +76,19 @@ export const routes: Routes = [
                         path: "chapter-manager/:id", component: ChapterManagerment, children: [
                             { path: 'create-chapter', component: CreateChapter }
                         ]
+
                     }
                 ], canActivate: [authGuard],
                 data: {
                     requiredRoles: ['author']
+                },
+            },
+            {
+              path:"admin", children:[
+                  {path:"user-manager", component:UserManagerComponent}
+              ], canActivate: [authGuard],
+                data: {
+                    requiredRoles: ['admin']
                 },
             }
         ]

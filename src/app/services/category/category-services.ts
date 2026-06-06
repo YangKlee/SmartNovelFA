@@ -9,7 +9,7 @@ import { environment } from '../../env';
 export class CategoryServices {
   // Biến từ nhánh Search
   // SỬA TẠI ĐÂY: Thêm chữ 's' vào sau api/Categories để khớp y chang Controller Backend
-  private apiUrl = 'https://localhost:7134/api/Categories'; 
+  //private apiUrl = 'https://localhost:7134/api/Categories'; 
 
   // Biến từ nhánh sprint1-dev
   private URL_CATEGORY: string = `${environment.apiUrl}/Categories`;
