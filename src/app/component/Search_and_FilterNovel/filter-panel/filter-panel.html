@@ -73,7 +73,7 @@
   <div class="results-section">
     <h4 class="result-heading">Danh sách truyện tìm được</h4>
     <div class="novel-grid" *ngIf="filteredNovels && filteredNovels.length > 0">
-      <div class="novel-card" *ngFor="let novel of filteredNovels">
+      <div class="novel-card" *ngFor="let novel of filteredNovels" [routerLink]="['../novel/', novel.novelId]">
         <div class="novel-info">
           <h5>{{ novel.title }}</h5>
           <p class="status-tag">Trạng thái: {{ novel.status }}</p>

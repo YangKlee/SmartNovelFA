@@ -25,7 +25,7 @@ export class CategoryServices {
 
   // Phương thức từ nhánh Search
   getAllCategories(): Observable<any[]> {
-    return this.httpClient.get<any[]>(this.apiUrl);
+    return this.httpClient.get<any[]>(`${this.URL_CATEGORY}`);
   }
 
   // Phương thức từ nhánh sprint1-dev
