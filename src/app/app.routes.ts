@@ -18,16 +18,18 @@ import { CreateChapter } from './component/author/create-chapter/create-chapter'
 import { ReadNovel } from './component/common/read-novel/read-novel';
 import { NovelDetail } from './component/reading-system/novel-detail/novel-detail';
 import { Home } from './component/HomePage/home/home';
+import { FilterPanelComponent } from './component/Search_and_FilterNovel/filter-panel/filter-panel';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
         path: "", component: UserLayout, children: [
             { path: "", component: Home },
-            {
-                    {
+            
+                  {
                   path: "filter",
                   component: FilterPanelComponent
-                  }
+                  },
+                {
                 path: "account", component: Account, canActivate: [authGuard],
                 data: {
                     requiredRoles: ['admin', 'moderator', 'author', 'reader']

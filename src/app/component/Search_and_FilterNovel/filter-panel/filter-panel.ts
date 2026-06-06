@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { CategoryService } from '../../../services/category/category-services';
+import { CategoryServices } from '../../../services/category/category-services';
 
 @Component({
   selector: 'app-filter-panel',
@@ -54,7 +54,7 @@ export class FilterPanelComponent implements OnInit {
   currentUserId: string = 'U004';
   filteredNovels: any[] = [];
 
-  constructor(private http: HttpClient, private categoryService: CategoryService) {}
+  constructor(private http: HttpClient, private categoryService: CategoryServices) {}
 
   ngOnInit(): void {
     // 1. Lấy dữ liệu Thể loại
