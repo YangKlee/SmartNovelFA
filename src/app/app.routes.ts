@@ -16,6 +16,7 @@ import { CreateNovel } from './component/author/create-novel/create-novel';
 import { ChapterManagerment } from './component/author/chapter-managerment/chapter-managerment';
 import { CreateChapter } from './component/author/create-chapter/create-chapter';
 import { ReadNovel } from './component/common/read-novel/read-novel';
+import { UserManagerComponent } from './layout/admin/user-manager/user-manager';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {

@@ -1,0 +1,48 @@
+<div class="admin-container">
+    <div class="header-bar">
+        <h2>Quản Lý Tài Khoản</h2>
+        <button class="btn-create" (click)="openCreate()">+ Thêm Người Dùng</button>
+    </div>
+
+    <div class="filter-bar">
+        <input type="text" placeholder="Tìm theo tên, email..." [(ngModel)]="keyword" (keyup.enter)="loadUsers(true)">
+
+        <select [(ngModel)]="role" (change)="loadUsers(true)">
+            <option value="">-- Tất cả chức vụ --</option>
+            <option value="1">Admin</option>
+            <option value="2">Tác giả</option>
+            <option value="3">Độc giả</option>
+        </select>
+
+        <select [(ngModel)]="status" (change)="loadUsers(true)">
+            <option value="">-- Tất cả trạng thái --</option>
+            <option value="Active">Hoạt động</option>
+            <option value="Banned">Bị khóa</option>
+        </select>
+
+        <button class="btn-filter" (click)="loadUsers(true)">Tìm Kiếm</button>
+    </div>
+
+    <app-user-list 
+        [users]="users" 
+        (edit)="openEdit($event)" 
+        (delete)="deleteUser($event.uid, $event.name)">
+    </app-user-list>
+
+    <app-user-edit 
+        *ngIf="showForm" 
+        [userData]="selectedUser!" 
+        (close)="showForm = false" 
+        (refresh)="loadUsers()">
+    </app-user-edit>
+
+    <div class="pagination">
+        <button [disabled]="page === 1" (click)="prevPage()">« Trước</button>
+
+        <span>Trang {{ page }} / {{ totalPages }}</span> 
+        <button [disabled]="users.length < 10" (click)="nextPage()">Sau »</button>
+    </div>
+    <div class="total-records" *ngIf="totalUsers > 0">
+  Tổng số: {{ totalUsers }} người dùng
+</div>
+</div>

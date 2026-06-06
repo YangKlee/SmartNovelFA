@@ -1,0 +1,35 @@
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Tài khoản</th>
+      <th>Tên hiển thị</th>
+      <th>Email</th>
+      <th>Quyền hạn</th>
+      <th>Trạng thái</th>
+      <th>Thao tác</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let u of users">
+      <td><strong>{{ u.username }}</strong></td>
+      <td>{{ u.displayName }}</td>
+      <td>{{ u.email }}</td>
+     <td>
+  {{ u.roleId === '1' ? 'Admin' : (u.roleId === '2' ? 'Tác giả' : 'Độc giả') }}
+</td>
+      <td>
+        <span [class]="'badge ' + u.status">
+          {{ u.status === 'Active' ? 'Hoạt động' : 'Bị khóa' }}
+        </span>
+      </td>
+      <td>
+        <button class="btn-edit" (click)="onEdit(u)">Sửa</button>
+        <button class="btn-delete" (click)="onDelete(u.uid!, u.displayName!)">Xóa</button>
+      </td>
+    </tr>
+    
+    <tr *ngIf="users.length === 0">
+      <td colspan="6" class="empty-msg">Không tìm thấy tài khoản nào phù hợp.</td>
+    </tr>
+  </tbody>
+</table>
