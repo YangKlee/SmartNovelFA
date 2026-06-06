@@ -75,6 +75,7 @@
   margin: 0 0 8px 0;
   letter-spacing: -0.5px;
   line-height: 1.2;
+  color: white;
 }
 
 .hero-author {
@@ -167,4 +168,10 @@
   .hero-content { flex-direction: column; padding: 32px 24px; text-align: center; }
   .hero-info { align-items: center; }
   .hero-stats { justify-content: center; }
+}
+.summary-header{
+  color: white;
+}
+.hero-description{
+  color: white;
 }
