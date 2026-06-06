@@ -2,16 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
+import { environment } from '../../env';
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService {
-  // SỬA TẠI ĐÂY: Thêm chữ 's' vào sau api/Categories để khớp y chang Controller Backend
-  private apiUrl = 'https://localhost:7134/api/Categories'; 
+export class CategoryServices {
+  private  URL_CATEGORY: string = `${environment.apiUrl}/Categories`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-  getAllCategories(): Observable<any[]> {
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': "application/json"
+    }),
+  };
+  public getAllActiveCategory(): Observable<any>{
+    return this.httpClient.get<any>(`${this.URL_CATEGORY}/active`);
+  }
+    getAllCategories(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 }

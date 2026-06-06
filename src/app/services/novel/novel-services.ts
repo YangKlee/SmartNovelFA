@@ -1,14 +1,22 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from '../../env';
+import { Novel } from '../../models/novel/novel.model';
+import { User } from '../../models/user/user.model';
+import { LoginRespone } from '../../models/auth/login-respone';
+import { Pagination } from '../../models/pagination/pagination';
 import { Category } from '../../models/category/category.model';
-
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class NovelService {
+  // ==========================================
+  // THUỘC TÍNH TỪ NHÁNH SEARCH
+  // ==========================================
   private baseUrl = 'http://localhost:5283/api';
 
   // Kho chứa dữ liệu lọc dùng chung cho cả filter-panel và search
@@ -24,13 +32,36 @@ export class NovelService {
 
   listNovels: any[] = []; // Nơi lưu kết quả truyện tìm được để hiển thị ra màn hình
 
-  constructor(private http: HttpClient) {}
+  // ==========================================
+  // THUỘC TÍNH TỪ NHÁNH SPRINT1-DEV
+  // ==========================================
+  // Base URLs được tách ra để giữ nguyên vẹn endpoint của cả 2 nhánh
+  private URL_HOME = `${environment.apiUrl}`;
+  private URL_NOVEL = `${environment.apiUrl}/Novel`;
+  
+  public reloadNovelList = new BehaviorSubject<boolean>(false);
 
+  // --- Từ nhánh HomePage ---
+  private mockNovelList: Novel[] = [];
+  private mockUserList: User[] = [];
+
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    }),
+  };
+
+  // Gộp constructor: sử dụng chung private http: HttpClient
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) { }
+
+  // ==========================================
+  // API METHODS - NHÁNH SEARCH
+  // ==========================================
   getAllCategories(): Observable<Category[]> {
-   
-  return this.http.get<Category[]>(`${this.baseUrl}/categories`);
-
-
+    return this.http.get<Category[]>(`${this.baseUrl}/categories`);
   }
 
   // Hàm gom tất cả tham số từ kho lưu trữ rồi gửi lên .NET
@@ -50,5 +81,89 @@ export class NovelService {
       },
       error: (err) => console.error('Lỗi khi lọc truyện:', err)
     });
+  }
+
+  // ==========================================
+  // API METHODS - NHÁNH HOMEPAGE & SPRINT1-DEV
+  // ==========================================
+  public getNovelHot(): Observable<any> {
+    return this.http.get<any>(this.URL_HOME + '/HomeApi/hot');
+  }
+
+  public getTopAuthors(): Observable<any> {
+    return this.http.get(this.URL_HOME + '/HomeApi/top-authors');
+  }
+
+  public getNovelUpdate(): Observable<any> {
+    return this.http.get(this.URL_HOME + '/HomeApi/sidebar-new-update');
+  }
+
+  public getNovelRecommend(): Observable<any> {
+    return this.http.get<any>(this.URL_HOME + '/HomeApi/recommended');
+  }
+
+  public getNovelHero(): Observable<any> {
+    return this.http.get<any>(this.URL_HOME + '/HomeApi/featured');
+  }
+
+  public getNovelAdminRecommend(): Observable<any> {
+    return this.http.get<any>(this.URL_HOME + '/HomeApi/admin-recommend');
+  }
+
+  public getNovel(novelID: string): Observable<Novel> {
+    return this.http.get<any>(
+      `${environment.apiUrl}/novel/${novelID}`,
+      this.httpOptions
+    );
+  }
+
+  public getChapters(novelId: string): Observable<any> {
+    return this.http.get<any>(
+      `${environment.apiUrl}/novel/${novelId}/chapters`,
+      this.httpOptions
+    );
+  }
+
+  public getUserNovel(pageNumber: number = 1, pageSize: number = 10000000): Observable<any> {
+    const params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+    return this.http.get<any>(`${this.URL_NOVEL}/getUserNovel`, { params });
+  }
+
+  public getTotalCountUserNovel(): Observable<number> {
+    return this.http.get<number>(`${this.URL_NOVEL}/getUserNovel/count`);
+  }
+
+  public createNovel(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.URL_NOVEL}/createNovel`, formData);
+  }
+
+  public getInfoNovelForReader(id: String): Observable<any> {
+    return this.http.get<any>(`${this.URL_NOVEL}/getInfoNovelForReader/${id}`, this.httpOptions);
+  }
+
+  public updateNovel(id: string, formData: FormData): Observable<any> {
+    return this.http.put<any>(`${this.URL_NOVEL}/modifyNovel/${id}`, formData);
+  }
+
+  public deleteNovel(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.URL_NOVEL}/deleteNovel/${id}`)
+  }
+
+  public seachNovelAuthor(status: string, keyword: string, pageNumber: number = 1, pageSize: number = 10000000): Observable<any> {
+    const params = new HttpParams()
+      .set('status', status)
+      .set('keyworld', keyword)
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+    return this.http.get<any>(`${this.URL_NOVEL}/seachNovelAuthor`, { params });
+  }
+
+  public getTotalCountSeachNovelAuthor(status: string, keyword: string): Observable<number> {
+    const params = new HttpParams()
+      .set('status', status)
+      .set('keyworld', keyword);
+    return this.http.get<number>(`${this.URL_NOVEL}/seachNovelAuthor/count`, { params });
   }
 }

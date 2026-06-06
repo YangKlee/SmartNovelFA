@@ -1,0 +1,74 @@
+.slider-section {
+  margin-bottom: 2.5rem;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 0.75rem;
+}
+
+.slider-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.slider-track-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+/* KHUNG LƯỚI GRID DOANH NGHIỆP */
+.slider-grid {
+  flex: 1;
+  min-width: 0; /* 🌟 Chặn đứng lỗi Grid tràn ra ngoài Flexbox */
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr)); /* Ép 5 cột tuyệt đối */
+  gap: 20px;
+}
+
+/* NÚT ĐIỀU HƯỚNG MƯỢT MÀ */
+.nav-btn {
+  background-color: #ffffff !important;
+  color: #475569 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover:not([disabled]) {
+  background-color: #e11d48 !important;
+  color: #ffffff !important;
+  border-color: #e11d48;
+  transform: scale(1.05);
+}
+
+.empty-state {
+  grid-column: 1 / -1; /* Trải dài toàn bộ cột */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  color: #94a3b8;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px dashed #cbd5e1;
+}
+
+.empty-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}

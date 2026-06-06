@@ -1,0 +1,236 @@
+.account-container {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Inter', Roboto, sans-serif;
+    color: #333;
+}
+
+.account-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.page-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.page-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+}
+
+.profile-wrapper {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    flex: 1;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-card, .action-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover, .action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.avatar-wrap {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 6px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e94057 0%, #f27121 100%);
+}
+
+.avatar-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+}
+
+.avatar-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid #fff;
+}
+
+.avatar-placeholder mat-icon {
+    font-size: 60px;
+    width: 60px;
+    height: 60px;
+    color: #ccc;
+}
+
+.username {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0 0 10px 0;
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    background-color: #f0f4f8;
+    color: #4a5568;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.btn-group-custom {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.compact-btn {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 10px 20px !important;
+    font-weight: 500;
+    border-radius: 8px !important;
+}
+
+.compact-btn mat-icon {
+    margin-right: 10px;
+}
+
+/* Content Area Styling */
+.content {
+    flex: 2;
+    min-width: 350px;
+}
+
+.info-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+
+.info-card-header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 24px 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-icon {
+    color: #fff;
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+}
+
+.user-inf-title {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.table-wrapper {
+    padding: 10px;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.custom-table tr {
+    transition: background-color 0.2s ease;
+}
+
+.custom-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.custom-table td {
+    padding: 20px 25px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.custom-table tr:last-child td {
+    border-bottom: none;
+}
+
+.col-label {
+    width: 40%;
+}
+
+.label-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    color: #4a5568;
+    font-size: 15px;
+}
+
+.row-icon {
+    color: #a0aec0;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.col-value {
+    color: #2d3748;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .profile-wrapper {
+        flex-direction: column;
+    }
+    
+    .sidebar, .content {
+        width: 100%;
+    }
+    
+    .custom-table td {
+        padding: 15px;
+    }
+    
+    .col-label {
+        width: 50%;
+    }
+}

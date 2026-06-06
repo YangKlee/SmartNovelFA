@@ -48,3 +48,49 @@
     <router-outlet></router-outlet>
 </main>
 <app-search></app-search>
+  <!-- LOGO BÊN TRÁI -->
+  <a routerLink="/" class="logo">Logo</a>
+
+  <!-- THANH MENU CHUNG (MẶC ĐỊNH LUÔN HIỆN GIỮA THANH HEADER) -->
+  <nav class="nav-links">
+    <div class="dropdown" *ngFor="let item of menus">
+      <a class="nav-item" [routerLink]="item.urlLink || '/'">
+        <i *ngIf="item.iconBootstrap" [class]="item.iconBootstrap"></i>
+        <span>{{ item.content }}</span>
+        <i *ngIf="item.children?.length" class="bi bi-chevron-down ms-icon"></i>
+      </a>
+
+      <!-- Dropdown cấp 2 của menu chung -->
+      <div class="dropdown-menu" *ngIf="item.children?.length">
+        <a *ngFor="let child of item.children" [routerLink]="child.urlLink || '/'">
+          {{ child.content }}
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- KHU VỰC BÊN PHẢI: CHƯA ĐĂNG NHẬP -->
+  <div class="auth-buttons" *ngIf="(user$ | async) == null">
+    <button class="btn btn-login" (click)="loginBtn()">Đăng nhập</button>
+    <button class="btn btn-register">Đăng ký</button>
+  </div>
+
+  <!-- KHU VỰC BÊN PHẢI: ĐÃ ĐĂNG NHẬP (DI CHUỘT VÀO HIỆN ROLE MENU) -->
+  <div class="user-dropdown" *ngIf="user$ | async as user">
+    <button class="user-info">
+      <i class="bi bi-person-circle"></i>
+      <span>{{ user.username }}</span>
+    </button>
+
+    <!-- Hộp menu xổ xuống khi HOVER vào Avatar -->
+    <div class="user-dropdown-menu">
+      <!-- Hiện danh sách menu theo loại tài khoản -->
+      <a *ngFor="let role of roleMenus" [routerLink]="role.urlLink === '/auth/login' ? null : (role.urlLink || '/')"
+        (click)="role.urlLink === '/auth/login' ? doLogout() : null">
+        <i *ngIf="role.iconBootstrap" [class]="role.iconBootstrap"></i>
+        <span>{{ role.content }}</span>
+      </a>
+
+    </div>
+  </div>
+</header>

@@ -1,0 +1,47 @@
+<article class="novel-card" *ngIf="novel" matRipple [routerLink]="['/novel', novel.slug || novel.novelId]">
+  
+  <figure class="card-cover-wrapper">
+    <img class="card-cover" 
+         [src]="novel.imageNovelUrl || 'assets/images/default-cover.jpg'" 
+         [alt]="novel.title">
+    
+    <div class="badge-group top-right" *ngIf="novel.ageRating">
+      <span class="badge-age">{{ novel.ageRating }}</span>
+    </div>
+    
+    <div class="badge-group top-left" *ngIf="novel.categories && novel.categories.length > 0">
+      <span class="badge-category" *ngFor="let category of novel.categories | slice:0:2">
+        {{ category }}
+      </span>
+    </div>
+
+    <div class="badge-group bottom-left">
+      <span class="badge-chapter">
+        <mat-icon>layers</mat-icon> Chương {{ novel.countChapter || 0}}
+      </span>
+    </div>
+  </figure>
+
+  <div class="card-body">
+    <h3 class="novel-title" [title]="novel.title">{{ novel.title || 'Đang cập nhật' }}</h3>
+    
+    <div class="novel-author" [title]="novel.authorName">
+      <mat-icon>history_edu</mat-icon>
+      <span class="text-truncate">{{ novel.authorName || 'Đang cập nhật' }}</span>
+    </div>
+
+    <footer class="card-footer">
+      <div class="stat-item" title="Lượt xem">
+        <mat-icon>visibility</mat-icon>
+        <span class="text-truncate">{{ (novel.viewCount || 0) | number:'1.0-0' }}</span>
+      </div>
+      
+
+      <div class="stat-item stat-heart" title="Lượt thích">
+        <mat-icon>favorite</mat-icon>
+        <span class="text-truncate">{{ (novel.likeCount || 0) | number:'1.0-0' }}</span>
+      </div>
+    </footer>
+  </div>
+
+</article>

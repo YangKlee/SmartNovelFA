@@ -1,0 +1,58 @@
+<div class="hero-wrapper" *ngIf="heroNovel">
+
+    <div class="hero-bg"
+        [style.backgroundImage]="'url(' + (heroNovel.imageBanerNovelUrl ) + ')'">
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+        <div class="hero-column-image">
+            <img class="hero-cover" [src]="heroNovel.imageNovelUrl || 'assets/images/default-cover.jpg'" alt="Cover">
+        </div>
+
+        <div class="hero-column-meta">
+            <span class="hero-badge"><i class="fa-solid fa-fire-flame-curved"></i> Đề Cử Hôm Nay</span>
+
+            <h1 class="hero-title">{{ heroNovel.title }}</h1>
+            <p class="hero-author"><i class="fa-solid fa-pen-nib"></i> Tác giả: {{ heroNovel.authorName }}</p>
+
+            <div class="hero-stats">
+                <span title="Lượt đọc">
+                    <mat-icon class="stats-icon">visibility</mat-icon>
+                    {{ heroNovel.viewCount | number }}
+                </span>
+                <span title="Lượt thích">
+                    <mat-icon class="stats-icon">favorite</mat-icon>
+                    {{ heroNovel.likeCount | number }}
+                </span>
+                <span class="status-badge" [class.completed]="heroNovel.status === 'Completed'">
+                    {{ heroNovel.status === 'Completed' ? 'Đã hoàn thành' : 'Đang ra' }}
+                </span>
+            </div>
+
+            <button mat-flat-button color="warn" class="btn-read-now"
+                [routerLink]="['/novel', heroNovel.slug || heroNovel.novelId]">
+                <mat-icon style="margin-right: 6px; font-size: 20px; width: 20px; height: 20px;">menu_book</mat-icon>
+                Đọc Ngay
+            </button>
+        </div>
+
+        <div class="hero-column-summary">
+            <div class="glass-summary-box">
+                <div class="summary-header">
+                    <mat-icon>format_quote</mat-icon>
+                    <span>Tóm tắt nội dung</span>
+                </div>
+                <p class="hero-description" [title]="heroNovel.description || ''">
+                    {{ heroNovel.description || 'Chưa có tóm tắt nội dung cho tác phẩm này. Độc giả vui lòng nhấn Đọc Ngay để khám phá thế giới truyện.' }}
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="hero-skeleton" *ngIf="!heroNovel">
+    <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
+</div>
