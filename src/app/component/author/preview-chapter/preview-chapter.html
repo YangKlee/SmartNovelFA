@@ -1,0 +1,16 @@
+<div class="preview-overlay">
+  <div class="preview-container">
+    <div class="preview-header">
+      <h2>{{ title }}</h2>
+      <button class="btn-close-popup" type="button" (click)="closePopup()" aria-label="Đóng">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="preview-content">
+      <!-- Thêm class ql-snow và ql-editor để kế thừa style của Quill -->
+      <div class="novel-reader-content ql-snow">
+        <div class="ql-editor" [innerHTML]="safeContent"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,7 +4,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "rootDir": "./src",  /* SỬA LỖI: Ép compiler nhận đúng thư mục gốc là ./src */
+    "rootDir": "./src",
+
     "types": [
       "node"
     ]
