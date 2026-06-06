@@ -5,7 +5,7 @@ import { FooterComponent } from "../shared/footer/footer";
 
 @Component({
   selector: 'app-user-layout',
-  imports: [Header, RouterOutlet, FooterComponent],
+  imports: [Header, RouterOutlet,RouterLink, FooterComponent],
   templateUrl: './user-layout.html',
   styleUrl: './user-layout.css',
 })

@@ -4,6 +4,7 @@
 
   <!-- THANH MENU CHUNG (MẶC ĐỊNH LUÔN HIỆN GIỮA THANH HEADER) -->
   <nav class="nav-links">
+    <app-search></app-search>
     <div class="dropdown" *ngFor="let item of menus">
       <a class="nav-item" [routerLink]="item.urlLink || '/'">
         <i *ngIf="item.iconBootstrap" [class]="item.iconBootstrap"></i>

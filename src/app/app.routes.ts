@@ -24,6 +24,10 @@ export const routes: Routes = [
         path: "", component: UserLayout, children: [
             { path: "", component: Home },
             {
+                    {
+                  path: "filter",
+                  component: FilterPanelComponent
+                  }
                 path: "account", component: Account, canActivate: [authGuard],
                 data: {
                     requiredRoles: ['admin', 'moderator', 'author', 'reader']
