@@ -1,0 +1,47 @@
+<section class="slider-section">
+  
+  <header class="slider-header" *ngIf="title">
+    <h2 class="slider-title">{{ title }}</h2>
+  </header>
+
+  <div class="slider-track-wrapper">
+    
+    <button mat-icon-button 
+            color="primary" 
+            class="nav-btn prev" 
+            (click)="previous()" 
+            [disabled]="!canGoPrevious" 
+            *ngIf="novels && novels.length > pageSize">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <div class="slider-grid">
+      
+      <ng-container *ngIf="novels && novels.length > 0; else emptyState">
+        <app-card-novel 
+          *ngFor="let item of visibleNovels" 
+          [novel]="item">
+        </app-card-novel>
+      </ng-container>
+
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <mat-icon class="empty-icon">auto_stories</mat-icon>
+          <p>Hiện chưa có tác phẩm nào trong danh sách này.</p>
+        </div>
+      </ng-template>
+
+    </div>
+
+    <button mat-icon-button 
+            color="primary" 
+            class="nav-btn next" 
+            (click)="next()" 
+            [disabled]="!canGoNext" 
+            *ngIf="novels && novels.length > pageSize">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+
+  </div>
+  
+</section>

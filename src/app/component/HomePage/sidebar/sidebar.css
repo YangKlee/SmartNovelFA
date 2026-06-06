@@ -1,0 +1,122 @@
+.sidebar-wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: var(--radius-lg, 12px);
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  box-shadow: var(--shadow-sm);
+  gap: 36px;
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Header khối Sidebar */
+.section-header {
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 10px;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.3px;
+}
+
+.section-header i {
+  color: #e11d48;
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* --- Khối Tác Giả --- */
+.author-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+.rank-number {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #94a3b8;
+  width: 24px;
+  text-align: center;
+}
+
+/* Đổ màu kim loại sang trọng cho Top 1, 2, 3 */
+.rank-1 { color: #f59e0b; font-size: 1.35rem; } /* Vàng Gold */
+.rank-2 { color: #cbd5e1; font-size: 1.25rem; } /* Bạc Silver */
+.rank-3 { color: #b45309; font-size: 1.15rem; } /* Đồng Bronze */
+
+.avatar-img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #e2e8f0;
+}
+
+/* --- Khối Truyện Mini List --- */
+.novel-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.mini-cover {
+  width: 44px;
+  height: 62px;
+  border-radius: var(--radius-sm, 4px);
+  object-fit: cover;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow: hidden; /* Chống tràn chữ */
+}
+
+.author-name, .novel-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Tạo dấu 3 chấm nếu tên quá dài */
+}
+
+.novel-item:hover .novel-title {
+  color: #e11d48;
+}
+
+.author-points, .novel-meta {
+  font-size: 0.78rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

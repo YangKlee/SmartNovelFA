@@ -1,0 +1,145 @@
+<div class="novel-detail-page">
+
+    <div *ngIf="!isLoading() && novel()" class="container-custom">
+
+        <div class="novel-banner">
+            <img [src]="novel().imageBanerNovelUrl || novel().imageNovelUrl" alt="Banner">
+        </div>
+
+        <div class="novel-header">
+
+            <div class="cover-wrapper">
+                <img [src]="novel().imageNovelUrl" class="novel-cover" alt="Novel Cover">
+                <div *ngIf="novel().ageRating === '18+'" class="age-badge">
+                    18+
+                </div>
+            </div>
+
+            <div class="novel-meta">
+                <h1>
+                    <i class="bi bi-book-fill"></i>
+                    {{ novel().title }}
+                </h1>
+
+                <div class="meta-item">
+                    <i class="bi bi-person-fill"></i>
+                    <strong>Tác giả:</strong>
+                    {{ novel().authorName || 'Đang cập nhật' }}
+                </div>
+
+                <div class="meta-item">
+                    <i class="bi bi-calendar-plus"></i>
+                    <strong>Ngày đăng:</strong>
+                    {{ novel().createTime | date:'dd/MM/yyyy' }}
+                </div>
+
+                <div class="meta-item">
+                    <i class="bi bi-clock-history"></i>
+                    <strong>Cập nhật:</strong>
+                    {{ novel().updateTime | date:'dd/MM/yyyy' }}
+                </div>
+
+                <div class="meta-item">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <strong>Trạng thái:</strong>
+                    {{ novel().status }}
+                </div>
+
+                <div class="meta-item">
+                    <i class="bi bi-shield-fill"></i>
+                    <strong>Độ tuổi:</strong>
+                    {{ novel().ageRating }}
+                </div>
+
+                <div class="category-list">
+                    <span *ngFor="let category of novel().categories" class="badge">
+                        {{ category }}
+                    </span>
+                </div>
+
+                <div class="description-box">
+                    {{ novel().description }}
+                </div>
+
+                <div class="novel-stats">
+                    <div class="stat-card">
+                        <i class="bi bi-eye-fill"></i>
+                        <span>{{ novel().viewCount || 0 }}</span>
+                        <small>Lượt xem</small>
+                    </div>
+
+                    <div class="stat-card">
+                        <i class="bi bi-heart-fill"></i>
+                        <span>{{ novel().likeCount || 0 }}</span>
+                        <small>Yêu thích</small>
+                    </div>
+
+                    <div class="stat-card">
+                        <i class="bi bi-book-half"></i>
+                        <span>{{ chapters().length }}</span>
+                        <small>Chương</small>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-read">
+                        <i class="bi bi-book"></i>
+                        Đọc truyện
+                    </button>
+                    <button class="btn-latest">
+                        <i class="bi bi-lightning-fill"></i>
+                        Chương mới nhất
+                    </button>
+                    <button class="btn-follow">
+                        <i class="bi bi-bookmark-heart-fill"></i>
+                        Theo dõi
+                    </button>
+                    <button class="btn-report">
+                        <i class="bi bi-flag-fill"></i>
+                        Báo cáo
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="chapter-section">
+            <div class="section-title">
+                <i class="bi bi-list-ul"></i>
+                Danh sách chương
+            </div>
+
+            <div class="chapter-grid" *ngIf="chapters().length > 0; else noChaptersTemplate">
+                <a *ngFor="let chapter of chapters()" class="chapter-link" [routerLink]="['./chapter', chapter.chapterId]">
+                    <i class="bi bi-bookmark"></i>
+                    Chương {{ chapter.chaperOrder }}
+                    -
+                    {{ chapter.chapterTitle }}
+                    <small class="chapter-date">
+                        {{ chapter.createTime | date:'dd/MM/yyyy' }}
+                    </small>
+                </a>
+            </div>
+
+            <ng-template #noChaptersTemplate>
+                <div class="no-chapters-alert">
+                    <i class="bi bi-info-circle"></i> Truyện hiện chưa được cập nhật chương nào.
+                </div>
+            </ng-template>
+        </div>
+    </div>
+
+    <div *ngIf="isLoading()" class="container-custom text-center p-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Đang tải...</span>
+        </div>
+        <p class="mt-2 text-muted">Đang tải thông tin truyện, đợi xíu...</p>
+    </div>
+
+    <div *ngIf="!isLoading() && !novel()" class="container-custom">
+        <div class="error-box">
+            <i class="bi bi-exclamation-circle"></i>
+            Không tìm thấy truyện
+        </div>
+    </div>
+
+</div>

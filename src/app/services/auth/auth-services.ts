@@ -20,7 +20,7 @@ export class AuthServices {
 
   private userSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.userSubject.asObservable();
-
+  public tokenRecoveryPassword = "";
   constructor(private httpClient: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) { }
   public login(txtUsername: string, txtPassword: string): Observable<LoginRespone> | Observable<any> {
     return this.httpClient.post<any>(
@@ -32,10 +32,25 @@ export class AuthServices {
       this.httpOptions
     );
   }
-  loadInfoUserLogined(): Observable<User> {
+  public loadInfoUserLogined(): Observable<User> {
     return this.httpClient.get<User>(`${this.URL_AUTH}/profile`);
   }
-
+  public sendOtFogotPassword(email: string): Observable<any> {
+    return this.httpClient.post<any>(`${this.URL_AUTH}/SendEmailForgotPassword`, { Email: email, TokenRecovery: "", Token: "", OTP: "" }, this.httpOptions);
+  }
+  public verifyOTP(token: string, TokenRecovery: string, email: string, otp: string): Observable<any> {
+    return this.httpClient.post<any>(`${this.URL_AUTH}/VerifyOTP`,
+      { Email: email, TokenRecovery: TokenRecovery, Token: token, OTP: otp }, this.httpOptions);
+  }
+  public regist(body: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.URL_AUTH}/Regist`, body, this.httpOptions);
+  }
+  public recoveryPass(body: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.URL_AUTH}/recoveryPassword`, body, this.httpOptions);
+  }
+  public checkLogin(): Observable<any> {
+    return this.httpClient.get<any>(`${this.URL_AUTH}/checkLogin`);
+  }
   // public saveCacheUserLogined() {
   //   if (isPlatformBrowser(this.platformId)) {
   //     this.loadInfoUserLogined().subscribe(
