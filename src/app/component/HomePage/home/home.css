@@ -31,7 +31,7 @@ padding: 88px 0 60px 0;
 /* Căn chỉnh wrapper tổng theo tỷ lệ vàng giữa Main và Sidebar */
 .wrapper.dashboard-layout {
   /* Tăng độ rộng tổng thể để web trông thoáng đãng hơn */
-  max-width: 1440px; 
+  max-width: 1600px; 
   margin: 0 auto;
   padding: 0 24px;
   

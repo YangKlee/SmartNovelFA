@@ -20,6 +20,7 @@ export class Home implements OnInit {
   NovelHot: Novel[] = [];
   NovelUpdate: Novel[] = [];
   heroNovel: Novel | null = null;
+  NovelFollowing: Novel[] = [];
 
   constructor(private novelServices: NovelServices, private cdr: ChangeDetectorRef) {}
 
@@ -28,6 +29,7 @@ export class Home implements OnInit {
     this.loadNovelRecommend();
     this.loadNovelUpdate();
     this.loadHeroNovel();
+    this.loadNovelFollowing();
   }
 
   private loadHeroNovel(): void {
@@ -69,4 +71,16 @@ export class Home implements OnInit {
       error: (err) => console.error('Lỗi tải Update:', err)
     });
   }
+
+private loadNovelFollowing(): void {
+    this.novelServices.getNovelFollowing().subscribe({
+      next: (novels) => {
+        this.NovelFollowing = novels && novels.length > 0 ? [...novels] : [];
+        this.cdr.markForCheck();
+      },
+      error: (err) => console.error('Lỗi tải Following:', err)
+    });
+
+}
+
 }

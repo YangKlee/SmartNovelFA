@@ -1,86 +1,59 @@
 <footer class="footer">
   <div class="footer__container">
     
-    <div class="footer__header">
+    <div class="footer__col">
       <div class="footer__brand">
         <div class="footer__logo-group">
           <div class="footer__logo-placeholder">
-            <span class="icon-img">🖼️</span>
-            <span class="text-logo">logo</span>
+            <img src="https://i.pinimg.com/736x/07/b6/43/07b643a885a39697959748938c06e030.jpg" alt="Logo Smart Truyện">
           </div>
           <h1 class="footer__brand-name">SMART TRUYỆN</h1>
         </div>
         <p class="footer__slogan">Chữ chạm tim, tìm bình yên nhỏ</p>
-      </div>
-
-      <div class="footer__legal">
-        <p class="footer__copyright">2024 NovelSphere Global. All Rights Reserved</p>
-        <div class="footer__legal-links">
-          <a routerLink="/privacy">Quyền riêng tư</a>
-          <span class="divider">|</span>
-          <a routerLink="/terms">Điều khoản sử dụng</a>
-          <span class="divider">|</span>
-          <a routerLink="/dmca">Chính sách DMCA</a>
-        </div>
+        <p class="footer__copyright">© 2024 NovelSphere Global.</p>
       </div>
     </div>
 
-    <div class="footer__main">
+    <div class="footer__col">
+      <h3 class="footer__heading">
+        <i class="fa-solid fa-compass"></i> LIÊN KẾT NHANH
+      </h3>
+      <nav class="footer__nav">
+        <a routerLink="/">Trang chủ</a>
+        <a routerLink="/categories">Thể loại</a>
+        <a routerLink="/search">Tìm kiếm</a>
+        <a routerLink="/authors">Tác giả</a>
+      </nav>
+    </div>
+
+    <div class="footer__col">
+      <h3 class="footer__heading">
+        <i class="fa-regular fa-file-lines"></i> THÔNG TIN CHUNG
+      </h3>
+      <nav class="footer__nav">
+        <a routerLink="/about-us">Về Chúng Tôi</a>
+        <a routerLink="/careers">Thông tin liên hệ</a>
+        <a routerLink="/terms-of-service">Điều khoản Dịch vụ</a>
+        <a routerLink="/press-room">Phòng Báo chí</a>
+      </nav>
+    </div>
+
+    <div class="footer__col footer__col--right">
       
-      <div class="footer__col footer__col--connect">
-        <h3 class="footer__heading">
-          <i class="fa-solid fa-phone"></i> CONNECT WITH US
-        </h3>
-        <div class="footer__socials">
-          <a href="#" class="social-icon x-icon" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="#" class="social-icon reddit-icon" aria-label="Reddit"><i class="fa-brands fa-reddit-alien"></i></a>
-          <a href="#" class="social-icon insta-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" class="social-icon yt-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-          <a href="#" class="social-icon bsky-icon" aria-label="Bluesky"><i class="fa-brands fa-bluesky"></i></a>
-        </div>
-
-        
+      <div class="footer__social">
+        <a href="#" class="social-icon" matTooltip="Facebook"><mat-icon>facebook</mat-icon></a>
+        <a href="#" class="social-icon" matTooltip="Zalo"><mat-icon>chat</mat-icon></a>
+        <a href="#" class="social-icon" matTooltip="Instagram"><mat-icon>photo_camera</mat-icon></a>
+        <a href="#" class="social-icon" matTooltip="YouTube"><mat-icon>smart_display</mat-icon></a>
       </div>
 
-      <div class="footer__col">
-        <h3 class="footer__heading">
-          <i class="fa-solid fa-layer-group"></i> EXPLORE
-        </h3>
-        <nav class="footer__nav">
-          <a routerLink="/new-releases">New Releases</a>
-          <a routerLink="/top-rated">Top Rated</a>
-          <a routerLink="/popular-series">Popular Series</a>
-          <a routerLink="/latest-updates">Latest Updates</a>
-          <a routerLink="/completed-series">Completed Series</a>
-        </nav>
-      </div>
-
-      <div class="footer__col">
-        <h3 class="footer__heading">
-          <i class="fa-regular fa-file-lines"></i> INFORMATION
-        </h3>
-        <nav class="footer__nav">
-          <a routerLink="/about-us">About Us</a>
-          <a routerLink="/careers">Careers</a>
-          <a routerLink="/terms-of-service">Terms of Service</a>
-          <a routerLink="/press-room">Press Room</a>
-          <a routerLink="/privacy-policy">Privacy Policy</a>
-        </nav>
-      </div>
-
-      <div class="footer__col">
-        <h3 class="footer__heading">
-          <i class="fa-regular fa-heart"></i> SUPPORT
-        </h3>
-        <nav class="footer__nav">
-          <a routerLink="/help-center">Help Center</a>
-          <a routerLink="/author-hub">Author Hub</a>
-          <a routerLink="/submit">Submit Your Novel</a>
-          <a routerLink="/donate">Donate</a>
-          <a routerLink="/merch">Merch</a>
-        </nav>
+      <div class="footer__legal-vertical">
+        <a routerLink="/privacy">Quyền riêng tư</a>
+        <a routerLink="/terms">Điều khoản</a>
+        <a routerLink="/dmca">Chính sách</a>
       </div>
 
     </div>
+
   </div>
 </footer>
