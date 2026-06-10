@@ -51,6 +51,16 @@ export class AuthServices {
   public checkLogin(): Observable<any> {
     return this.httpClient.get<any>(`${this.URL_AUTH}/checkLogin`);
   }
+
+  public loginGoogle() {
+    window.location.href = `${this.URL_AUTH}/LoginGoogle`;
+  }
+
+  public loginFacebook() {
+    window.location.href = `${this.URL_AUTH}/LoginFacebook`;
+  }
+
+
   // public saveCacheUserLogined() {
   //   if (isPlatformBrowser(this.platformId)) {
   //     this.loadInfoUserLogined().subscribe(
