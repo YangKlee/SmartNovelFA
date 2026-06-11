@@ -1,0 +1,48 @@
+<div class="author-container">
+
+  <h2>Danh sách tác giả</h2>
+
+  <div class="search-box">
+    <input
+      type="text"
+      [(ngModel)]="keyword"
+      placeholder="Tìm tác giả..."
+      (keyup.enter)="search()">
+
+    <button (click)="search()">
+      Tìm kiếm
+    </button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Tên hiển thị</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let author of authors">
+        <td>{{ author.username }}</td>
+        <td>{{ author.displayName }}</td>
+        <td>{{ author.email }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+
+      <button
+        *ngFor="let page of pages"
+        (click)="changePage(page)"
+        [class.active]="page === currentPage">
+
+        {{ page }}
+
+     </button>
+
+  </div>
+
+</div>

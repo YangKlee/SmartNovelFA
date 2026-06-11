@@ -20,6 +20,7 @@ import { NovelDetail } from './component/reading-system/novel-detail/novel-detai
 import { Home } from './component/HomePage/home/home';
 import { FilterPanelComponent } from './component/Search_and_FilterNovel/filter-panel/filter-panel';
 import { UserManagerComponent } from './component/admin/user-manager/user-manager';
+import { AuthorListComponent } from './component/admin/author-list/author-list';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -84,12 +85,15 @@ export const routes: Routes = [
                 },
             },
             {
-              path:"admin", children:[
-                  {path:"user-manager", component:UserManagerComponent}
-              ], canActivate: [authGuard],
-                data: {
-                    requiredRoles: ['admin']
-                },
+                path:"admin",
+                children:[
+                    { path:"user-manager", component: UserManagerComponent },
+                    { path:"author-list", component: AuthorListComponent }
+                ],
+                canActivate:[authGuard],
+                data:{
+                    requiredRoles:['admin']
+                }
             }
         ]
     },
