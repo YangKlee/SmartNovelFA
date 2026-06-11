@@ -3,23 +3,28 @@
   <a routerLink="/" class="logo">Logo</a>
 
   <!-- THANH MENU CHUNG (MẶC ĐỊNH LUÔN HIỆN GIỮA THANH HEADER) -->
-  <nav class="nav-links">
-    
-    <div class="dropdown" *ngFor="let item of menus">
-      <a class="nav-item" [routerLink]="item.urlLink || '/'">
-        <i *ngIf="item.iconBootstrap" [class]="item.iconBootstrap"></i>
-        <span>{{ item.content }}</span>
-        <i *ngIf="item.children?.length" class="bi bi-chevron-down ms-icon"></i>
-      </a>
+ <nav class="nav-links">
 
-      <!-- Dropdown cấp 2 của menu chung -->
-      <div class="dropdown-menu" *ngIf="item.children?.length">
-        <a *ngFor="let child of item.children" [routerLink]="child.urlLink || '/'">
-          {{ child.content }}
-        </a>
-      </div>
+  <div class="dropdown" *ngFor="let item of menus">
+
+    <a class="nav-item" 
+      [routerLink]="item.urlLink !== '#' ? item.urlLink : null">
+      <i *ngIf="item.iconBootstrap" [class]="item.iconBootstrap"></i>
+      <span>{{ item.content }}</span>
+      <i
+        *ngIf="item.children?.length"
+        class="bi bi-chevron-down ms-icon">
+      </i>
+    </a>
+    <div class="dropdown-menu" *ngIf="item.children?.length">
+      <a
+        *ngFor="let child of item.children"
+        [routerLink]="child.urlLink || '/'">
+        {{ child.content }}
+      </a>
     </div>
-  </nav>
+  </div>
+</nav>
   <app-search></app-search>
   <!-- KHU VỰC BÊN PHẢI: CHƯA ĐĂNG NHẬP -->
   <div class="auth-buttons" *ngIf="(user$ | async) == null">
