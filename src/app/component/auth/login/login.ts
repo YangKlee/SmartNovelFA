@@ -49,4 +49,12 @@ export class Login implements OnInit {
     }
   }
 
+  loginGoogle() {
+    this.authServices.loginGoogle();
+  }
+
+  loginFacebook() {
+    this.authServices.loginFacebook();
+  }
+
 }

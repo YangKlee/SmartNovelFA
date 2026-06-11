@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { LoginCallback } from './component/auth/login-callback/login-callback';
 import { UserLayout } from "./layout/user-layout/user-layout"
 import { AuthLayout } from "./layout/auth-layout/auth-layout"
 import path from 'node:path';
@@ -58,7 +59,8 @@ export const routes: Routes = [
             { path: "login", component: Login },
             { path: "register", component: Register },
             { path: "forgot-password", component: FogotPass },
-            { path: "recovery-pass", component: RecoveryPass }
+            { path: "recovery-pass", component: RecoveryPass },
+            { path: "login-callback", component: LoginCallback }
         ]
     },
     // nhánh layout dashboard, sau này nhớ thêm chặn quyền truy cập ở đây

@@ -103,6 +103,10 @@ export class NovelServices {
     return this.httpClient.get<any>(this.URL_HOME + '/HomeApi/admin-recommend');
   }
 
+  public getNovelFollowing(): Observable<any> {
+    return this.httpClient.get<any>(this.URL_HOME + '/HomeApi/followedNovel');
+  }
+
 
 
   public getNovel(novelID: string): Observable<Novel> {

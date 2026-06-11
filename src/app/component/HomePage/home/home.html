@@ -5,7 +5,7 @@
     <main class="main-content">
       <section class="feed-section">
         <app-slider-novel 
-          title=" TRUYỆN HOT TRONG NGÀY" 
+          title=" TRUYỆN HOT " 
           [novels]="NovelHot">
         </app-slider-novel>
       </section>
@@ -21,6 +21,13 @@
         <app-slider-novel 
           title=" TRUYỆN VỪA CẬP NHẬT " 
           [novels]="NovelUpdate">
+        </app-slider-novel>
+      </section>
+
+      <section class="feed-section">
+        <app-slider-novel 
+          title=" TRUYỆN ĐÃ THEO DÕI " 
+          [novels]="NovelFollowing">
         </app-slider-novel>
       </section>
     </main>
