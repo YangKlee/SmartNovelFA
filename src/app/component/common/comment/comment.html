@@ -23,9 +23,9 @@
             <button *ngIf="comment?.countChildComment != 0" class="btn-reply" (click)="toggleReplies()">
                 <mat-icon>reply</mat-icon>
                 <span>
-                    @if(isShowReplies){
+                    @if (isShowReplies) {
                     Ẩn phản hồi
-                    }else{
+                    } @else {
                     Xem phản hồi
                     }
                 </span>

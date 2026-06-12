@@ -1,4 +1,5 @@
 import { Component, Input, ChangeDetectorRef, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe, NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Comment as CommentModel } from '../../../models/comment/comment.model';
@@ -25,7 +26,7 @@ export class Comment implements OnInit {
   limitComment: number = 5;
   totalComment: number = 0;
 
-  constructor(private commentServices: CommentServices, private crl: ChangeDetectorRef) { }
+  constructor(private commentServices: CommentServices, private crl: ChangeDetectorRef, private snackBar: MatSnackBar) { }
   ngOnInit(): void {
     this.commentServices.isReloadChildComment.subscribe({
       next: (data: string) => {
@@ -67,7 +68,32 @@ export class Comment implements OnInit {
     }
   }
   deleteComment() {
-    // TODO: implement delete logic
+    this.commentServices.deleteComment(this.comment?.commentId?.toString() ?? '').subscribe({
+      next: (data: CommentModel) => {
+        if (this.comment?.parentCommentId) {
+          this.commentServices.isReloadChildComment.next(this.comment.parentCommentId.toString());
+        } else {
+          this.commentServices.isReloadComment.next(true);
+        }
+        this.crl.detectChanges();
+        this.snackBar.open('Xóa bình luận thành công!', 'Đóng', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: ['success-snackbar']
+        });
+      },
+      error: (err) => {
+        this.snackBar.open('Xóa bình luận không thành công!', 'Đóng', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar']
+
+        });
+        console.error(err.error.msg);
+      }
+    });
   }
 
   toggleReplyForm() {
@@ -95,10 +121,24 @@ export class Comment implements OnInit {
           this.loadComment();
           this.crl.detectChanges();
           this.isShowReplies = true;
-          this.commentServices.isReloadChildComment.next(this.comment?.commentId?.toString() ?? '');
+          this.commentServices.isReloadChildComment.
+            next(this.comment?.commentId?.toString() ?? '');
+          this.snackBar.open('Thêm bình luận thành công!', 'Đóng', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['success-snackbar']
+          });
+
         },
         error: (err) => {
-          console.log(err);
+          this.snackBar.open('Thêm bình luận không thành công!', 'Đóng', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['error-snackbar']
+          });
+          console.error(err.error.msg);
         }
       });
     }

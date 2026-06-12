@@ -41,6 +41,9 @@ export class CommentServices {
     return this.httpClient.post<any>(`${this.URL_COMMENT}/addComment`, body, this.httpOptions);
   }
   public deleteComment(commentId: string) {
-    return this.httpClient.delete<any>(`${this.URL_COMMENT}/deleteComment/${commentId}`, this.httpOptions);
+    return this.httpClient.delete<any>(`${this.URL_COMMENT}/deleteComment`, {
+      headers: this.httpOptions.headers,
+      body: `"${commentId}"`
+    });
   }
 }

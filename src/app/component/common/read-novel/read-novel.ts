@@ -22,6 +22,7 @@ import { Comment as CommentComponent } from '../comment/comment';
 import { Comment as CommentModel } from '../../../models/comment/comment.model';
 import { CommentServices } from '../../../services/comment/comment-services';
 import { CommentRes } from '../../../models/comment/comment-res';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-read-novel',
@@ -45,7 +46,7 @@ export class ReadNovel implements OnInit {
     private chapterServices: ChapterServices, @Inject(PLATFORM_ID) private platformId: Object,
     private crl: ChangeDetectorRef, private http: HttpClient,
     private sanitizer: DomSanitizer, private location: Location,
-    private commentServices: CommentServices) { }
+    private commentServices: CommentServices, private snackBar: MatSnackBar) { }
 
   // khai báo biến để lưu thông tin
   novel!: Observable<Novel>;
@@ -69,6 +70,7 @@ export class ReadNovel implements OnInit {
       }
       this.commentServices.isReloadComment.subscribe((data: boolean) => {
         if (data) {
+          this.countComment = 0;
           this.loadComment();
         }
       });
@@ -153,9 +155,21 @@ export class ReadNovel implements OnInit {
         next: (data: CommentModel) => {
           this.countComment = 0;
           this.loadComment();
+          this.snackBar.open('Thêm bình luận thành công!', 'Đóng', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['success-snackbar']
+          });
         },
         error: (err) => {
           console.log(err);
+          this.snackBar.open('Thêm bình luận không thành công!', 'Đóng', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['error-snackbar']
+          });
         }
       });
     }
