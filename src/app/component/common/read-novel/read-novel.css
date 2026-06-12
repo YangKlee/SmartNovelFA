@@ -250,3 +250,60 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
+
+.reading-layout-wrapper {
+  display: flex;
+  gap: 24px;
+  max-width: 1300px;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 2; /* Nổi lên trên overlay của banner */
+  position: relative;
+}
+
+.hot-novel-sidebar {
+  width: 320px; /* Bề rộng của sidebar */
+  flex-shrink: 0;
+  position: sticky;
+  top: 20px; /* Ghim cách lề trên 20px khi cuộn trang */
+  
+  /* Khung viền thay thế cho .sidebar-wrapper cũ */
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+@media (max-width: 1100px) {
+  .hot-novel-sidebar {
+    display: none;
+  }
+}
+
+/* --- DARK THEME OVERRIDES --- */
+.dark-theme .hot-novel-sidebar {
+  background-color: #1e1e1e !important;
+  border-color: #374151 !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .dark-theme app-sidebar .section-header {
+  border-bottom-color: #374151 !important;
+}
+
+::ng-deep .dark-theme app-sidebar .section-header h3,
+::ng-deep .dark-theme app-sidebar .novel-title {
+  color: #f3f4f6 !important;
+}
+
+::ng-deep .dark-theme app-sidebar .novel-meta {
+  color: #9ca3af !important;
+}
+
+::ng-deep .dark-theme app-sidebar .novel-item:hover .novel-title {
+  color: #f59e0b !important;
+}

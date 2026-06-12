@@ -17,10 +17,11 @@ import { Inject, PLATFORM_ID } from '@angular/core';
 import { Observable, of, catchError, map, tap } from 'rxjs';
 import da from '@angular/common/locales/da';
 import { HttpClient } from '@angular/common/http';
+import{Sidebar} from '../../HomePage/sidebar/sidebar';
 @Component({
   selector: 'app-read-novel',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, MatDividerModule, MatTooltipModule, MatSidenavModule, MatListModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, MatDividerModule, MatTooltipModule, MatSidenavModule, MatListModule, Sidebar],
   templateUrl: './read-novel.html',
   styleUrl: './read-novel.css',
 })
@@ -28,6 +29,7 @@ export class ReadNovel implements OnInit {
   novelId!: string | null;
   chapterId!: string | null;
   chapterIdSelected!: string | null;
+
   chapterFileUrl: string | null = null;
   safeHtmlContent!: SafeHtml;
   constructor(private route: ActivatedRoute, private router: Router, private novelServices: NovelServices,
@@ -37,7 +39,14 @@ export class ReadNovel implements OnInit {
   novel!: Observable<Novel>;
   chapter!: Observable<Chapter>;
   chapters$!: Observable<Chapter[]>;
+  novelUpdate: Novel[] = [];
+  novelFollowing: Novel[] = [];
+  isDarkMode: boolean = false; // Biến trạng thái chế độ ban đêm
+  fontSize: number = 19; // Khai báo cỡ chữ mặc định
+
   ngOnInit() {
+    this.loadNovelUpdate();
+    this.loadNovelFollowing();
     this.route.paramMap.subscribe(params => {
       if (isPlatformBrowser(this.platformId)) {
         window.scrollTo(0, 0);
@@ -100,5 +109,44 @@ export class ReadNovel implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  // Hàm chuyển đổi chế độ ban đêm
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+  }
+
+  // Hàm tăng cỡ chữ
+  increaseFontSize() {
+    if (this.fontSize < 32) {
+      this.fontSize += 2;
+    }
+  }
+
+  // Hàm giảm cỡ chữ
+  decreaseFontSize() {
+    if (this.fontSize > 12) {
+      this.fontSize -= 2;
+    }
+  }
+
+  private loadNovelUpdate(): void {
+    this.novelServices.getNovelUpdate().subscribe({
+      next: (novels) => {
+        this.novelUpdate = novels && novels.length > 0 ? [...novels] : [];
+        this.crl.markForCheck();
+      },
+      error: (err) => console.error('Lỗi tải Update:', err)
+    });
+  }
+
+  private loadNovelFollowing(): void {
+    this.novelServices.getNovelFollowing().subscribe({
+      next: (novels) => {
+        this.novelFollowing = novels && novels.length > 0 ? [...novels] : [];
+        this.crl.markForCheck();
+      },
+      error: (err) => console.error('Lỗi tải Following:', err)
+    });
   }
 }

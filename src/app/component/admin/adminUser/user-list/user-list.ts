@@ -1,9 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AdminService } from '../../../services/admin-service/admin-service';
-import { User } from '../../../models/user/user.model';
-import { ReactiveFormsModule } from '@angular/forms'; 
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AdminService } from '../../../../services/admin-service/admin-service';
+import { User } from '../../../../models/user/user.model';
+import { ReactiveFormsModule } from '@angular/forms'; 
 
 
 @Component({

@@ -14,48 +14,57 @@
 
   <!-- Nội dung đọc truyện -->
   <mat-sidenav-content>
-    <div class="reading-background">
+    <div class="reading-background" [ngStyle]="{'background-color': isDarkMode ? '#121212' : '#f3f4f6'}">
       <!-- Hiển thị ảnh nền làm mờ nếu có banner -->
       <ng-container *ngIf="(novel | async)?.imageBanerNovelUrl as bannerUrl">
         <div class="banner-bg" [style.backgroundImage]="'url(' + bannerUrl + ')'"></div>
         <div class="banner-overlay"></div>
       </ng-container>
 
-      <div class="reading-paper">
-        <div class="reading-header">
+      <div class="reading-layout-wrapper" [class.dark-theme]="isDarkMode">
+        <div class="reading-paper" [ngStyle]="{'background-color': isDarkMode ? '#1e1e1e' : '#ffffff', 'box-shadow': isDarkMode ? 'none' : '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'}">
+          <div class="reading-header">
           <!-- Nút Quay lại -->
           <button mat-icon-button class="back-btn" matTooltip="Quay lại" (click)="goBack()">
             <mat-icon>arrow_back</mat-icon>
           </button>
 
           <div class="title-container">
-            <h1 class="novel-title">{{(novel|async)?.title}}</h1>
-            <h2 class="chapter-title">Chương {{(chapter|async)?.chaperOrder}}: {{(chapter|async)?.chapterTitle}}</h2>
+            <h1 class="novel-title" [ngStyle]="{'color': isDarkMode ? '#f3f4f6' : '#111827'}">{{(novel|async)?.title}}</h1>
+            <h2 class="chapter-title" [ngStyle]="{'color': isDarkMode ? '#9ca3af' : '#4b5563'}">Chương {{(chapter|async)?.chaperOrder}}: {{(chapter|async)?.chapterTitle}}</h2>
           </div>
 
           <div class="toolbar-actions">
-            <!-- Nút Aa (Định dạng văn bản) -->
-            <button mat-icon-button matTooltip="Định dạng hiển thị" aria-label="Font settings">
-              <mat-icon>text_format</mat-icon>
+            <!-- Nút Tắt/Bật Đèn -->
+            <button mat-icon-button [matTooltip]="isDarkMode ? 'Chế độ Ban ngày' : 'Chế độ Ban đêm'" (click)="toggleDarkMode()" [ngStyle]="{'color': isDarkMode ? '#f59e0b' : '#4b5563'}">
+              <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
+            </button>
+            <!-- Nút Thu nhỏ chữ [A-] -->
+            <button mat-icon-button matTooltip="Thu nhỏ chữ" (click)="decreaseFontSize()" [ngStyle]="{'color': isDarkMode ? '#9ca3af' : '#4b5563'}">
+              <mat-icon>text_decrease</mat-icon>
+            </button>
+            <!-- Nút Phóng to chữ [A+] -->
+            <button mat-icon-button matTooltip="Phóng to chữ" (click)="increaseFontSize()" [ngStyle]="{'color': isDarkMode ? '#9ca3af' : '#4b5563'}">
+              <mat-icon>text_increase</mat-icon>
             </button>
             <!-- Nút Star -->
-            <button mat-icon-button matTooltip="Đánh dấu / Yêu thích" aria-label="Bookmark">
+            <button mat-icon-button matTooltip="Đánh dấu / Yêu thích" aria-label="Bookmark" [ngStyle]="{'color': isDarkMode ? '#9ca3af' : '#4b5563'}">
               <mat-icon>star_border</mat-icon>
             </button>
             <!-- Nút Bell -->
-            <button mat-icon-button matTooltip="Theo dõi thông báo" aria-label="Subscribe">
+            <button mat-icon-button matTooltip="Theo dõi thông báo" aria-label="Subscribe" [ngStyle]="{'color': isDarkMode ? '#9ca3af' : '#4b5563'}">
               <mat-icon>notifications_none</mat-icon>
             </button>
             <!-- Nút Plus -->
-            <button mat-icon-button matTooltip="Thêm vào danh sách" aria-label="Add to list">
+            <button mat-icon-button matTooltip="Thêm vào danh sách" aria-label="Add to list" [ngStyle]="{'color': isDarkMode ? '#9ca3af' : '#4b5563'}">
               <mat-icon>add</mat-icon>
             </button>
           </div>
         </div>
 
-        <mat-divider></mat-divider>
+        <mat-divider [ngStyle]="{'border-top-color': isDarkMode ? '#374151' : 'rgba(0,0,0,0.12)'}"></mat-divider>
 
-        <div class="reading-content ql-snow">
+        <div class="reading-content ql-snow" [ngStyle]="{'color': isDarkMode ? '#d1d5db' : '#1f2937', 'font-size': fontSize + 'px'}">
           <div class="content ql-editor" [innerHTML]="safeHtmlContent">
           </div>
         </div>
@@ -66,6 +75,13 @@
             <mat-icon>menu</mat-icon> Mục lục
           </button>
         </div>
+      </div>
+      
+      <aside class="hot-novel-sidebar">
+        <app-sidebar title="Truyện Vừa Cập Nhật" icon="update" [items]="novelUpdate | slice:0:5" type="novel-update"></app-sidebar>
+        <app-sidebar title="Truyện Đã Theo Dõi" icon="favorite" [items]="novelFollowing | slice:0:5" type="novel-update"></app-sidebar>
+      </aside>
+
       </div>
     </div>
   </mat-sidenav-content>
