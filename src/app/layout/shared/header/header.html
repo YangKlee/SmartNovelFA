@@ -30,8 +30,17 @@
   <!-- KHU VỰC BÊN PHẢI: ĐÃ ĐĂNG NHẬP (DI CHUỘT VÀO HIỆN ROLE MENU) -->
   <div class="user-dropdown" *ngIf="user$ | async as user">
     <button class="user-info">
-      <i class="bi bi-person-circle"></i>
-      <span>{{ user.username }}</span>
+      <img *ngIf="user.avartarUrl" [src]="user.avartarUrl" alt="Avatar" class="header-avatar">
+      <i *ngIf="!user.avartarUrl" class="bi bi-person-circle"></i>
+      <div class="user-details">
+        <span class="username">{{ user.username }}</span>
+        @switch (user.roleId?.toString()) {
+          @case ('1') { <span class="role-badge">Quản trị viên</span> }
+          @case ('2') { <span class="role-badge">Moderator</span> }
+          @case ('3') { <span class="role-badge">Tác giả</span> }
+          @default { <span class="role-badge">Độc giả</span> }
+        }
+      </div>
     </button>
 
     <!-- Hộp menu xổ xuống khi HOVER vào Avatar -->
