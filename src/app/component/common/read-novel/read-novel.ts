@@ -17,10 +17,14 @@ import { Inject, PLATFORM_ID } from '@angular/core';
 import { Observable, of, catchError, map, tap } from 'rxjs';
 import da from '@angular/common/locales/da';
 import { HttpClient } from '@angular/common/http';
+import { WriteComment } from '../write-comment/write-comment';
+import { Comment as CommentComponent } from '../comment/comment';
+import { Comment as CommentModel } from '../../../models/comment/comment.model';
+
 @Component({
   selector: 'app-read-novel',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, MatDividerModule, MatTooltipModule, MatSidenavModule, MatListModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, MatDividerModule, MatTooltipModule, MatSidenavModule, MatListModule, WriteComment, CommentComponent],
   templateUrl: './read-novel.html',
   styleUrl: './read-novel.css',
 })
@@ -30,6 +34,10 @@ export class ReadNovel implements OnInit {
   chapterIdSelected!: string | null;
   chapterFileUrl: string | null = null;
   safeHtmlContent!: SafeHtml;
+  comments: CommentModel[] = [];
+  countComment: number = 5;
+  totalComment: number = 0;
+
   constructor(private route: ActivatedRoute, private router: Router, private novelServices: NovelServices,
     private chapterServices: ChapterServices, @Inject(PLATFORM_ID) private platformId: Object,
     private crl: ChangeDetectorRef, private http: HttpClient,
@@ -100,5 +108,19 @@ export class ReadNovel implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  submitComment(content: string) {
+    console.log('Main comment submitted:', content);
+    // TODO: Handle API to create a new comment
+  }
+
+  cancelComment() {
+    console.log('Comment cancelled');
+  }
+
+  loadMoreComments() {
+    console.log('Load more comments clicked');
+    // TODO: Handle loading more comments logic
   }
 }

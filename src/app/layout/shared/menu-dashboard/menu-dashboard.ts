@@ -5,9 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterModule } from '@angular/router';
 import { UserServices } from '../../../services/user/user-services';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { User } from '../../../models/user/user.model';
 import { MenuDashboard as MenuModel } from '../../../models/menu-dashboard/menu-dashboard';
+import { DashboardServices } from '../../../services/dashboard-services/dashboard-services';
 
 @Component({
   selector: 'app-menu-dashboard',
@@ -20,19 +21,15 @@ export class MenuDashboard implements OnInit, OnDestroy {
   private userSub?: Subscription;
 
   // Danh sách menu (bạn có thể thay đổi các link này cho phù hợp với routing thực tế)
-  menuItems: MenuModel[] = [
-    { title: 'Quản lý truyện', actionUrl: '/dashboard/novels', icon: 'menu_book' } as MenuModel,
-    { title: 'Thống kê', actionUrl: '/dashboard/stats', icon: 'bar_chart' } as MenuModel,
-    { title: 'Thông tin cá nhân', actionUrl: '/account', icon: 'account_circle' } as MenuModel,
-  ];
-
-  constructor(private userServices: UserServices, private cdr: ChangeDetectorRef) {}
+  menuItems!: Observable<MenuModel[]>;
+  constructor(private userServices: UserServices, private cdr: ChangeDetectorRef, private dashboardServices: DashboardServices) { }
 
   ngOnInit(): void {
     this.getUserLoginInfo();
     this.userSub = this.userServices.userUpdated$.subscribe(() => {
       this.getUserLoginInfo();
     });
+    this.menuItems = this.dashboardServices.getMenuDashboard();
   }
 
   getUserLoginInfo(): void {
