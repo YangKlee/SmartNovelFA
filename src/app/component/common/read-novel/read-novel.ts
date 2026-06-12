@@ -23,6 +23,7 @@ import { Comment as CommentModel } from '../../../models/comment/comment.model';
 import { CommentServices } from '../../../services/comment/comment-services';
 import { CommentRes } from '../../../models/comment/comment-res';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserServices } from '../../../services/user/user-services';
 
 @Component({
   selector: 'app-read-novel',
@@ -42,17 +43,22 @@ export class ReadNovel implements OnInit {
   countComment: number = 0;
   totalComment: number = 0;
   limitComment: number = 5;
+  isLoggedIn: boolean = false;
+
   constructor(private route: ActivatedRoute, private router: Router, private novelServices: NovelServices,
     private chapterServices: ChapterServices, @Inject(PLATFORM_ID) private platformId: Object,
     private crl: ChangeDetectorRef, private http: HttpClient,
     private sanitizer: DomSanitizer, private location: Location,
-    private commentServices: CommentServices, private snackBar: MatSnackBar) { }
+    private commentServices: CommentServices, private snackBar: MatSnackBar,
+    private userServices: UserServices) { }
 
   // khai báo biến để lưu thông tin
   novel!: Observable<Novel>;
   chapter!: Observable<Chapter>;
   chapters$!: Observable<Chapter[]>;
   ngOnInit() {
+    this.checkLoginStatus();
+
     this.route.paramMap.subscribe(params => {
       if (isPlatformBrowser(this.platformId)) {
         window.scrollTo(0, 0);
@@ -76,6 +82,20 @@ export class ReadNovel implements OnInit {
       });
     });
   }
+
+  checkLoginStatus() {
+    this.userServices.getUserInfo().subscribe({
+      next: (user) => {
+        this.isLoggedIn = !!user;
+        this.crl.detectChanges();
+      },
+      error: () => {
+        this.isLoggedIn = false;
+        this.crl.detectChanges();
+      }
+    });
+  }
+
   loadComment(isAppend: boolean = false) {
     if (this.novelId != null && this.chapterId != null) {
       this.commentServices.getComment(this.novelId, this.chapterId, this.countComment, this.limitComment).subscribe({

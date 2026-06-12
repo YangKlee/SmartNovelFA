@@ -70,7 +70,10 @@
         <mat-divider></mat-divider>
         <div class="comments-section">
           <h3>Bình luận</h3>
-          <app-write-comment (submitComment)="submitComment($event)" (cancel)="cancelComment()"></app-write-comment>
+          <app-write-comment *ngIf="isLoggedIn; else loginPrompt" (submitComment)="submitComment($event)" (cancel)="cancelComment()"></app-write-comment>
+          <ng-template #loginPrompt>
+            <p class="login-prompt">Vui lòng đăng nhập để có thể bình luận.</p>
+          </ng-template>
           <div class="comments-list" *ngIf="comments.length > 0; else noComments">
             <app-comment *ngFor="let c of comments" [comment]="c"></app-comment>
 
