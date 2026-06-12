@@ -20,11 +20,14 @@ import { HttpClient } from '@angular/common/http';
 import { WriteComment } from '../write-comment/write-comment';
 import { Comment as CommentComponent } from '../comment/comment';
 import { Comment as CommentModel } from '../../../models/comment/comment.model';
+import { CommentServices } from '../../../services/comment/comment-services';
+import { CommentRes } from '../../../models/comment/comment-res';
 
 @Component({
   selector: 'app-read-novel',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, MatDividerModule, MatTooltipModule, MatSidenavModule, MatListModule, WriteComment, CommentComponent],
+  imports: [CommonModule, MatIconModule, MatButtonModule, MatDividerModule,
+    MatTooltipModule, MatSidenavModule, MatListModule, WriteComment, CommentComponent],
   templateUrl: './read-novel.html',
   styleUrl: './read-novel.css',
 })
@@ -35,13 +38,14 @@ export class ReadNovel implements OnInit {
   chapterFileUrl: string | null = null;
   safeHtmlContent!: SafeHtml;
   comments: CommentModel[] = [];
-  countComment: number = 5;
+  countComment: number = 0;
   totalComment: number = 0;
-
+  limitComment: number = 5;
   constructor(private route: ActivatedRoute, private router: Router, private novelServices: NovelServices,
     private chapterServices: ChapterServices, @Inject(PLATFORM_ID) private platformId: Object,
     private crl: ChangeDetectorRef, private http: HttpClient,
-    private sanitizer: DomSanitizer, private location: Location) { }
+    private sanitizer: DomSanitizer, private location: Location,
+    private commentServices: CommentServices) { }
   novel!: Observable<Novel>;
   chapter!: Observable<Chapter>;
   chapters$!: Observable<Chapter[]>;
@@ -61,6 +65,20 @@ export class ReadNovel implements OnInit {
         this.loadChapter();
       }
     });
+
+  }
+  loadComment() {
+    if (this.novelId != null && this.chapterId != null) {
+      this.commentServices.getComment(this.novelId, this.chapterId, this.countComment, this.limitComment).subscribe({
+        next: (data: CommentRes) => {
+          this.comments = data.comments;
+          this.totalComment = data.totalComment;
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
   }
   loadChapter() {
     if (this.novelId != null && this.chapterId != null && isPlatformBrowser(this.platformId)) {
