@@ -15,6 +15,7 @@ export class CommentServices {
     }),
   };
   public isReloadComment = new BehaviorSubject<boolean>(false);
+  public isReloadChildComment = new BehaviorSubject<string>(''); // reload child comment id cha taget
   private URL_COMMENT = `${environment.apiUrl}/Comment`;
 
   constructor(private httpClient: HttpClient) { }

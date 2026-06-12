@@ -46,6 +46,8 @@ export class ReadNovel implements OnInit {
     private crl: ChangeDetectorRef, private http: HttpClient,
     private sanitizer: DomSanitizer, private location: Location,
     private commentServices: CommentServices) { }
+
+  // khai báo biến để lưu thông tin
   novel!: Observable<Novel>;
   chapter!: Observable<Chapter>;
   chapters$!: Observable<Chapter[]>;
@@ -63,16 +65,26 @@ export class ReadNovel implements OnInit {
         this.novel = this.novelServices.getInfoNovelForReader(this.novelId);
         this.chapters$ = this.chapterServices.getChapterByNovel(this.novelId);
         this.loadChapter();
+        this.loadComment();
       }
+      this.commentServices.isReloadComment.subscribe((data: boolean) => {
+        if (data) {
+          this.loadComment();
+        }
+      });
     });
-
   }
-  loadComment() {
+  loadComment(isAppend: boolean = false) {
     if (this.novelId != null && this.chapterId != null) {
       this.commentServices.getComment(this.novelId, this.chapterId, this.countComment, this.limitComment).subscribe({
         next: (data: CommentRes) => {
-          this.comments = data.comments;
+          if (isAppend) {
+            this.comments = [...this.comments, ...data.comments];
+          } else {
+            this.comments = data.comments;
+          }
           this.totalComment = data.totalComment;
+          this.crl.detectChanges();
         },
         error: (err) => {
           console.log(err);
@@ -129,8 +141,24 @@ export class ReadNovel implements OnInit {
   }
 
   submitComment(content: string) {
-    console.log('Main comment submitted:', content);
-    // TODO: Handle API to create a new comment
+    if (this.novelId != null && this.chapterId != null) {
+      let body = {
+        novelId: this.novelId,
+        chapterId: this.chapterId,
+        content: content,
+        parentComment: ""
+      };
+
+      this.commentServices.addComment(body).subscribe({
+        next: (data: CommentModel) => {
+          this.countComment = 0;
+          this.loadComment();
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
   }
 
   cancelComment() {
@@ -138,7 +166,7 @@ export class ReadNovel implements OnInit {
   }
 
   loadMoreComments() {
-    console.log('Load more comments clicked');
-    // TODO: Handle loading more comments logic
+    this.countComment += this.limitComment;
+    this.loadComment(true);
   }
 }
