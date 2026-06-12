@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Comment as CommentModel } from '../../models/comment/comment.model';
 import { environment } from '../../env';
 import { CommentRes } from '../../models/comment/comment-res';
+import { PagedResponse } from '../../modelels/paged-response';
 
 @Injectable({
   providedIn: 'root',
@@ -45,5 +46,9 @@ export class CommentServices {
       headers: this.httpOptions.headers,
       body: `"${commentId}"`
     });
+  }
+
+  public getAllCommentAuthor(body: any): Observable<PagedResponse<CommentModel>> {
+    return this.httpClient.post<PagedResponse<CommentModel>>(`${this.URL_COMMENT}/getAllCommentAuthor`, body, this.httpOptions);
   }
 }

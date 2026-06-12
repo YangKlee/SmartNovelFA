@@ -23,6 +23,7 @@ import { FilterPanelComponent } from './component/Search_and_FilterNovel/filter-
 import { UserManagerComponent } from './component/admin/user-manager/user-manager';
 import { ChangeAvatar } from './component/common/change-avatar/change-avatar';
 import { ChangeAuthor } from './component/common/change-author/change-author';
+import { ReaderComment } from './component/author/reader-comment/reader-comment';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -78,6 +79,7 @@ export const routes: Routes = [
                             { path: "modify-novel/:idNovel", component: CreateNovel }
                         ]
                     },
+                    { path: "comment-reader", component: ReaderComment },
                     {
                         path: "chapter-manager/:id", component: ChapterManagerment, children: [
                             { path: 'create-chapter', component: CreateChapter }

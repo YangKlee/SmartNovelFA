@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterModule } from '@angular/router';
 import { UserServices } from '../../../services/user/user-services';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { User } from '../../../models/user/user.model';
 import { MenuDashboard as MenuModel } from '../../../models/menu-dashboard/menu-dashboard';
 import { DashboardServices } from '../../../services/dashboard-services/dashboard-services';
@@ -22,14 +22,18 @@ export class MenuDashboard implements OnInit, OnDestroy {
 
   // Danh sách menu (bạn có thể thay đổi các link này cho phù hợp với routing thực tế)
   menuItems!: Observable<MenuModel[]>;
-  constructor(private userServices: UserServices, private cdr: ChangeDetectorRef, private dashboardServices: DashboardServices) { }
+  constructor(private userServices: UserServices, private cdr: ChangeDetectorRef, private dashboardServices: DashboardServices, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnInit(): void {
-    this.getUserLoginInfo();
-    this.userSub = this.userServices.userUpdated$.subscribe(() => {
+    if (isPlatformBrowser(this.platformId)) {
       this.getUserLoginInfo();
-    });
-    this.menuItems = this.dashboardServices.getMenuDashboard();
+      this.userSub = this.userServices.userUpdated$.subscribe(() => {
+        this.getUserLoginInfo();
+      });
+      this.menuItems = this.dashboardServices.getMenuDashboard();
+    } else {
+      this.menuItems = of([]);
+    }
   }
 
   getUserLoginInfo(): void {
