@@ -1,1 +1,26 @@
-<p>menu-dashboard works!</p>
+<div class="author-sidebar mat-elevation-z2">
+    <div class="sidebar-profile">
+        <div class="profile-avatar">
+            <ng-container *ngIf="userData?.avartarUrl; else noAvatar">
+                <img [src]="userData!.avartarUrl" alt="Profile Avatar" />
+            </ng-container>
+            <ng-template #noAvatar>
+                <mat-icon class="fallback-icon">account_circle</mat-icon>
+            </ng-template>
+        </div>
+        <h5 class="profile-name">{{ userData?.displayName || 'Đang tải...' }}</h5>
+        <p class="profile-role">{{ getRoleName(userData?.roleId) }}</p>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <mat-nav-list class="sidebar-nav">
+        <a mat-list-item *ngFor="let item of menuItems" 
+           [routerLink]="item.actionUrl" 
+           routerLinkActive="active-link" 
+           [routerLinkActiveOptions]="{exact: false}">
+            <mat-icon matListItemIcon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+            <span matListItemTitle>{{ item.title }}</span>
+        </a>
+    </mat-nav-list>
+</div>
