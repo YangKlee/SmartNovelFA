@@ -77,7 +77,7 @@
           <div class="comments-list" *ngIf="comments.length > 0; else noComments">
             <app-comment *ngFor="let c of comments" [comment]="c"></app-comment>
 
-            <div class="load-more-container" *ngIf="countComment < totalComment">
+            <div class="load-more-container" *ngIf="countComment < totalComment ">
               <button mat-stroked-button class="load-more-btn" (click)="loadMoreComments()">
                 Tải thêm bình luận
               </button>

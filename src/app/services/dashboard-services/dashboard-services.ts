@@ -3,6 +3,8 @@ import { environment } from '../../env';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MenuDashboard } from '../../models/menu-dashboard/menu-dashboard';
+import { DashboardAuthorNovelInfo } from '../../menu-dashboard/dashboard-author-novel-info';
+import { DashboardAuthorProfileInfo } from '../../menu-dashboard/dashboard-author-profile-info';
 
 
 @Injectable({
@@ -24,6 +26,12 @@ export class DashboardServices {
     return this.httpClient.get<any>(`${this.URL_DASHBOARD}/getMenuDashboard`, this.httpOptions);
   }
 
+  getAllAuthorNovelInfo(): Observable<DashboardAuthorNovelInfo> {
+    return this.httpClient.get<DashboardAuthorNovelInfo>(`${this.URL_DASHBOARD}/getAllAuthorNovelInfo`, this.httpOptions);
+  }
 
+  getAuthorProfileInfo(): Observable<DashboardAuthorProfileInfo> {
+    return this.httpClient.get<DashboardAuthorProfileInfo>(`${this.URL_DASHBOARD}/getAuthorProfileInfo`, this.httpOptions);
+  }
 
 }
