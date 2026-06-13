@@ -12,11 +12,11 @@
           <ng-container [ngSwitch]="chapter.status">
             <span *ngSwitchCase="'public'">Đã đăng</span>
             <span *ngSwitchCase="'draft'">Bản nháp</span>
-            <span *ngSwitchCase="'removed'">Đã gỡ</span>
+            <span *ngSwitchCase="'reject'">Đã gỡ</span>
           </ng-container>
           <mat-icon class="status-icon" *ngIf="chapter.status === 'public'">visibility</mat-icon>
           <mat-icon class="status-icon" *ngIf="chapter.status === 'draft'">edit_note</mat-icon>
-          <mat-icon class="status-icon" *ngIf="chapter.status === 'removed'">error_outline</mat-icon>
+          <mat-icon class="status-icon" *ngIf="chapter.status === 'reject'">error_outline</mat-icon>
         </span>
       </div>
     </div>

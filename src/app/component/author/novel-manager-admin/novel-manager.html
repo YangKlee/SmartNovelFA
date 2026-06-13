@@ -16,7 +16,7 @@
   </div>
   <div class="novel-list">
     <div *ngFor="let n of (novels$ | async)" class="novel-item-warpper">
-      <app-novel-lange-item [novel]="n" (delete)="onDeleteNovel(n)"></app-novel-lange-item>
+      <app-novel-lange-item [novel]="n" (delete)="onDeleteNovel(n)" (reject)="onRejectNovel(n)"></app-novel-lange-item>
     </div>
     <span *ngIf="(novels$ | async)?.length === 0" class="empty-noti">Không có truyện</span>
   </div>
@@ -26,4 +26,10 @@
     (pageChange)="onPageChange($event)">
   </app-pagination>
 </div>
+
+<app-confim-delete-repype *ngIf="isConfirmRejectOpen"
+  [content]="'Bạn có chắc chắn muốn gỡ truyện này không?'"
+  [contentValidate]="novelToReject?.title || ''" (isValidate)="handleRejectConfirm($event)">
+</app-confim-delete-repype>
+
 <router-outlet></router-outlet>

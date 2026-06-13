@@ -51,4 +51,7 @@ export class ChapterServices {
     return this.httpClient.get<number>(`${this.URL_CHAPTER}/seachNovelAuthor/count`, { params });
   }
 
+  public rejectChapter(chapterID: string): Observable<any> {
+    return this.httpClient.put<any>(`${this.URL_CHAPTER}/rejectChapter/${chapterID}`, null, this.httpOptions);
+  }
 }

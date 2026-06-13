@@ -34,6 +34,9 @@ export class NovelManager implements OnInit, OnDestroy {
   pageSize = 5;
   totalRecords = 0;
   totalPages = 0;
+  
+  isConfirmRejectOpen: boolean = false;
+  novelToReject: Novel | null = null;
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
@@ -75,6 +78,28 @@ export class NovelManager implements OnInit, OnDestroy {
         }
       })
     }
+  }
+
+  onRejectNovel(novel: Novel) {
+    this.novelToReject = novel;
+    this.isConfirmRejectOpen = true;
+  }
+
+  handleRejectConfirm(isConfirmed: boolean) {
+    if (isConfirmed && this.novelToReject && this.novelToReject.novelId) {
+      this.novelServices.rejectNovel(this.novelToReject.novelId).subscribe({
+        next: () => {
+          alert("Gỡ truyện thành công!");
+          this.novelServices.reloadNovelList.next(true); // Triggers switchMap to fetch novels again
+        },
+        error: (err) => {
+          alert("Gỡ truyện không thành công");
+          console.error(err.error?.Msg || err);
+        }
+      });
+    }
+    this.isConfirmRejectOpen = false;
+    this.novelToReject = null;
   }
 
   onStatusChange() {

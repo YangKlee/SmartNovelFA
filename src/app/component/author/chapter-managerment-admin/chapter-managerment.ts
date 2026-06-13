@@ -49,6 +49,9 @@ export class ChapterManagerment implements OnInit {
   isConfirmDeleteOpen: boolean = false;
   chapterToDelete: Chapter | null = null;
 
+  isConfirmRejectOpen: boolean = false;
+  chapterToReject: Chapter | null = null;
+
   selectedStatus: string = 'all';
   currentPage: number = 1;
   pageSize: number = 5;
@@ -179,5 +182,27 @@ export class ChapterManagerment implements OnInit {
     }
     this.isConfirmDeleteOpen = false;
     this.chapterToDelete = null;
+  }
+
+  onRejectChapter(chapter: Chapter) {
+    this.chapterToReject = chapter;
+    this.isConfirmRejectOpen = true;
+  }
+
+  handleRejectConfirm(isConfirmed: boolean) {
+    if (isConfirmed && this.chapterToReject) {
+      this.chapterServices.rejectChapter(this.chapterToReject.chapterId).subscribe({
+        next: (res) => {
+          alert('Gỡ chương thành công!');
+          this.chapterServices.isReloadChapterManagerment.next(true);
+        },
+        error: (err) => {
+          console.error('Lỗi khi gỡ chương:', err);
+          alert('Có lỗi xảy ra khi gỡ chương!');
+        }
+      });
+    }
+    this.isConfirmRejectOpen = false;
+    this.chapterToReject = null;
   }
 }

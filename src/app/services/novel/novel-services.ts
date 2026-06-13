@@ -195,4 +195,8 @@ export class NovelServices {
       })
     );
   }
+
+  public rejectNovel(novelId: string): Observable<any> {
+    return this.httpClient.put<any>(`${this.URL_NOVEL}/rejectNovel/${novelId}`, null);
+  }
 }

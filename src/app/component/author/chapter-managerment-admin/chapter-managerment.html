@@ -32,7 +32,8 @@
 
     <div class="chapter-list">
       <app-chapter-manager-item *ngFor="let chapter of (chapters|async)" [chapter]="chapter"
-        (view)="onViewChapter($event)" (edit)="onEditChapter($event)" (delete)="onDeleteChapter($event)">
+        (view)="onViewChapter($event)" (edit)="onEditChapter($event)" (delete)="onDeleteChapter($event)"
+        (reject)="onRejectChapter($event)">
       </app-chapter-manager-item>
     </div>
 
@@ -44,6 +45,11 @@
   <app-confim-delete-repype *ngIf="isConfirmDeleteOpen"
     [content]="'Bạn có chắc chắn muốn xoá chương này không? Dữ liệu không thể khôi phục.'"
     [contentValidate]="chapterToDelete?.chapterTitle || ''" (isValidate)="handleDeleteConfirm($event)">
+  </app-confim-delete-repype>
+
+  <app-confim-delete-repype *ngIf="isConfirmRejectOpen"
+    [content]="'Bạn có chắc chắn muốn gỡ chương này không?'"
+    [contentValidate]="chapterToReject?.chapterTitle || ''" (isValidate)="handleRejectConfirm($event)">
   </app-confim-delete-repype>
 
   <router-outlet></router-outlet>
