@@ -33,7 +33,7 @@ export class NovelServices {
   // Base URLs được tách ra để giữ nguyên vẹn endpoint của cả 2 nhánh
   private URL_HOME = `${environment.apiUrl}`;
   private URL_NOVEL = `${environment.apiUrl}/Novel`;
-  
+
   public reloadNovelList = new BehaviorSubject<boolean>(false);
 
   // --- Từ nhánh HomePage ---
@@ -65,7 +65,7 @@ export class NovelServices {
 
     if (this.filterParams.search) params = params.set('search', this.filterParams.search);
     if (this.filterParams.selectedCategoryId) params = params.set('categoryId', this.filterParams.selectedCategoryId);
-    
+
     // Các tham số mở rộng gửi lên backend nếu cần lọc sâu hơn
     // if (this.filterParams.chapterMin) params = params.set('chapterMin', this.filterParams.chapterMin);
 
@@ -150,12 +150,15 @@ export class NovelServices {
     return this.httpClient.delete<any>(`${this.URL_NOVEL}/deleteNovel/${id}`)
   }
 
-  public seachNovelAuthor(status: string, keyword: string, pageNumber: number = 1, pageSize: number = 10000000): Observable<any> {
-    const params = new HttpParams()
+  public seachNovelAuthor(status: string, keyword: string, authorId: string = '', pageNumber: number = 1, pageSize: number = 10000000): Observable<any> {
+    let params = new HttpParams()
       .set('status', status)
       .set('keyworld', keyword)
       .set('pageNumber', pageNumber.toString())
       .set('pageSize', pageSize.toString());
+    if (authorId) {
+      params = params.set('authorId', authorId);
+    }
     return this.httpClient.get<any>(`${this.URL_NOVEL}/seachNovelAuthor`, { params });
   }
 
@@ -164,5 +167,32 @@ export class NovelServices {
       .set('status', status)
       .set('keyworld', keyword);
     return this.httpClient.get<number>(`${this.URL_NOVEL}/seachNovelAuthor/count`, { params });
+  }
+  public getAllAuthor(): Observable<User[]> {
+    return this.httpClient.get<User[]>(`${this.URL_NOVEL}/getAllAuthor`);
+  }
+
+  public getNovelForAdmin(pageNumber: number = 1, pageSize: number = 10, keyword: string = '', type: string = 'All', authorID: string = ''): Observable<Pagination<Novel>> {
+    let params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString())
+      .set('keyword', keyword)
+      .set('type', type);
+      
+    if (authorID) {
+      params = params.set('authorID', authorID);
+    }
+    
+    return this.httpClient.get<any>(`${this.URL_NOVEL}/getNovelForAdmin`, { params }).pipe(
+      map(res => {
+        return {
+          data: res.datas,
+          totalRecords: res.totalRecords,
+          pageNumber: res.pageNumber,
+          pageSize: res.pageSize,
+          totalPages: Math.ceil(res.totalRecords / res.pageSize)
+        } as Pagination<Novel>;
+      })
+    );
   }
 }

@@ -1,0 +1,31 @@
+<div class="story-management-wrapper">
+  <div class="story-header">
+    <h1 class="story-title">Quản lý truyện</h1>
+    <button type="button" class="btn-create" [routerLink]="['./create-novel']">
+      <i class="bi bi-plus-circle"></i> Tạo truyện mới
+    </button>
+  </div>
+
+  <div class="story-controls">
+    <select class="status-dropdown" [(ngModel)]="selectedStatus" (change)="onStatusChange()">
+      <option value="all">Tất cả trạng thái</option>
+      <option value="public">Đã đăng</option>
+      <option value="draft">Lưu nháp</option>
+      <option value="cancel">Đã gỡ</option>
+    </select>
+    <input type="text" class="search-input" [(ngModel)]="keyword" (keyup.enter)="onSeachChange()"
+      placeholder="Tìm kiếm truyện...">
+  </div>
+  <div class="novel-list">
+    <div *ngFor="let n of (novels$ | async)" class="novel-item-warpper">
+      <app-novel-lange-item [novel]="n" (delete)="onDeleteNovel(n)"></app-novel-lange-item>
+    </div>
+    <span *ngIf="(novels$ | async)?.length === 0" class="empty-noti">Không có truyện</span>
+  </div>
+
+  <!-- Hiển thị phân trang nếu có nhiều hơn 1 trang -->
+  <app-pagination *ngIf="totalPages > 1" [currentPage]="currentPage" [totalPage]="totalPages"
+    (pageChange)="onPageChange($event)">
+  </app-pagination>
+</div>
+<router-outlet></router-outlet>
