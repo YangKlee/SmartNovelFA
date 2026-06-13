@@ -65,7 +65,8 @@ export const routes: Routes = [
             { path: "register", component: Register },
             { path: "forgot-password", component: FogotPass },
             { path: "recovery-pass", component: RecoveryPass },
-            { path: "login-callback", component: LoginCallback }
+            { path: "login-callback", component: LoginCallback },
+            // { path: "logout", component: Login }
         ]
     },
     // nhánh layout dashboard, sau này nhớ thêm chặn quyền truy cập ở đây

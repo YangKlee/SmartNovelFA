@@ -4,7 +4,7 @@
 
   <!-- THANH MENU CHUNG (MẶC ĐỊNH LUÔN HIỆN GIỮA THANH HEADER) -->
   <nav class="nav-links">
-    
+
     <div class="dropdown" *ngFor="let item of menus">
       <a class="nav-item" [routerLink]="item.urlLink || '/'">
         <i *ngIf="item.iconBootstrap" [class]="item.iconBootstrap"></i>
@@ -35,10 +35,10 @@
       <div class="user-details">
         <span class="username">{{ user.username }}</span>
         @switch (user.roleId?.toString()) {
-          @case ('1') { <span class="role-badge">Quản trị viên</span> }
-          @case ('2') { <span class="role-badge">Moderator</span> }
-          @case ('3') { <span class="role-badge">Tác giả</span> }
-          @default { <span class="role-badge">Độc giả</span> }
+        @case ('1') { <span class="role-badge">Quản trị viên</span> }
+        @case ('2') { <span class="role-badge">Moderator</span> }
+        @case ('3') { <span class="role-badge">Tác giả</span> }
+        @default { <span class="role-badge">Độc giả</span> }
         }
       </div>
     </button>
