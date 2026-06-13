@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NovelReader } from './novel-reader';
+import { NovelReader } from './followed-novels';
 
 describe('NovelReader', () => {
   let component: NovelReader;

@@ -21,6 +21,7 @@ import { NovelDetail } from './component/reading-system/novel-detail/novel-detai
 import { Home } from './component/HomePage/home/home';
 import { FilterPanelComponent } from './component/Search_and_FilterNovel/filter-panel/filter-panel';
 import { UserManagerComponent } from './component/admin/user-manager/user-manager';
+import { FollowedNovelsComponent } from './component/reading-system/followed-novels/followed-novels';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -40,6 +41,10 @@ export const routes: Routes = [
                     { path: "change-password", component: ChangePassword }
                 ]
 
+            },
+             {
+                path: 'Novel/Following',
+                component: FollowedNovelsComponent
             },
             {
                 path: "novel/:novelID",

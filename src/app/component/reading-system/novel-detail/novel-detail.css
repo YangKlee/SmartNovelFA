@@ -242,50 +242,44 @@
 
 /* Buttons */
 
+/* 1. Khối bọc các nút hành động */
 .action-buttons {
-
     margin-top: 20px;
-
     display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 10px;
-
+    flex-wrap: nowrap;      /* Ép tuyệt đối cả 5 nút nằm trên một hàng ngang */
+    gap: 8px;               /* Khoảng cách vừa phải giữa các nút */
+    width: 100%;            /* Chiếm trọn chiều ngang vùng chứa */
 }
 
+/* 2. Ép cả 5 nút con tự động chia đều diện tích bằng nhau */
 .btn-read,
 .btn-latest,
 .btn-follow,
+.btn-block,
 .btn-report {
-
+    flex: 1;                /* Chia đều 100% không gian cho 5 nút */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;               /* Khoảng cách giữa icon và chữ */
+    
     border: 1px solid var(--border-color);
-
     background: #2d2f36;
-
     color: white;
-
-    padding: 10px 22px;
-
+    padding: 10px 4px;      /* Thu nhỏ padding hai bên để chữ không bị tràn */
     border-radius: 8px;
-
     cursor: pointer;
-
     transition: .25s;
-
+    
+    white-space: nowrap;    /* Giữ chữ trên một hàng, không cho tự xuống dòng */
+    font-size: 14px;        /* Kích thước chữ vừa vặn */
 }
 
-.btn-read:hover,
-.btn-latest:hover,
-.btn-follow:hover,
-.btn-report:hover {
-
+/* Hiệu ứng hover giữ nguyên của bạn */
+.btn-read:hover, .btn-latest:hover, .btn-follow:hover, .btn-block:hover, .btn-report:hover {
     background: #d2d7d9;
-
     color: #2d2f36;
-
 }
-
 /* Chapter */
 
 .chapter-section,
