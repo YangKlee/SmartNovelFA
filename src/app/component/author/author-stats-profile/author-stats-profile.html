@@ -1,1 +1,21 @@
-<p>author-stats-profile works!</p>
+<div class="profile-stats-container" *ngIf="profileInfo">
+  <div class="stat-box">
+    <div class="icon-wrapper bg-blue">
+      <i class="bi bi-people-fill"></i>
+    </div>
+    <div class="stat-content">
+      <span class="stat-label">Người theo dõi</span>
+      <span class="stat-value">{{ profileInfo.countFollower || 0 }}</span>
+    </div>
+  </div>
+  
+  <div class="stat-box">
+    <div class="icon-wrapper bg-orange">
+      <i class="bi bi-eye-fill"></i>
+    </div>
+    <div class="stat-content">
+      <span class="stat-label">Tổng lượt xem truyện</span>
+      <span class="stat-value">{{ profileInfo.totalView || 0 }}</span>
+    </div>
+  </div>
+</div>

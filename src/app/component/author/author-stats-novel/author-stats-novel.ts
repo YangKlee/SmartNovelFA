@@ -1,5 +1,5 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, ElementRef, ViewChild, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { DashboardServices } from '../../../services/dashboard-services/dashboard-services';
 import { DashboardAuthorNovelInfo } from '../../../menu-dashboard/dashboard-author-novel-info';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
@@ -21,33 +21,41 @@ export class AuthorStatsNovel implements OnInit {
   novelChart: Chart | null = null;
   chapterChart: Chart | null = null;
 
-  constructor(private dashboardService: DashboardServices) {}
+  constructor(
+    private dashboardService: DashboardServices,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
-    this.dashboardService.getAllAuthorNovelInfo().subscribe({
-      next: (res) => {
-        this.novelInfo = res;
-        setTimeout(() => {
-          this.createCharts();
-        });
-      },
-      error: (err) => {
-        console.error('Error fetching novel stats', err);
-      }
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.dashboardService.getAllAuthorNovelInfo().subscribe({
+        next: (res) => {
+          console.log('>>> DATA TỪ API:', res);
+          this.novelInfo = res;
+          this.cdr.detectChanges();
+          setTimeout(() => {
+            this.createCharts();
+          });
+        },
+        error: (err) => {
+          console.error('Error fetching novel stats', err);
+        }
+      });
+    }
   }
 
   createCharts() {
     if (this.novelInfo) {
       if (this.novelChartRef) {
         this.novelChart = new Chart(this.novelChartRef.nativeElement, this.getChartConfig(
-          [this.novelInfo.PublicNovels || 0, this.novelInfo.RemovedNovels || 0, this.novelInfo.DraftNovels || 0]
+          [this.novelInfo.publicNovels || 0, this.novelInfo.removedNovels || 0, this.novelInfo.draftNovels || 0]
         ));
       }
 
       if (this.chapterChartRef) {
         this.chapterChart = new Chart(this.chapterChartRef.nativeElement, this.getChartConfig(
-          [this.novelInfo.PublicChapters || 0, this.novelInfo.RemovedChapters || 0, this.novelInfo.DraftChapters || 0]
+          [this.novelInfo.publicChapters || 0, this.novelInfo.removedChapters || 0, this.novelInfo.draftChapters || 0]
         ));
       }
     }

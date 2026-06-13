@@ -24,6 +24,7 @@ import { UserManagerComponent } from './component/admin/user-manager/user-manage
 import { ChangeAvatar } from './component/common/change-avatar/change-avatar';
 import { ChangeAuthor } from './component/common/change-author/change-author';
 import { ReaderComment } from './component/author/reader-comment/reader-comment';
+import { AuthorDashboard } from './component/author/author-dashboard/author-dashboard';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -74,7 +75,9 @@ export const routes: Routes = [
         path: "dashboard", component: DashboardLayout, children: [
             {
                 path: "author", children: [
+                    { path: "", component: AuthorDashboard },
                     {
+
                         path: "novel-manager", component: NovelManager, children: [
                             { path: "create-novel", component: CreateNovel },
                             { path: "modify-novel/:idNovel", component: CreateNovel }

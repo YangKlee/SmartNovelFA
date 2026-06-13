@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { MenuDashboard } from '../../models/menu-dashboard/menu-dashboard';
 import { DashboardAuthorNovelInfo } from '../../menu-dashboard/dashboard-author-novel-info';
 import { DashboardAuthorProfileInfo } from '../../menu-dashboard/dashboard-author-profile-info';
-
+import { CommentRes } from '../../models/comment/comment-res';
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +32,10 @@ export class DashboardServices {
 
   getAuthorProfileInfo(): Observable<DashboardAuthorProfileInfo> {
     return this.httpClient.get<DashboardAuthorProfileInfo>(`${this.URL_DASHBOARD}/getAuthorProfileInfo`, this.httpOptions);
+  }
+
+  getNewestComment(): Observable<CommentRes> {
+    return this.httpClient.get<CommentRes>(`${this.URL_DASHBOARD}/getNewestComment`, this.httpOptions);
   }
 
 }

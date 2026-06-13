@@ -1,11 +1,11 @@
 export class DashboardAuthorNovelInfo {
-  TotalNovels?: number;
-  PublicNovels?: number;
-  RemovedNovels?: number;
-  DraftNovels?: number;
+  totalNovels?: number;
+  publicNovels?: number;
+  removedNovels?: number;
+  draftNovels?: number;
 
-  TotalChapters?: number;
-  PublicChapters?: number;
-  RemovedChapters?: number;
-  DraftChapters?: number;
+  totalChapters?: number;
+  publicChapters?: number;
+  removedChapters?: number;
+  draftChapters?: number;
 }
