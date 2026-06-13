@@ -1,0 +1,62 @@
+<div class="stats-container" *ngIf="novelInfo">
+  <div class="stats-header">
+    <i class="bi bi-bar-chart-fill"></i>
+    <h2>Thống kê đóng góp</h2>
+  </div>
+
+  <div class="charts-wrapper">
+    <!-- Novels Chart -->
+    <div class="chart-section">
+      <h3 class="chart-title">Bộ truyện</h3>
+      <div class="chart-content">
+        <div class="canvas-container">
+          <canvas #novelChart></canvas>
+        </div>
+        <div class="custom-legend">
+          <div class="legend-item">
+            <span class="color-box bg-green"></span>
+            <span>Đã đăng: {{ novelInfo.PublicNovels || 0 }}</span>
+          </div>
+          <div class="legend-item">
+            <span class="color-box bg-red"></span>
+            <span>Bị gỡ: {{ novelInfo.RemovedNovels || 0 }}</span>
+          </div>
+          <div class="legend-item">
+            <span class="color-box bg-gray"></span>
+            <span>Nháp: {{ novelInfo.DraftNovels || 0 }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="chart-footer">
+        Tổng bộ truyện: {{ novelInfo.TotalNovels || 0 }}
+      </div>
+    </div>
+
+    <!-- Chapters Chart -->
+    <div class="chart-section">
+      <h3 class="chart-title">Chương</h3>
+      <div class="chart-content">
+        <div class="canvas-container">
+          <canvas #chapterChart></canvas>
+        </div>
+        <div class="custom-legend">
+          <div class="legend-item">
+            <span class="color-box bg-green"></span>
+            <span>Đã đăng: {{ novelInfo.PublicChapters || 0 }}</span>
+          </div>
+          <div class="legend-item">
+            <span class="color-box bg-red"></span>
+            <span>Bị gỡ: {{ novelInfo.RemovedChapters || 0 }}</span>
+          </div>
+          <div class="legend-item">
+            <span class="color-box bg-gray"></span>
+            <span>Nháp: {{ novelInfo.DraftChapters || 0 }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="chart-footer">
+        Tổng chương: {{ novelInfo.TotalChapters || 0 }}
+      </div>
+    </div>
+  </div>
+</div>
