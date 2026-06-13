@@ -25,6 +25,7 @@ import { ChangeAvatar } from './component/common/change-avatar/change-avatar';
 import { ChangeAuthor } from './component/common/change-author/change-author';
 import { ReaderComment } from './component/author/reader-comment/reader-comment';
 import { AuthorDashboard } from './component/author/author-dashboard/author-dashboard';
+import { AdminDashboard } from './component/admin/admin-dashboard/admin-dashboard';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -95,6 +96,16 @@ export const routes: Routes = [
                     requiredRoles: ['author']
                 },
             },
+            {
+                path: "moderator", children: [
+                    { path: "", component: AdminDashboard },
+
+                ], canActivate: [authGuard],
+                data: {
+                    requiredRoles: ['moderator']
+                },
+            },
+
             {
                 path: "admin", children: [
                     { path: "user-manager", component: UserManagerComponent }
