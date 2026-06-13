@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Novel } from '../../../models/novel/novel.model';
 import { User } from '../../../models/user/user.model';
 import { NovelServices } from '../../../services/novel/novel-services';
-import { NovelLangeItem } from "../../common/novel-lange-item/novel-lange-item";
+import { NovelLangeItem } from "../../common/novel-lange-item-admin/novel-lange-item";
 import { CommonModule } from "@angular/common"
 import { PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
@@ -25,7 +25,7 @@ export class NovelManager implements OnInit, OnDestroy {
   public novels$!: Observable<Novel[]>;
   constructor(private novelServices: NovelServices) { };
   private platformId = inject(PLATFORM_ID);
-  
+
   selectedStatus: string = 'all';
   keyword: string = '';
   selectedAuthorId: string = '';
@@ -76,17 +76,17 @@ export class NovelManager implements OnInit, OnDestroy {
       })
     }
   }
-  
+
   onStatusChange() {
     this.currentPage = 1;
     this.novelServices.reloadNovelList.next(true);
   }
-  
+
   onAuthorChange() {
     this.currentPage = 1;
     this.novelServices.reloadNovelList.next(true);
   }
-  
+
   onSeachChange() {
     this.currentPage = 1;
     this.novelServices.reloadNovelList.next(true);
