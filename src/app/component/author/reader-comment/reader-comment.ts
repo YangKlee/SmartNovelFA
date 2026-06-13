@@ -8,11 +8,12 @@ import { Pagination } from '../../common/pagination/pagination';
 import { AuthorComment } from '../author-comment/author-comment';
 import { Comment as CommentModel } from '../../../models/comment/comment.model';
 import { PagedResponse } from '../../../modelels/paged-response';
+import { Comment } from '../../common/comment-dashboard/comment';
 
 @Component({
   selector: 'app-reader-comment',
   standalone: true,
-  imports: [CommonModule, FormsModule, Pagination, AuthorComment],
+  imports: [CommonModule, FormsModule, Pagination, Comment],
   templateUrl: './reader-comment.html',
   styleUrl: './reader-comment.css'
 })
@@ -35,7 +36,7 @@ export class ReaderComment implements OnInit {
     private commentServices: CommentServices,
     private crl: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {

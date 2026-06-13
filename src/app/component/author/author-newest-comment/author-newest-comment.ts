@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angu
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { DashboardServices } from '../../../services/dashboard-services/dashboard-services';
 import { CommentRes } from '../../../models/comment/comment-res';
-import { Comment as CommentComponent } from '../../common/comment/comment';
+import { Comment as CommentComponent } from '../../common/comment-dashboard/comment';
 
 @Component({
   selector: 'app-author-newest-comment',
@@ -17,7 +17,7 @@ export class AuthorNewestComment implements OnInit {
     private dashboardService: DashboardServices,
     @Inject(PLATFORM_ID) private platformId: Object,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
