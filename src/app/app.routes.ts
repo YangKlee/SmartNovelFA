@@ -105,7 +105,7 @@ export const routes: Routes = [
                     { path: "chapter-manager/:id", component: ChapterManagermentAdmin }
                 ], canActivate: [authGuard],
                 data: {
-                    requiredRoles: ['moderator']
+                    requiredRoles: ['moderator', 'admin']
                 },
             },
 
