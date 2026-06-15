@@ -224,31 +224,37 @@
   color: #111827 !important;
 }
 
-.reading-footer {
-  padding: 30px 20px 40px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
 .toc-btn {
+  position: fixed !important;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   background-color: #f3f4f6 !important;
   color: #111827 !important;
   font-size: 1rem !important;
-  padding: 8px 32px !important;
-  border-radius: 20px !important;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 12px 16px 12px 12px !important;
+  border-radius: 0 20px 20px 0 !important;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1) !important;
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  z-index: 100;
 }
 
 .toc-btn:hover {
   background-color: #e5e7eb !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-50%) translateX(5px);
+  box-shadow: 6px 0 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+@media (max-width: 768px) {
+  .toc-btn span {
+    display: none;
+  }
+  .toc-btn {
+    padding: 12px !important;
+  }
 }
 
 .reading-layout-wrapper {
@@ -306,4 +312,44 @@
 
 ::ng-deep .dark-theme app-sidebar .novel-item:hover .novel-title {
   color: #f59e0b !important;
+}
+
+/* --- SEPIA THEME OVERRIDES --- */
+.sepia-theme .hot-novel-sidebar {
+  background-color: #fbf0d9 !important;
+  border-color: rgba(74, 59, 44, 0.12) !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .sepia-theme app-sidebar .section-header {
+  border-bottom-color: rgba(74, 59, 44, 0.12) !important;
+}
+
+::ng-deep .sepia-theme app-sidebar .section-header h3,
+::ng-deep .sepia-theme app-sidebar .novel-title {
+  color: #4a3b2c !important;
+}
+
+::ng-deep .sepia-theme app-sidebar .novel-meta {
+  color: #7d6653 !important;
+}
+
+::ng-deep .sepia-theme app-sidebar .novel-item:hover .novel-title {
+  color: #d97706 !important;
+}
+
+.active-font {
+  font-weight: bold;
+  color: #f59e0b !important;
+  background-color: rgba(245, 158, 11, 0.1) !important;
+}
+
+.dark-theme .toc-btn {
+  background-color: #374151 !important;
+  color: #f3f4f6 !important;
+}
+
+.sepia-theme .toc-btn {
+  background-color: #e8dcb8 !important;
+  color: #2c241b !important;
 }

@@ -4,16 +4,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NovelServices } from '../../../services/novel/novel-services';
 import { ChapterServices } from '../../../services/chapter/chapter-services';
+import { AuthServices } from '../../../services/auth/auth-services';
 import { Novel } from '../../../models/novel/novel.model';
 import { Chapter } from '../../../models/chapter/chapter.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { E } from '@angular/cdk/keycodes';
-import { Inject, PLATFORM_ID } from '@angular/core';
+import { Inject, PLATFORM_ID, HostListener } from '@angular/core';
 import { Observable, of, catchError, map, tap } from 'rxjs';
 import da from '@angular/common/locales/da';
 import { HttpClient } from '@angular/common/http';
@@ -21,7 +23,7 @@ import{Sidebar} from '../../HomePage/sidebar/sidebar';
 @Component({
   selector: 'app-read-novel',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, MatDividerModule, MatTooltipModule, MatSidenavModule, MatListModule, Sidebar],
+  imports: [CommonModule, MatIconModule, MatButtonModule, MatDividerModule, MatTooltipModule, MatSidenavModule, MatListModule, MatMenuModule, Sidebar],
   templateUrl: './read-novel.html',
   styleUrl: './read-novel.css',
 })
@@ -35,16 +37,19 @@ export class ReadNovel implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private novelServices: NovelServices,
     private chapterServices: ChapterServices, @Inject(PLATFORM_ID) private platformId: Object,
     private crl: ChangeDetectorRef, private http: HttpClient,
-    private sanitizer: DomSanitizer, private location: Location) { }
+    private sanitizer: DomSanitizer, private location: Location,
+    private authServices: AuthServices) { }
   novel!: Observable<Novel>;
   chapter!: Observable<Chapter>;
   chapters$!: Observable<Chapter[]>;
   novelUpdate: Novel[] = [];
   novelFollowing: Novel[] = [];
-  isDarkMode: boolean = false; // Biến trạng thái chế độ ban đêm
+  theme: 'light' | 'dark' | 'sepia' = 'light'; // Trạng thái giao diện
   fontSize: number = 19; // Khai báo cỡ chữ mặc định
+  fontFamily: string = 'Roboto'; // Kiểu chữ
 
   ngOnInit() {
+    this.loadUserAndSettings();
     this.loadNovelUpdate();
     this.loadNovelFollowing();
     this.route.paramMap.subscribe(params => {
@@ -111,15 +116,23 @@ export class ReadNovel implements OnInit {
     this.location.back();
   }
 
-  // Hàm chuyển đổi chế độ ban đêm
-  toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
+  // Hàm chuyển đổi chế độ giao diện theo vòng lặp Sáng -> Vàng -> Tối
+  cycleTheme() {
+    if (this.theme === 'light') {
+      this.theme = 'sepia';
+    } else if (this.theme === 'sepia') {
+      this.theme = 'dark';
+    } else {
+      this.theme = 'light';
+    }
+    this.updateSettingsOnServer();
   }
 
   // Hàm tăng cỡ chữ
   increaseFontSize() {
     if (this.fontSize < 32) {
       this.fontSize += 2;
+      this.updateSettingsOnServer();
     }
   }
 
@@ -127,6 +140,37 @@ export class ReadNovel implements OnInit {
   decreaseFontSize() {
     if (this.fontSize > 12) {
       this.fontSize -= 2;
+      this.updateSettingsOnServer();
+    }
+  }
+
+  changeFontFamily(font: string) {
+    this.fontFamily = font;
+    this.updateSettingsOnServer();
+  }
+
+  private updateSettingsOnServer() {
+    if (isPlatformBrowser(this.platformId) && localStorage.getItem('token')) {
+      this.authServices.updateReadingPreferences(this.theme, this.fontSize, this.fontFamily).subscribe();
+    }
+  }
+
+  private loadUserAndSettings() {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.authServices.loadInfoUserLogined()?.subscribe({
+          next: (user) => {
+            if (user) {
+              if (user.readingTheme) this.theme = user.readingTheme as any;
+              if (user.readingFontSize) this.fontSize = user.readingFontSize;
+              if (user.readingFontFamily) this.fontFamily = user.readingFontFamily;
+              this.crl.markForCheck();
+            }
+          },
+          error: (err) => console.error('Lỗi lấy thông tin user:', err)
+        });
+      }
     }
   }
 
