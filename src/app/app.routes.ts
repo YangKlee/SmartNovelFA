@@ -28,6 +28,7 @@ import { AuthorDashboard } from './component/author/author-dashboard/author-dash
 import { AdminDashboard } from './component/admin/admin-dashboard/admin-dashboard';
 import { NovelManager as NovelManagerAdmin } from './component/author/novel-manager-admin/novel-manager';
 import { ChapterManagerment as ChapterManagermentAdmin } from './component/author/chapter-managerment-admin/chapter-managerment'
+import { CommentManager } from './component/admin/comment-manager/comment-manager';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -112,7 +113,8 @@ export const routes: Routes = [
             {
                 path: "admin", children: [
                     { path: "", component: AdminDashboard },
-                    { path: "user-manager", component: UserManagerComponent }
+                    { path: "user-manager", component: UserManagerComponent },
+                    { path: "comment-manager", component: CommentManager }
                 ], canActivate: [authGuard],
                 data: {
                     requiredRoles: ['admin']
