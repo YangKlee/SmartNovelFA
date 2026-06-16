@@ -269,11 +269,11 @@ export class ReadNovel implements OnInit, OnDestroy {
     }
 
     // Bỏ qua kiểm tra nếu ở localhost (phục vụ phát triển)
-    /*
+
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       return;
     }
-    */
+
 
     const threshold = 160;
     // 1. Kiểm tra kích thước cửa sổ (DevTools gắn liền)
