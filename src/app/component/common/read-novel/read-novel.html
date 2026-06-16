@@ -15,11 +15,7 @@
   <!-- Nội dung đọc truyện -->
   <mat-sidenav-content>
     <div class="reading-background">
-      <!-- Hiển thị ảnh nền làm mờ nếu có banner -->
-      <ng-container *ngIf="(novel | async)?.imageBanerNovelUrl as bannerUrl">
-        <div class="banner-bg" [style.backgroundImage]="'url(' + bannerUrl + ')'"></div>
-        <div class="banner-overlay"></div>
-      </ng-container>
+
 
       <div class="reading-paper">
         <!-- Thanh Breadcrumb / Navigation -->

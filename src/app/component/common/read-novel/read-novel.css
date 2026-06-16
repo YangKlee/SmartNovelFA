@@ -11,31 +11,6 @@
   /* Ngăn ảnh làm mờ bị tràn viền */
 }
 
-.banner-bg {
-  position: absolute;
-  top: -20px;
-  left: -20px;
-  right: -20px;
-  bottom: -20px;
-  /* Làm cho ảnh to ra chút xíu để viền làm mờ không bị lem nền */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: blur(10px);
-  /* Làm mờ ảnh */
-  z-index: 0;
-}
-
-.banner-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.3);
-  /* Phủ lớp màu đen mờ để làm tối */
-  z-index: 1;
-}
 
 .reading-paper {
   background-color: #ffffff;
