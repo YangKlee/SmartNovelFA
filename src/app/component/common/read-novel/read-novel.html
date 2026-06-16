@@ -22,6 +22,18 @@
       </ng-container>
 
       <div class="reading-paper">
+        <!-- Thanh Breadcrumb / Navigation -->
+        <div class="breadcrumb-bar">
+          <div class="breadcrumb-left">
+            <span class="bc-link" (click)="goBack()" matTooltip="Quay lại truyện">{{(novel|async)?.title}}</span>
+            <mat-icon class="bc-separator">chevron_right</mat-icon>
+            <span class="bc-current">Chương {{(chapter|async)?.chaperOrder}}</span>
+          </div>
+          <button mat-button class="bc-toc-btn" (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon> Mục lục
+          </button>
+        </div>
+
         <div class="reading-header">
           <!-- Nút Quay lại -->
           <button mat-icon-button class="back-btn" matTooltip="Quay lại" (click)="goBack()">
@@ -60,10 +72,18 @@
           </div>
         </div>
 
-        <!-- Nút Mục lục ở dưới cùng -->
+        <!-- Nút Mục lục và điều hướng ở dưới cùng -->
         <div class="reading-footer">
+          <button mat-stroked-button class="nav-btn prev-btn" [disabled]="!prevChapterId" (click)="prevChapterId && goToChapter(prevChapterId)">
+            <mat-icon>chevron_left</mat-icon> Chương trước
+          </button>
+          
           <button mat-flat-button class="toc-btn" (click)="sidenav.toggle()">
             <mat-icon>menu</mat-icon> Mục lục
+          </button>
+          
+          <button mat-stroked-button class="nav-btn next-btn" [disabled]="!nextChapterId" (click)="nextChapterId && goToChapter(nextChapterId)">
+            Chương sau <mat-icon>chevron_right</mat-icon>
           </button>
         </div>
 
