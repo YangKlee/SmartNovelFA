@@ -23,12 +23,14 @@ import { FilterPanelComponent } from './component/Search_and_FilterNovel/filter-
 import { UserManagerComponent } from './component/admin/user-manager/user-manager';
 import { ChangeAvatar } from './component/common/change-avatar/change-avatar';
 import { ChangeAuthor } from './component/common/change-author/change-author';
+import { FollowManager } from './component/common/follow-manager/follow-manager';
 import { ReaderComment } from './component/author/reader-comment/reader-comment';
 import { AuthorDashboard } from './component/author/author-dashboard/author-dashboard';
 import { AdminDashboard } from './component/admin/admin-dashboard/admin-dashboard';
 import { NovelManager as NovelManagerAdmin } from './component/author/novel-manager-admin/novel-manager';
 import { ChapterManagerment as ChapterManagermentAdmin } from './component/author/chapter-managerment-admin/chapter-managerment'
 import { CommentManager } from './component/admin/comment-manager/comment-manager';
+import { HistoryRead } from './component/common/history-read/history-read';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -39,6 +41,15 @@ export const routes: Routes = [
                 path: "filter",
                 component: FilterPanelComponent
             },
+            { path: "follow-manager", component: FollowManager },
+            {
+                path: "history",
+                component: HistoryRead,
+                canActivate: [authGuard],
+                data: {
+                    requiredRoles: ['admin', 'moderator', 'author', 'reader']
+                }
+            },
             {
                 path: "account", component: Account, canActivate: [authGuard],
                 data: {
@@ -47,7 +58,8 @@ export const routes: Routes = [
                     { path: "update-info", component: ModifyInfo },
                     { path: "change-password", component: ChangePassword },
                     { path: "change-avatar", component: ChangeAvatar },
-                    { path: "change-author", component: ChangeAuthor }
+                    { path: "change-author", component: ChangeAuthor },
+
                 ]
 
             },

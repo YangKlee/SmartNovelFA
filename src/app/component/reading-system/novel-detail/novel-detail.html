@@ -81,20 +81,54 @@
                     </div>
                 </div>
 
+                <!-- Đánh giá bằng chọn từ 1-5 sao -->
+                <div class="novel-rating-selector mb-3 d-flex align-items-center gap-2">
+                    <span class="text-secondary"><strong>Đánh giá truyện:</strong></span>
+                    <div class="stars-container d-flex gap-1">
+                        <i *ngFor="let star of [1, 2, 3, 4, 5]"
+                           class="bi star-btn"
+                           [class.bi-star-fill]="(hoverRating() || userRating()) >= star"
+                           [class.bi-star]="(hoverRating() || userRating()) < star"
+                           [class.text-warning]="(hoverRating() || userRating()) >= star"
+                           (click)="submitRating(star)"
+                           (mouseenter)="hoverRating.set(star)"
+                           (mouseleave)="hoverRating.set(0)">
+                        </i>
+                    </div>
+                    <span class="rating-badge ms-2" *ngIf="averageRating() > 0">
+                        {{ averageRating() | number:'1.1-1' }} / 5 <i class="bi bi-star-fill text-warning"></i>
+                    </span>
+                    <span class="text-white-50 ms-2" *ngIf="averageRating() === 0">
+                        (Chưa có đánh giá)
+                    </span>
+                </div>
+
                 <div class="action-buttons">
-                    <button class="btn-read">
+                    <button class="btn-read" *ngIf="firstChapter != null" (click)="readNovel()">
                         <i class="bi bi-book"></i>
-                        Đọc truyện
+                        Đọc từ đầu
                     </button>
-                    <button class="btn-latest">
+                    <button class="btn-read" *ngIf="readingChapter != null" (click)="continueReading()">
+                        <i class="bi bi-play-circle-fill"></i>
+                        Đọc tiếp
+                    </button>
+                    <button class="btn-latest" *ngIf="lastChapter != null" (click)="readLatestChapter()">
                         <i class="bi bi-lightning-fill"></i>
                         Chương mới nhất
                     </button>
-                    <button class="btn-follow">
-                        <i class="bi bi-bookmark-heart-fill"></i>
-                        Theo dõi
+                    <button class="btn-follow" [class.active]="isFollowingNovel()" (click)="followNovel()">
+                        <i class="bi" [ngClass]="isFollowingNovel() ? 'bi-bookmark-check-fill text-success' : 'bi-bookmark-heart'"></i>
+                        {{ isFollowingNovel() ? 'Đã theo dõi' : 'Theo dõi truyện' }}
                     </button>
-                    <button class="btn-report">
+                    <button class="btn-follow" [class.active]="isFollowingAuthor()" (click)="followAuthor()">
+                        <i class="bi" [ngClass]="isFollowingAuthor() ? 'bi-person-check-fill text-success' : 'bi-person-plus'"></i>
+                        {{ isFollowingAuthor() ? 'Đã theo dõi TG' : 'Theo dõi tác giả' }}
+                    </button>
+                    <button class="btn-report" [class.active]="isBlockedAuthor()" (click)="toggleBlockAuthor()">
+                        <i class="bi" [ngClass]="isBlockedAuthor() ? 'bi-slash-circle-fill text-danger' : 'bi-slash-circle'"></i>
+                        {{ isBlockedAuthor() ? 'Bỏ chặn TG' : 'Chặn tác giả' }}
+                    </button>
+                    <button class="btn-report" (click)="reportNovel()">
                         <i class="bi bi-flag-fill"></i>
                         Báo cáo
                     </button>
@@ -109,7 +143,8 @@
             </div>
 
             <div class="chapter-grid" *ngIf="chapters().length > 0; else noChaptersTemplate">
-                <a *ngFor="let chapter of chapters()" class="chapter-link" [routerLink]="['./chapter', chapter.chapterId]">
+                <a *ngFor="let chapter of chapters()" class="chapter-link"
+                    [routerLink]="['./chapter', chapter.chapterId]">
                     <i class="bi bi-bookmark"></i>
                     Chương {{ chapter.chaperOrder }}
                     -

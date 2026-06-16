@@ -15,13 +15,21 @@
   <!-- Nội dung đọc truyện -->
   <mat-sidenav-content>
     <div class="reading-background">
-      <!-- Hiển thị ảnh nền làm mờ nếu có banner -->
-      <ng-container *ngIf="(novel | async)?.imageBanerNovelUrl as bannerUrl">
-        <div class="banner-bg" [style.backgroundImage]="'url(' + bannerUrl + ')'"></div>
-        <div class="banner-overlay"></div>
-      </ng-container>
+
 
       <div class="reading-paper">
+        <!-- Thanh Breadcrumb / Navigation -->
+        <div class="breadcrumb-bar">
+          <div class="breadcrumb-left">
+            <span class="bc-link" (click)="goBack()" matTooltip="Quay lại truyện">{{(novel|async)?.title}}</span>
+            <mat-icon class="bc-separator">chevron_right</mat-icon>
+            <span class="bc-current">Chương {{(chapter|async)?.chaperOrder}}</span>
+          </div>
+          <button mat-button class="bc-toc-btn" (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon> Mục lục
+          </button>
+        </div>
+
         <div class="reading-header">
           <!-- Nút Quay lại -->
           <button mat-icon-button class="back-btn" matTooltip="Quay lại" (click)="goBack()">
@@ -56,14 +64,22 @@
         <mat-divider></mat-divider>
 
         <div class="reading-content ql-snow">
-          <div class="content ql-editor" [innerHTML]="safeHtmlContent">
+          <div class="content ql-editor" [innerHTML]="isDevToolsOpen ? '' : safeHtmlContent">
           </div>
         </div>
 
-        <!-- Nút Mục lục ở dưới cùng -->
+        <!-- Nút Mục lục và điều hướng ở dưới cùng -->
         <div class="reading-footer">
+          <button mat-stroked-button class="nav-btn prev-btn" [disabled]="!prevChapterId" (click)="prevChapterId && goToChapter(prevChapterId)">
+            <mat-icon>chevron_left</mat-icon> Chương trước
+          </button>
+          
           <button mat-flat-button class="toc-btn" (click)="sidenav.toggle()">
             <mat-icon>menu</mat-icon> Mục lục
+          </button>
+          
+          <button mat-stroked-button class="nav-btn next-btn" [disabled]="!nextChapterId" (click)="nextChapterId && goToChapter(nextChapterId)">
+            Chương sau <mat-icon>chevron_right</mat-icon>
           </button>
         </div>
 
@@ -92,3 +108,15 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<!-- Overlay chặn khi phát hiện mở Developer Tools -->
+<div class="devtools-blocked-overlay" *ngIf="isDevToolsOpen">
+  <div class="blocked-card">
+    <mat-icon class="warning-icon">lock</mat-icon>
+    <h2>Phát hiện Developer Tools</h2>
+    <p>Để bảo vệ bản quyền nội dung tác phẩm, vui lòng đóng Developer Tools (F12) để tiếp tục đọc truyện.</p>
+    <button mat-flat-button class="reload-btn" (click)="reloadPage()">
+      Đóng F12 và Tải lại trang
+    </button>
+  </div>
+</div>
