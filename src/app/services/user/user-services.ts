@@ -36,8 +36,10 @@ export class UserServices {
   public changePassword(oldPassword: string, newPassword: string): Observable<any> {
     return this.httpClient.post<any>(`${this.URL_Account}/changePassword`, { oldPassword, newPassword }, this.httpOptions);
   }
-
-
-
-
+  public changeAvatar(fileAvatar: FormData): Observable<any> {
+    return this.httpClient.post<any>(`${this.URL_Account}/changeAvatar`, fileAvatar);
+  }
+  public changeAuthor(): Observable<any> {
+    return this.httpClient.post<any>(`${this.URL_Account}/change-author`, {}, this.httpOptions);
+  }
 }

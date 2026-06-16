@@ -66,6 +66,28 @@
             <mat-icon>menu</mat-icon> Mục lục
           </button>
         </div>
+
+        <mat-divider></mat-divider>
+        <div class="comments-section">
+          <h3>Bình luận</h3>
+          <app-write-comment *ngIf="isLoggedIn; else loginPrompt" (submitComment)="submitComment($event)" (cancel)="cancelComment()"></app-write-comment>
+          <ng-template #loginPrompt>
+            <p class="login-prompt">Vui lòng đăng nhập để có thể bình luận.</p>
+          </ng-template>
+          <div class="comments-list" *ngIf="comments.length > 0; else noComments">
+            <app-comment *ngFor="let c of comments" [comment]="c"></app-comment>
+
+            <div class="load-more-container" *ngIf="countComment < totalComment ">
+              <button mat-stroked-button class="load-more-btn" (click)="loadMoreComments()">
+                Tải thêm bình luận
+              </button>
+            </div>
+          </div>
+          <ng-template #noComments>
+            <p class="no-comments-msg">Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>
+          </ng-template>
+        </div>
+
       </div>
     </div>
   </mat-sidenav-content>
