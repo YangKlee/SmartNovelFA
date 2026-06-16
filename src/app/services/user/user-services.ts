@@ -42,4 +42,10 @@ export class UserServices {
   public changeAuthor(): Observable<any> {
     return this.httpClient.post<any>(`${this.URL_Account}/change-author`, {}, this.httpOptions);
   }
+  public recordChapterView(chapterID: string): Observable<any> {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Chapters/ghiLuotXem/${chapterID}`, this.httpOptions);
+  }
+  public getHistoryView(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.URL_Account}/getHistoryView`, this.httpOptions);
+  }
 }

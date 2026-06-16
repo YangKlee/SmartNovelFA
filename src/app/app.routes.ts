@@ -29,6 +29,7 @@ import { AdminDashboard } from './component/admin/admin-dashboard/admin-dashboar
 import { NovelManager as NovelManagerAdmin } from './component/author/novel-manager-admin/novel-manager';
 import { ChapterManagerment as ChapterManagermentAdmin } from './component/author/chapter-managerment-admin/chapter-managerment'
 import { CommentManager } from './component/admin/comment-manager/comment-manager';
+import { HistoryRead } from './component/common/history-read/history-read';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -38,6 +39,14 @@ export const routes: Routes = [
             {
                 path: "filter",
                 component: FilterPanelComponent
+            },
+            {
+                path: "history",
+                component: HistoryRead,
+                canActivate: [authGuard],
+                data: {
+                    requiredRoles: ['admin', 'moderator', 'author', 'reader']
+                }
             },
             {
                 path: "account", component: Account, canActivate: [authGuard],

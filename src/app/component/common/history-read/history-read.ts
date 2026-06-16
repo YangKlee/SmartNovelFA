@@ -1,0 +1,80 @@
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { UserServices } from '../../../services/user/user-services';
+
+export interface ChapterView {
+  chapterId: string;
+  chaperOrder: number;
+  chapterTitle: string;
+}
+
+export interface NovelInfo {
+  novelId: string;
+  title: string;
+  imageNovelUrl: string;
+}
+
+export interface NovelHistory {
+  chapterView: ChapterView;
+  novelInfo: NovelInfo;
+}
+
+export interface HistoryItem {
+  history: NovelHistory;
+  timeView: string | null;
+}
+
+@Component({
+  selector: 'app-history-read',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  templateUrl: './history-read.html',
+  styleUrl: './history-read.css',
+})
+export class HistoryRead implements OnInit {
+  historyItems: HistoryItem[] = [];
+  isLoading = true;
+  errorMsg = '';
+
+  constructor(
+    private userServices: UserServices,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.loadHistory();
+  }
+
+  loadHistory(): void {
+    this.isLoading = true;
+    this.errorMsg = '';
+    this.userServices.getHistoryView().subscribe({
+      next: (data: any[]) => {
+        this.historyItems = data;
+        this.isLoading = false;
+        this.cdr.markForCheck();
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching history:', err);
+        this.errorMsg = 'Không thể tải lịch sử đọc. Vui lòng thử lại sau.';
+        this.isLoading = false;
+        this.cdr.markForCheck();
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  formatDate(dateStr: string | null): string {
+    if (!dateStr) return 'Không rõ thời gian';
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return dateStr;
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  }
+}

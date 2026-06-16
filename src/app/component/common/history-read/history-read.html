@@ -1,0 +1,74 @@
+<div class="container mt-5 mb-5 history-container">
+  <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+    <i class="bi bi-clock-history fs-3 text-primary me-3"></i>
+    <h2 class="mb-0 fw-bold">Lịch sử đọc truyện</h2>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Đang tải...</span>
+    </div>
+    <p class="mt-2 text-muted">Đang tải lịch sử đọc của bạn...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!isLoading && errorMsg" class="alert alert-danger text-center" role="alert">
+    {{ errorMsg }}
+    <button (click)="loadHistory()" class="btn btn-outline-danger btn-sm ms-3">Thử lại</button>
+  </div>
+
+  <!-- Content State -->
+  <div *ngIf="!isLoading && !errorMsg">
+    <!-- Empty State -->
+    <div *ngIf="historyItems.length === 0" class="empty-history bg-light rounded-3">
+      <i class="bi bi-journal-x"></i>
+      <h4>Bạn chưa đọc truyện nào</h4>
+      <p>Hãy khám phá các bộ truyện hấp dẫn và quay lại đây nhé!</p>
+      <a routerLink="/" class="btn btn-primary mt-3 px-4 rounded-pill">Khám phá ngay</a>
+    </div>
+
+    <!-- History List -->
+    <div *ngIf="historyItems.length > 0" class="d-flex flex-column gap-3">
+      <div *ngFor="let item of historyItems" class="card history-card">
+        <ng-container *ngIf="item.history?.novelInfo && item.history?.chapterView">
+          <div class="card-body p-3 d-flex align-items-center">
+            <!-- Cover image -->
+            <a [routerLink]="['/novel', item.history.novelInfo.novelId]" class="flex-shrink-0 me-3">
+              <img [src]="item.history.novelInfo.imageNovelUrl" [alt]="item.history.novelInfo.title" class="novel-thumbnail shadow-sm" onerror="this.src='assets/images/default-cover.jpg'">
+            </a>
+
+            <!-- Text details -->
+            <div class="flex-grow-1 min-width-0">
+              <div class="mb-1 text-truncate">
+                <a [routerLink]="['/novel', item.history.novelInfo.novelId]" class="novel-title-link">
+                  {{ item.history.novelInfo.title }}
+                </a>
+              </div>
+
+              <div class="mb-2 text-truncate">
+                Đang đọc: 
+                <a [routerLink]="['/novel', item.history.novelInfo.novelId, 'chapter', item.history.chapterView.chapterId]" class="chapter-link">
+                  <i class="bi bi-bookmark-fill text-warning me-1"></i>
+                  Chương {{ item.history.chapterView.chaperOrder }}: {{ item.history.chapterView.chapterTitle }}
+                </a>
+              </div>
+
+              <div class="history-time">
+                <i class="bi bi-clock me-1"></i>
+                <span>{{ formatDate(item.timeView) }}</span>
+              </div>
+            </div>
+
+            <!-- Action button -->
+            <div class="ms-3 flex-shrink-0 d-none d-sm-block">
+              <a [routerLink]="['/novel', item.history.novelInfo.novelId, 'chapter', item.history.chapterView.chapterId]" class="btn btn-outline-primary rounded-pill px-4">
+                Đọc tiếp <i class="bi bi-arrow-right ms-1"></i>
+              </a>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

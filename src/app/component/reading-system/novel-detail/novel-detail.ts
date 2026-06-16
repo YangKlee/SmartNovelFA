@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, signal, PLATFORM_ID, inject } from '@angular/core'; // 1. Thêm signal từ @angular/core
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 import { NovelServices } from '../../../services/novel/novel-services';
@@ -21,9 +21,12 @@ export class NovelDetail implements OnInit {
   novel = signal<any>(null);
   chapters = signal<any[]>([]);
   isLoading = signal<boolean>(true);
-
+  firstChapter: string | null = null;
+  lastChapter: string | null = null;
+  readingChapter: string | null = null;
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private novelService: NovelServices,
     private cdr: ChangeDetectorRef
   ) { }
@@ -58,10 +61,12 @@ export class NovelDetail implements OnInit {
           console.log('Novel API:', res);
 
           // Dùng hàm .set() của Signal để cập nhật dữ liệu an toàn
-          this.novel.set(res);
-
-          if (res?.novelId) { 
-            this.loadChapters(res.novelId);
+          this.novel.set(res.novel);
+          this.firstChapter = res?.firstChapter;
+          this.lastChapter = res?.newestChapter;
+          this.readingChapter = res?.readingChapter;
+          if (res.novel.novelId) {
+            this.loadChapters(res.novel.novelId);
           } else {
             this.isLoading.set(false);
             this.cdr.detectChanges();
@@ -85,7 +90,7 @@ export class NovelDetail implements OnInit {
           // Cập nhật danh sách chương và tắt loading bằng Signal
           this.chapters.set(res || []);
           this.isLoading.set(false);
-          
+
           // Ép một chu kỳ macro-task nhỏ cuối cùng để giao diện đồng bộ hoàn toàn
           this.cdr.detectChanges();
         },
@@ -95,5 +100,35 @@ export class NovelDetail implements OnInit {
           this.cdr.detectChanges();
         }
       });
+  }
+
+  readNovel() {
+    if (this.firstChapter && this.novel()?.novelId) {
+      this.router.navigate(['/novel', this.novel().novelId, 'chapter', this.firstChapter]);
+    }
+  }
+
+  continueReading() {
+    if (this.readingChapter && this.novel()?.novelId) {
+      this.router.navigate(['/novel', this.novel().novelId, 'chapter', this.readingChapter]);
+    }
+  }
+
+  readLatestChapter() {
+    if (this.lastChapter && this.novel()?.novelId) {
+      this.router.navigate(['/novel', this.novel().novelId, 'chapter', this.lastChapter]);
+    }
+  }
+
+  followNovel() {
+    console.log('Đã thêm truyện vào danh sách theo dõi');
+  }
+
+  followAuthor() {
+    console.log('Đã theo dõi tác giả');
+  }
+
+  reportNovel() {
+    console.log('Đã gửi báo cáo vi phạm');
   }
 }

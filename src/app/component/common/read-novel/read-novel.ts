@@ -135,6 +135,11 @@ export class ReadNovel implements OnInit {
             this.chapterFileUrl = data.chapterFileUrl;
             this.loadContentNovel();
           }
+          if (this.chapterId) {
+            this.userServices.recordChapterView(this.chapterId).subscribe({
+              error: (err) => console.error('Lỗi khi ghi lịch sử:', err)
+            });
+          }
         })
       );
 

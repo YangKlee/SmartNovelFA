@@ -82,19 +82,27 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn-read">
+                    <button class="btn-read" *ngIf="firstChapter != null" (click)="readNovel()">
                         <i class="bi bi-book"></i>
-                        Đọc truyện
+                        Đọc từ đầu
                     </button>
-                    <button class="btn-latest">
+                    <button class="btn-read" *ngIf="readingChapter != null" (click)="continueReading()">
+                        <i class="bi bi-play-circle-fill"></i>
+                        Đọc tiếp
+                    </button>
+                    <button class="btn-latest" *ngIf="lastChapter != null" (click)="readLatestChapter()">
                         <i class="bi bi-lightning-fill"></i>
                         Chương mới nhất
                     </button>
-                    <button class="btn-follow">
+                    <button class="btn-follow" (click)="followNovel()">
                         <i class="bi bi-bookmark-heart-fill"></i>
-                        Theo dõi
+                        Theo dõi truyện
                     </button>
-                    <button class="btn-report">
+                    <button class="btn-follow" (click)="followAuthor()">
+                        <i class="bi bi-person-plus-fill"></i>
+                        Theo dõi tác giả
+                    </button>
+                    <button class="btn-report" (click)="reportNovel()">
                         <i class="bi bi-flag-fill"></i>
                         Báo cáo
                     </button>
@@ -109,7 +117,8 @@
             </div>
 
             <div class="chapter-grid" *ngIf="chapters().length > 0; else noChaptersTemplate">
-                <a *ngFor="let chapter of chapters()" class="chapter-link" [routerLink]="['./chapter', chapter.chapterId]">
+                <a *ngFor="let chapter of chapters()" class="chapter-link"
+                    [routerLink]="['./chapter', chapter.chapterId]">
                     <i class="bi bi-bookmark"></i>
                     Chương {{ chapter.chaperOrder }}
                     -

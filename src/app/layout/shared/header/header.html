@@ -45,13 +45,21 @@
 
     <!-- Hộp menu xổ xuống khi HOVER vào Avatar -->
     <div class="user-dropdown-menu">
+      <a routerLink="/account">
+        <i class="bi bi-person-circle"></i>
+        <span>Thông tin cá nhân</span>
+      </a>
+      <a routerLink="/history">
+        <i class="bi bi-clock-history"></i>
+        <span>Lịch sử đọc</span>
+      </a>
+      <div class="dropdown-divider"></div>
       <!-- Hiện danh sách menu theo loại tài khoản -->
       <a *ngFor="let role of roleMenus" [routerLink]="role.urlLink === '/auth/login' ? null : (role.urlLink || '/')"
         (click)="role.urlLink === '/auth/login' ? doLogout() : null">
         <i *ngIf="role.iconBootstrap" [class]="role.iconBootstrap"></i>
         <span>{{ role.content }}</span>
       </a>
-
     </div>
   </div>
 </header>
