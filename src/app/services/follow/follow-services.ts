@@ -78,4 +78,25 @@ export class FollowServices {
     formData.append('authorId', authorId);
     return this.httpClient.post<any>(`${this.URL_FOLLOW}/UnBlockAuthor`, formData);
   }
+
+  /**
+   * Lấy danh sách truyện đang theo dõi
+   */
+  public getFollowedNovels(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.URL_FOLLOW}/followedNovels`, this.httpOptions);
+  }
+
+  /**
+   * Lấy danh sách tác giả đang theo dõi
+   */
+  public getFollowedAuthors(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.URL_FOLLOW}/followedAuthors`, this.httpOptions);
+  }
+
+  /**
+   * Lấy danh sách tác giả đang chặn
+   */
+  public getBlockedAuthors(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.URL_FOLLOW}/blockedAuthors`, this.httpOptions);
+  }
 }

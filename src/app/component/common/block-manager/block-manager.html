@@ -1,0 +1,34 @@
+<div class="block-manager-container">
+    <div class="manager-wrapper">
+        <div class="manager-header">
+            <h2 class="manager-title">DANH SÁCH BỊ CHẶN</h2>
+            <button mat-icon-button class="btn-close" routerLink="/account" matTooltip="Đóng">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+        <div class="manager-content">
+            <div *ngIf="isLoading" class="spinner-container">
+                <mat-spinner diameter="40"></mat-spinner>
+            </div>
+
+            <div *ngIf="!isLoading && blockedAuthors.length === 0" class="empty-state">
+                Bạn chưa chặn tác giả nào.
+            </div>
+
+            <div class="list-wrapper" *ngIf="!isLoading && blockedAuthors.length > 0">
+                <div class="list-item" *ngFor="let author of blockedAuthors">
+                    <div class="list-item-content">
+                        <img [src]="author.avartarUrl || 'https://placehold.co/80x80?text=User'" alt="Avatar Author" class="author-avatar">
+                        <div class="item-details">
+                            <div class="item-title">{{author.displayName}}</div>
+                        </div>
+                        <button mat-stroked-button color="warn" class="btn-action" (click)="unblockAuthor(author.uid)">
+                            <mat-icon>block</mat-icon> Bỏ chặn
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

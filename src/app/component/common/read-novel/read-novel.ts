@@ -154,7 +154,25 @@ export class ReadNovel implements OnInit {
           // Khi copy từ Word hoặc các trang web khác, khoảng trắng thường bị biến thành &nbsp; (non-breaking space)
           // Các thẻ &nbsp; này ngăn không cho trình duyệt xuống dòng, khiến chữ bị tuột ra ngoài hoặc bị cắt đôi.
           // Ta cần chuyển đổi toàn bộ &nbsp; thành khoảng trắng bình thường.
-          const cleanedData = dataRaw.replace(/&nbsp;/g, ' ');
+          let cleanedData = dataRaw.replace(/&nbsp;/g, ' ');
+
+          // Loại bỏ các thuộc tính background/background-color inline rác để tránh dính màu nền từ nguồn copy khác
+          cleanedData = cleanedData.replace(/style=(['"])(.*?)\1/gi, (match: string, quote: string, styleContent: string) => {
+            const cleanStyle = styleContent
+              .split(';')
+              .map((prop: string) => prop.trim())
+              .filter((prop: string) => {
+                const parts = prop.split(':');
+                if (parts.length < 2) return false;
+                const key = parts[0].trim().toLowerCase();
+                return !key.startsWith('background');
+              })
+              .join('; ');
+            return cleanStyle ? `style=${quote}${cleanStyle}${quote}` : '';
+          });
+
+          // Loại bỏ thuộc tính bgcolor rác (nếu có)
+          cleanedData = cleanedData.replace(/\bbgcolor=(['"]?)[^'">\s]*\1/gi, '');
 
           // bỏ qua tính năng an toàn angular, k cho angular lượt bớt các thẻ html
           this.safeHtmlContent = this.sanitizer.bypassSecurityTrustHtml(cleanedData);

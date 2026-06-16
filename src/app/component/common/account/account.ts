@@ -6,12 +6,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { User } from '../../../models/user/user.model';
 import { UserServices } from '../../../services/user/user-services';
-import { Router, RouterOutlet, RouterLinkWithHref } from '@angular/router';
+import { Router, RouterOutlet, RouterLink } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-account',
-  imports: [MatTableModule, MatPaginatorModule, RouterOutlet, RouterLinkWithHref, MatButtonModule, MatIconModule, NgIf],
+  imports: [MatTableModule, MatPaginatorModule, RouterOutlet, RouterLink, MatButtonModule, MatIconModule, NgIf],
   templateUrl: './account.html',
   styleUrl: './account.css',
 })

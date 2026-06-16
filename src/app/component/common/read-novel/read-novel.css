@@ -200,6 +200,8 @@
   word-wrap: break-word !important;
   box-sizing: border-box !important;
   max-width: 100% !important;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 ::ng-deep .reading-content p {

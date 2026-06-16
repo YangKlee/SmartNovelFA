@@ -52,7 +52,11 @@
                         <mat-icon>history</mat-icon>
                         Lịch sử đọc truyện
                     </button>
-                    <button *ngIf="userData.roleId == '4'" mat-stroked-button color="primary" class="compact-btn"
+                    <button mat-stroked-button color="primary" class="compact-btn" routerLink="follow-manager">
+                        <mat-icon>bookmark</mat-icon>
+                        Theo dõi & Chặn
+                    </button>
+                    <button *ngIf="userData?.roleId == '4'" mat-stroked-button color="primary" class="compact-btn"
                         routerLink="change-author">
                         <mat-icon>book</mat-icon>
                         Đăng ký làm tác giả
