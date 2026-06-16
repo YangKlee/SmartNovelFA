@@ -111,6 +111,7 @@ export const routes: Routes = [
 
             {
                 path: "admin", children: [
+                    { path: "", component: AdminDashboard },
                     { path: "user-manager", component: UserManagerComponent }
                 ], canActivate: [authGuard],
                 data: {
