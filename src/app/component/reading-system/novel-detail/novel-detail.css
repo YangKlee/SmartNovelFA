@@ -34,7 +34,7 @@
 
     margin-bottom: 25px;
 
-    box-shadow: 0 15px 40px rgba(0,0,0,.4);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, .4);
 
 }
 
@@ -64,7 +64,7 @@
 
     border: 1px solid var(--border-color);
 
-    box-shadow: 0 15px 40px rgba(0,0,0,.35);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, .35);
 
 }
 
@@ -84,7 +84,7 @@
 
     border-radius: 12px;
 
-    box-shadow: 0 15px 35px rgba(0,0,0,.5);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, .5);
 
 }
 
@@ -246,9 +246,12 @@
 .action-buttons {
     margin-top: 20px;
     display: flex;
-    flex-wrap: nowrap;      /* Ép tuyệt đối cả 5 nút nằm trên một hàng ngang */
-    gap: 8px;               /* Khoảng cách vừa phải giữa các nút */
-    width: 100%;            /* Chiếm trọn chiều ngang vùng chứa */
+    flex-wrap: nowrap;
+    /* Ép tuyệt đối cả 5 nút nằm trên một hàng ngang */
+    gap: 8px;
+    /* Khoảng cách vừa phải giữa các nút */
+    width: 100%;
+    /* Chiếm trọn chiều ngang vùng chứa */
 }
 
 /* 2. Ép cả 5 nút con tự động chia đều diện tích bằng nhau */
@@ -257,29 +260,39 @@
 .btn-follow,
 .btn-block,
 .btn-report {
-    flex: 1;                /* Chia đều 100% không gian cho 5 nút */
+    flex: 1;
+    /* Chia đều 100% không gian cho 5 nút */
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;               /* Khoảng cách giữa icon và chữ */
-    
+    gap: 6px;
+    /* Khoảng cách giữa icon và chữ */
+
     border: 1px solid var(--border-color);
     background: #2d2f36;
     color: white;
-    padding: 10px 4px;      /* Thu nhỏ padding hai bên để chữ không bị tràn */
+    padding: 10px 4px;
+    /* Thu nhỏ padding hai bên để chữ không bị tràn */
     border-radius: 8px;
     cursor: pointer;
     transition: .25s;
-    
-    white-space: nowrap;    /* Giữ chữ trên một hàng, không cho tự xuống dòng */
-    font-size: 14px;        /* Kích thước chữ vừa vặn */
+
+    white-space: nowrap;
+    /* Giữ chữ trên một hàng, không cho tự xuống dòng */
+    font-size: 14px;
+    /* Kích thước chữ vừa vặn */
 }
 
 /* Hiệu ứng hover giữ nguyên của bạn */
-.btn-read:hover, .btn-latest:hover, .btn-follow:hover, .btn-block:hover, .btn-report:hover {
+.btn-read:hover,
+.btn-latest:hover,
+.btn-follow:hover,
+.btn-block:hover,
+.btn-report:hover {
     background: #d2d7d9;
     color: #2d2f36;
 }
+
 /* Chapter */
 
 .chapter-section,
@@ -295,7 +308,7 @@
 
     border: 1px solid var(--border-color);
 
-    box-shadow: 0 15px 40px rgba(0,0,0,.35);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, .35);
 
 }
 
@@ -317,7 +330,7 @@
 
     display: grid;
 
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
 
 }
 
@@ -399,7 +412,7 @@
 
 /* Mobile */
 
-@media(max-width:768px){
+@media(max-width:768px) {
 
     .novel-header {
 
@@ -428,6 +441,7 @@
     }
 
 }
+
 .chapter-link {
 
     display: flex;
@@ -445,6 +459,7 @@
     font-size: 12px;
 
 }
+
 .rating-box {
     display: flex;
     align-items: center;

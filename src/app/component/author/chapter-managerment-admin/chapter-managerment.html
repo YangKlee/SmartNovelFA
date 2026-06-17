@@ -1,0 +1,55 @@
+<div class="chapter-manager-container">
+  <div class="header-section">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <button mat-icon-button routerLink="/dashboard/moderator/novel-manager" aria-label="Quay lại">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2 class="page-title">Quản lý chương</h2>
+    </div>
+  </div>
+
+  <div class="filter-section">
+
+    <div class="search-filter-row" style="display: flex; gap: 16px;">
+      <mat-form-field appearance="fill" subscriptSizing="dynamic" class="custom-field status-select"
+        style="width: 200px;">
+        <mat-select [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange()">
+          <mat-option value="all">Tất cả trạng thái</mat-option>
+          <mat-option value="public">Đã đăng</mat-option>
+          <mat-option value="draft">Bản nháp</mat-option>
+          <mat-option value="cancel">Đã gỡ</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" subscriptSizing="dynamic" class="custom-field search-box" style="flex: 1;">
+        <input matInput placeholder="Tìm kiếm theo tiêu đề hoặc nội dung...." [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearchChange()">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+
+
+    <div class="chapter-list">
+      <app-chapter-manager-item *ngFor="let chapter of (chapters|async)" [chapter]="chapter"
+        (view)="onViewChapter($event)" (edit)="onEditChapter($event)" (delete)="onDeleteChapter($event)"
+        (reject)="onRejectChapter($event)">
+      </app-chapter-manager-item>
+    </div>
+
+    <app-pagination *ngIf="totalPages > 1" [currentPage]="currentPage" [totalPage]="totalPages"
+      (pageChange)="onPageChange($event)">
+    </app-pagination>
+  </div>
+
+  <app-confim-delete-repype *ngIf="isConfirmDeleteOpen"
+    [content]="'Bạn có chắc chắn muốn xoá chương này không? Dữ liệu không thể khôi phục.'"
+    [contentValidate]="chapterToDelete?.chapterTitle || ''" (isValidate)="handleDeleteConfirm($event)">
+  </app-confim-delete-repype>
+
+  <app-confim-delete-repype *ngIf="isConfirmRejectOpen"
+    [content]="'Bạn có chắc chắn muốn gỡ chương này không?'"
+    [contentValidate]="chapterToReject?.chapterTitle || ''" (isValidate)="handleRejectConfirm($event)">
+  </app-confim-delete-repype>
+
+  <router-outlet></router-outlet>

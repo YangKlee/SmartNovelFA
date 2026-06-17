@@ -1,0 +1,105 @@
+<div class="follow-manager-container">
+    <div class="manager-wrapper">
+        <div class="manager-header">
+            <button mat-icon-button (click)="goBack()" matTooltip="Quay lại" class="btn-back">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <h1 class="manager-title">Theo dõi & Chặn</h1>
+        </div>
+
+        <mat-tab-group animationDuration="150ms">
+            <!-- Tab Truyện -->
+            <mat-tab>
+                <ng-template matTabLabel>
+                    <mat-icon class="tab-icon">book</mat-icon>
+                    <span>Truyện Theo Dõi ({{followedNovels.length}})</span>
+                </ng-template>
+
+                <div class="tab-content">
+                    <div *ngIf="isLoadingNovels" class="spinner-container">
+                        <mat-spinner diameter="40"></mat-spinner>
+                    </div>
+
+                    <div *ngIf="!isLoadingNovels && followedNovels.length === 0" class="empty-state">
+                        <mat-icon class="empty-icon">menu_book</mat-icon>
+                        <p>Bạn chưa theo dõi bộ truyện nào.</p>
+                        <button mat-flat-button color="primary" routerLink="/">Khám phá truyện</button>
+                    </div>
+
+                    <div class="novels-grid" *ngIf="!isLoadingNovels && followedNovels.length > 0">
+                        <div class="novel-card" *ngFor="let novel of followedNovels" [routerLink]="['/novel', novel.novelId]">
+                            <div class="novel-img-wrapper">
+                                <img [src]="novel.avartarNovelUrl || 'https://placehold.co/150x220?text=Novel'" alt="Avatar Novel" class="novel-card-img" onerror="this.src='https://placehold.co/150x220?text=No+Cover'">
+                            </div>
+                            <div class="novel-card-info">
+                                <h3 class="novel-card-title" [title]="novel.title">{{novel.title}}</h3>
+                                <p class="novel-card-author">Tác giả: {{novel.authorName}}</p>
+                                <button mat-button color="warn" class="btn-action-card" (click)="unfollowNovel(novel.novelId, $event)">
+                                    <mat-icon>favorite_border</mat-icon> Bỏ theo dõi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <!-- Tab Tác giả -->
+            <mat-tab>
+                <ng-template matTabLabel>
+                    <mat-icon class="tab-icon">people</mat-icon>
+                    <span>Tác Giả Theo Dõi ({{followedAuthors.length}})</span>
+                </ng-template>
+
+                <div class="tab-content">
+                    <div *ngIf="isLoadingAuthors" class="spinner-container">
+                        <mat-spinner diameter="40"></mat-spinner>
+                    </div>
+
+                    <div *ngIf="!isLoadingAuthors && followedAuthors.length === 0" class="empty-state">
+                        <mat-icon class="empty-icon">people_outline</mat-icon>
+                        <p>Bạn chưa theo dõi tác giả nào.</p>
+                    </div>
+
+                    <div class="authors-grid" *ngIf="!isLoadingAuthors && followedAuthors.length > 0">
+                        <div class="author-card" *ngFor="let author of followedAuthors">
+                            <img [src]="author.avartarUrl || 'https://placehold.co/80x80?text=User'" alt="Avatar Author" class="author-card-img" onerror="this.src='https://placehold.co/80x80?text=User'">
+                            <h3 class="author-card-name">{{author.displayName}}</h3>
+                            <button mat-button color="warn" class="btn-action-card" (click)="unfollowAuthor(author.uid, $event)">
+                                <mat-icon>person_remove</mat-icon> Bỏ theo dõi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <!-- Tab Bị chặn -->
+            <mat-tab>
+                <ng-template matTabLabel>
+                    <mat-icon class="tab-icon">block</mat-icon>
+                    <span>Tác Giả Bị Chặn ({{blockedAuthors.length}})</span>
+                </ng-template>
+
+                <div class="tab-content">
+                    <div *ngIf="isLoadingBlocked" class="spinner-container">
+                        <mat-spinner diameter="40"></mat-spinner>
+                    </div>
+
+                    <div *ngIf="!isLoadingBlocked && blockedAuthors.length === 0" class="empty-state">
+                        <mat-icon class="empty-icon">check_circle_outline</mat-icon>
+                        <p>Danh sách chặn trống.</p>
+                    </div>
+
+                    <div class="authors-grid" *ngIf="!isLoadingBlocked && blockedAuthors.length > 0">
+                        <div class="author-card" *ngFor="let author of blockedAuthors">
+                            <img [src]="author.avartarUrl || 'https://placehold.co/80x80?text=User'" alt="Avatar Author" class="author-card-img" onerror="this.src='https://placehold.co/80x80?text=User'">
+                            <h3 class="author-card-name">{{author.displayName}}</h3>
+                            <button mat-button color="warn" class="btn-action-card" (click)="unblockAuthor(author.uid, $event)">
+                                <mat-icon>block</mat-icon> Bỏ chặn
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
