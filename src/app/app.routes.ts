@@ -31,6 +31,9 @@ import { AdminDashboard } from './component/admin/admin-dashboard/admin-dashboar
 import { NovelManager as NovelManagerAdmin } from './component/author/novel-manager-admin/novel-manager';
 import { ChapterManagerment as ChapterManagermentAdmin } from './component/author/chapter-managerment-admin/chapter-managerment'
 import { CommentManager } from './component/admin/comment-manager/comment-manager';
+import { UserProfile } from './component/common/user-profile/user-profile';
+import { BlockUsers } from './component/common/block-users/block-users';
+import { FollowedNovelsComponent } from './component/reading-system/followed-novels/followed-novels';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -41,6 +44,10 @@ export const routes: Routes = [
                 path: "filter",
                 component: FilterPanelComponent
             },
+            { path: "profile/:id", component: UserProfile },
+            { path: "profile", component: UserProfile },
+            { path: 'blocked-users', component: BlockUsers },
+            { path: 'follow-manager', component: FollowedNovelsComponent },
             {
                 path: "account", component: Account, canActivate: [authGuard],
                 data: {
@@ -74,7 +81,8 @@ export const routes: Routes = [
             { path: "forgot-password", component: FogotPass },
             { path: "recovery-pass", component: RecoveryPass },
             { path: "login-callback", component: LoginCallback },
-            // { path: "logout", component: Login }
+
+            //{ path: "logout", component: Login }
         ]
     },
     // nhánh layout dashboard, sau này nhớ thêm chặn quyền truy cập ở đây

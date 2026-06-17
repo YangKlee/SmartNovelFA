@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NovelInteractionService } from '../../../services/follow/novel-interaction.service';
 import { RouterModule } from '@angular/router';
@@ -28,7 +28,10 @@ export class FollowedNovelsComponent implements OnInit {
 
   loadingUnfollowId: string | null = null;
 
-  constructor(private followService: NovelInteractionService) {}
+  constructor(
+    private followService: NovelInteractionService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadNovels();
@@ -42,10 +45,12 @@ export class FollowedNovelsComponent implements OnInit {
       next: (res) => {
         this.novels = res;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.error = 'Không tải được danh sách truyện đã theo dõi';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

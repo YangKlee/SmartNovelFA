@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BlockServices } from '../../../services/block/block-services';
 
@@ -24,7 +24,8 @@ export class BlockUsers implements OnInit {
   unblockingUid: string | null = null;
 
   constructor(
-    private userBlockService: BlockServices
+    private userBlockService: BlockServices,
+    private cdr: ChangeDetectorRef
   ) { }
     
   ngOnInit(): void {
@@ -32,7 +33,6 @@ export class BlockUsers implements OnInit {
   }
 
   loadBlockedUsers(): void {
-
     this.loading = true;
     this.error = '';
 
@@ -40,16 +40,17 @@ export class BlockUsers implements OnInit {
       next: (res) => {
         this.blockedUsers = res;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.error = 'Không tải được danh sách chặn';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
   unBlock(uid: string): void {
-
     if (!confirm('Bạn muốn bỏ chặn người dùng này?')) {
       return;
     }
@@ -58,15 +59,15 @@ export class BlockUsers implements OnInit {
 
     this.userBlockService.unblock(uid).subscribe({
       next: () => {
-
         this.blockedUsers =
           this.blockedUsers.filter(x => x.uid !== uid);
-
         this.unblockingUid = null;
+        this.cdr.detectChanges();
       },
       error: () => {
         alert('Bỏ chặn thất bại');
         this.unblockingUid = null;
+        this.cdr.detectChanges();
       }
     });
   }
