@@ -30,8 +30,8 @@
                     }
                 </span>
             </button>
-            <button class="btn-delete" *ngIf="comment.userId == comment.currentUserId 
-            || comment.roleId == '1' || comment.roleId == '2' " (click)="deleteComment()">
+            <button class="btn-delete" *ngIf="currentUser && (comment.userId == currentUser.uid 
+            || currentUser.roleId == '1' || currentUser.roleId == '2')" (click)="deleteComment()">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>

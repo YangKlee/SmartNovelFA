@@ -7,6 +7,8 @@ import { WriteComment } from '../../common/write-comment/write-comment';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { CommentServices } from '../../../services/comment/comment-services';
 import { PagedResponse } from '../../../modelels/paged-response';
+import { UserServices } from '../../../services/user/user-services';
+import { User } from '../../../models/user/user.model';
 
 @Component({
   selector: 'app-author-comment',
@@ -27,8 +29,22 @@ export class AuthorComment implements OnInit {
   limitComment: number = 5;
   totalComment: number = 0;
 
-  constructor(private commentServices: CommentServices, private crl: ChangeDetectorRef, private snackBar: MatSnackBar) { }
+  currentUser?: User;
+
+  constructor(
+    private commentServices: CommentServices, 
+    private crl: ChangeDetectorRef, 
+    private snackBar: MatSnackBar,
+    private userServices: UserServices
+  ) { }
   ngOnInit(): void {
+    this.userServices.getUserInfo().subscribe({
+      next: (user) => {
+        this.currentUser = user;
+        this.crl.detectChanges();
+      }
+    });
+
     this.commentServices.isReloadChildComment.subscribe({
       next: (data: string) => {
         if (data == this.comment?.commentId?.toString()) {
