@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router'; // 🌟 Thêm ActivatedRoute và Router
 
-import { ReportServices } from '../../../services/report/report-services';
+import { ReportServices } from '../../../services/report/user-report-services';
 
 @Component({
   selector: 'app-report-comment',

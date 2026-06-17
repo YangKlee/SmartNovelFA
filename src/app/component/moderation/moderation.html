@@ -1,0 +1,272 @@
+<div class="moderation-page">
+
+    <div class="container-custom">
+
+        <!-- Tabs -->
+
+        <div class="tab-bar">
+
+            <button
+                [class.active]="activeTab==='novels'"
+                (click)="activeTab='novels'">
+
+                <i class="bi bi-book"></i>
+                Truyện
+
+            </button>
+
+            <button
+                [class.active]="activeTab==='chapters'"
+                (click)="activeTab='chapters'">
+
+                <i class="bi bi-journal-text"></i>
+                Chương
+
+            </button>
+
+            <button
+                [class.active]="activeTab==='comments'"
+                (click)="activeTab='comments'">
+
+                <i class="bi bi-chat-left-text"></i>
+                Bình luận
+
+            </button>
+
+            <button
+                [class.active]="activeTab==='history'"
+                (click)="activeTab='history'">
+
+                <i class="bi bi-clock-history"></i>
+                Lịch sử xử lý
+
+            </button>
+
+        </div>
+
+        <!-- ===================== -->
+        <!-- NOVELS -->
+        <!-- ===================== -->
+
+        <div *ngIf="activeTab==='novels'">
+
+            <div
+                class="report-card"
+                *ngFor="let item of novels">
+
+                <div class="card-header">
+
+                    <h3>{{ item.title }}</h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p class="content">
+                        {{ item.description }}
+                    </p>
+
+                    <div class="reason-box">
+
+                        <strong>Lý do báo cáo:</strong>
+
+                        {{ item.reasonDetail }}
+
+                    </div>
+
+                    <div class="action-buttons">
+
+                        <button
+                            class="btn-remove"
+                            (click)="removeNovel(item.tiketId)">
+
+                            <i class="bi bi-trash-fill"></i>
+                            Gỡ truyện
+
+                        </button>
+
+                        <button
+                            class="btn-ignore"
+                            (click)="reject(item.tiketId)">
+
+                            <i class="bi bi-x-circle-fill"></i>
+                            Bỏ qua
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===================== -->
+        <!-- CHAPTERS -->
+        <!-- ===================== -->
+
+        <div *ngIf="activeTab==='chapters'">
+
+            <div
+                class="report-card"
+                *ngFor="let item of chapters">
+
+                <div class="card-header">
+
+                    <h3>{{ item.chapterTitle }}</h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p class="content">
+                        {{ item.summaryChapter }}
+                    </p>
+
+                    <div class="reason-box">
+
+                        <strong>Lý do báo cáo:</strong>
+
+                        {{ item.reasonDetail }}
+
+                    </div>
+
+                    <div class="action-buttons">
+
+                        <button
+                            class="btn-remove"
+                            (click)="removeChapter(item.tiketId)">
+
+                            <i class="bi bi-trash-fill"></i>
+                            Gỡ chương
+
+                        </button>
+
+                        <button
+                            class="btn-ignore"
+                            (click)="reject(item.tiketId)">
+
+                            <i class="bi bi-x-circle-fill"></i>
+                            Bỏ qua
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===================== -->
+        <!-- COMMENTS -->
+        <!-- ===================== -->
+
+        <div *ngIf="activeTab==='comments'">
+
+            <div
+                class="report-card"
+                *ngFor="let item of comments">
+
+                <div class="card-body">
+
+                    <p class="comment-content">
+                        "{{ item.content }}"
+                    </p>
+
+                    <div class="reason-box">
+
+                        <strong>Lý do báo cáo:</strong>
+
+                        {{ item.reasonDetail }}
+
+                    </div>
+
+                    <div class="action-buttons">
+
+                        <button
+                            class="btn-remove"
+                            (click)="removeComment(item.tiketId)">
+
+                            <i class="bi bi-trash-fill"></i>
+                            Gỡ bình luận
+
+                        </button>
+
+                        <button
+                            class="btn-ignore"
+                            (click)="reject(item.tiketId)">
+
+                            <i class="bi bi-x-circle-fill"></i>
+                            Bỏ qua
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===================== -->
+        <!-- HISTORY -->
+        <!-- ===================== -->
+
+        <div
+            class="history-section"
+            *ngIf="activeTab==='history'">
+
+            <div class="section-title">
+
+                <i class="bi bi-clock-history"></i>
+                Lịch sử xử lý
+
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Ticket</th>
+                            <th>Loại</th>
+                            <th>Lý do</th>
+                            <th>Người báo cáo</th>
+                            <th>Người xử lý</th>
+                            <th>Kết quả</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr *ngFor="let item of history">
+
+                            <td>{{ item.tiketId }}</td>
+                            <td>{{ item.type }}</td>
+                            <td>{{ item.reasonDetail }}</td>
+                            <td>{{ item.repoterUid }}</td>
+                            <td>{{ item.resolvedUid }}</td>
+                            <td>{{ item.status }}</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

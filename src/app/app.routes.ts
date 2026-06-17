@@ -23,6 +23,7 @@ import { UserManagerComponent } from './component/admin/user-manager/user-manage
 import { ReportNovel } from './component/report/report-novel/report-novel';
 import { ReportComment } from './component/report/report-comment/report-comment';
 import { ReportChapter } from './component/report/report-chapter/report-chapter';
+import { ModerationComponent } from './component/moderation/moderation';
 
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
@@ -115,4 +116,10 @@ export const routes: Routes = [
             }
         ]
     },
+    {
+        path: "moderation", component: ModerationComponent, canActivate: [authGuard],
+        data: {
+            requiredRoles: ['moderator']
+        }
+    }
 ];
