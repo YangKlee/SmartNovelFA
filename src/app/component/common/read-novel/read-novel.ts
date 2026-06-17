@@ -60,6 +60,8 @@ export class ReadNovel implements OnInit, OnDestroy {
   totalComment: number = 0;
   limitComment: number = 5;
   isLoggedIn: boolean = false;
+  prevChapterId: string | null = null;
+  nextChapterId: string | null = null;
 
   constructor(private route: ActivatedRoute, private router: Router, private novelServices: NovelServices,
     private chapterServices: ChapterServices, @Inject(PLATFORM_ID) private platformId: Object,
@@ -93,7 +95,18 @@ export class ReadNovel implements OnInit, OnDestroy {
 
       if (this.novelId != null && isPlatformBrowser(this.platformId)) {
         this.novel = this.novelServices.getInfoNovelForReader(this.novelId);
-        this.chapters$ = this.chapterServices.getChapterByNovel(this.novelId);
+        this.chapters$ = this.chapterServices.getChapterByNovel(this.novelId).pipe(
+          tap((chapters: Chapter[]) => {
+            if (this.chapterId) {
+              const currentIndex = chapters.findIndex(c => c.chapterId === this.chapterId);
+              if (currentIndex !== -1) {
+                this.prevChapterId = currentIndex > 0 ? chapters[currentIndex - 1].chapterId : null;
+                this.nextChapterId = currentIndex < chapters.length - 1 ? chapters[currentIndex + 1].chapterId : null;
+              }
+              this.crl.detectChanges();
+            }
+          })
+        );
         this.loadChapter();
         this.loadComment();
       }
