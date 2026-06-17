@@ -1,0 +1,46 @@
+<div class="comment-item" *ngIf="comment">
+    <div class="comment-avatar">
+        <ng-container *ngIf="comment.userAvatarUrl; else noAvatar">
+            <img [src]="comment?.userAvatarUrl" alt="{{ comment?.displayName }}" />
+        </ng-container>
+        <ng-template #noAvatar>
+            <mat-icon class="fallback-icon">account_circle</mat-icon>
+        </ng-template>
+    </div>
+    <div class="comment-content">
+        <div class="comment-header">
+            <span class="comment-author">{{ comment?.displayName }}</span>
+            <span class="comment-date">{{ comment?.commentDateTime | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <div class="comment-body">
+            <p>{{ comment?.content }}</p>
+        </div>
+        <div class="comment-actions">
+            <button class="btn-reply" (click)="toggleReplyForm()">
+                <mat-icon>comment</mat-icon>
+                <span>Trả lời</span>
+            </button>
+            <button *ngIf="comment?.countChildComment != 0" class="btn-reply" (click)="toggleReplies()">
+                <mat-icon>reply</mat-icon>
+                <span>
+                    @if (isShowReplies) {
+                    Ẩn phản hồi
+                    } @else {
+                    Xem phản hồi
+                    }
+                </span>
+            </button>
+            <button class="btn-delete" *ngIf="comment.userId == comment.currentUserId 
+            || comment.roleId == '1' || comment.roleId == '2' " (click)="deleteComment()">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+        <div class="reply-form-container" *ngIf="isReplying">
+            <app-write-comment (cancel)="cancelReply()" (submitComment)="submitReply($event)">
+            </app-write-comment>
+        </div>
+    </div>
+</div>
+<div *ngIf="comment?.countChildComment != 0 && isShowReplies" class="comment-replies">
+      <app-author-comment *ngFor="let child of childComment | async" [comment]="child" [isParent]="false"></app-author-comment>
+</div>

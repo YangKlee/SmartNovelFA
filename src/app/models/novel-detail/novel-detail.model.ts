@@ -12,6 +12,8 @@ export interface NovelDetail {
 
   imageBanerNovelUrl: string;
 
+  authorId: string;
+
   authorName: string;
 
   viewCount: number;

@@ -5,7 +5,7 @@
     <main class="main-content">
       <section class="feed-section">
         <app-slider-novel 
-          title=" TRUYỆN HOT TRONG NGÀY" 
+          title=" TRUYỆN HOT " 
           [novels]="NovelHot">
         </app-slider-novel>
       </section>
@@ -23,10 +23,19 @@
           [novels]="NovelUpdate">
         </app-slider-novel>
       </section>
+
+      <section class="feed-section">
+        <app-slider-novel 
+          title=" TRUYỆN ĐÃ THEO DÕI " 
+          [novels]="NovelFollowing">
+        </app-slider-novel>
+      </section>
     </main>
 
     <aside class="right-sidebar">
-      <app-sidebar></app-sidebar>
+      <app-sidebar title="Bảng Xếp Hạng Tác Giả" icon="leaderboard" [items]="topAuthors" type="author"></app-sidebar>
+      <app-sidebar title="Truyện Vừa Cập Nhật" icon="update" [items]="NovelUpdate | slice:0:5" type="novel-update"></app-sidebar>
+      <app-sidebar title="Biên Tập Viên Đề Cử" icon="auto_stories" [items]="recommendedAdmin" type="novel-recommend"></app-sidebar>
     </aside>
 
   </div>

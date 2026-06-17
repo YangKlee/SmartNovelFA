@@ -31,7 +31,7 @@ padding: 88px 0 60px 0;
 /* Căn chỉnh wrapper tổng theo tỷ lệ vàng giữa Main và Sidebar */
 .wrapper.dashboard-layout {
   /* Tăng độ rộng tổng thể để web trông thoáng đãng hơn */
-  max-width: 1440px; 
+  max-width: 1600px; 
   margin: 0 auto;
   padding: 0 24px;
   
@@ -60,4 +60,12 @@ padding: 88px 0 60px 0;
 .right-sidebar {
   position: sticky;
   top: 88px; /* Giữ cố định sidebar khi cuộn trang */
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: var(--radius-lg, 12px);
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  box-shadow: var(--shadow-sm);
+  gap: 36px;
 }

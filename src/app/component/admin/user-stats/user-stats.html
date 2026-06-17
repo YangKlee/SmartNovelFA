@@ -1,0 +1,62 @@
+<div class="stats-container" *ngIf="userStats">
+  <div class="stats-header">
+    <i class="bi bi-people-fill"></i>
+    <h2>Thống kê người dùng</h2>
+  </div>
+
+  <div class="charts-wrapper">
+    <!-- Role Chart Section -->
+    <div class="chart-section">
+      <div class="chart-main">
+        <h3 class="chart-title">Vai trò</h3>
+        <div class="canvas-container">
+          <canvas #roleChart></canvas>
+        </div>
+        <div class="chart-footer">
+          Tổng người dùng: {{ userStats.totalUsers || 0 }}
+        </div>
+      </div>
+      <div class="custom-legend">
+        <div class="legend-item">
+          <span class="color-box bg-blue"></span>
+          <span>Admin: {{ userStats.adminCount || 0 }}</span>
+        </div>
+        <div class="legend-item">
+          <span class="color-box bg-cyan"></span>
+          <span>Moderator: {{ userStats.moderatorCount || 0 }}</span>
+        </div>
+        <div class="legend-item">
+          <span class="color-box bg-yellow"></span>
+          <span>Tác giả: {{ userStats.authorCount || 0 }}</span>
+        </div>
+        <div class="legend-item">
+          <span class="color-box bg-green"></span>
+          <span>Độc giả: {{ userStats.readerCount || 0 }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Chart Section -->
+    <div class="chart-section">
+      <div class="chart-main">
+        <h3 class="chart-title">Trạng thái tài khoản</h3>
+        <div class="canvas-container">
+          <canvas #statusChart></canvas>
+        </div>
+        <div class="chart-footer">
+          Hoạt động: {{ userStats.activeCount || 0 }}
+        </div>
+      </div>
+      <div class="custom-legend">
+        <div class="legend-item">
+          <span class="color-box bg-green"></span>
+          <span>Hoạt động: {{ userStats.activeCount || 0 }}</span>
+        </div>
+        <div class="legend-item">
+          <span class="color-box bg-red"></span>
+          <span>Bị khóa: {{ userStats.blockedCount || 0 }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

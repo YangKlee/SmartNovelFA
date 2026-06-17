@@ -8,12 +8,6 @@
     <div class="badge-group top-right" *ngIf="novel.ageRating">
       <span class="badge-age">{{ novel.ageRating }}</span>
     </div>
-    
-    <div class="badge-group top-left" *ngIf="novel.categories && novel.categories.length > 0">
-      <span class="badge-category" *ngFor="let category of novel.categories | slice:0:2">
-        {{ category }}
-      </span>
-    </div>
 
     <div class="badge-group bottom-left">
       <span class="badge-chapter">
@@ -30,16 +24,21 @@
       <span class="text-truncate">{{ novel.authorName || 'Đang cập nhật' }}</span>
     </div>
 
-    <footer class="card-footer">
-      <div class="stat-item" title="Lượt xem">
-        <mat-icon>visibility</mat-icon>
-        <span class="text-truncate">{{ (novel.viewCount || 0) | number:'1.0-0' }}</span>
-      </div>
-      
+    <div class="novel-categories" *ngIf="novel.categories && novel.categories.length > 0">
+      <span class="category-tag" *ngFor="let category of novel.categories | slice:0:2">
+        {{ category }}
+      </span>
+    </div>
 
-      <div class="stat-item stat-heart" title="Lượt thích">
+    <footer class="card-footer">
+      <div class="stat-item" title="Lượt xem: {{ novel.viewCount }}">
+        <mat-icon>visibility</mat-icon>
+        <span class="text-truncate">{{ formatShortNumber(novel.viewCount) }}</span>
+      </div>
+
+      <div class="stat-item stat-heart" title="Lượt thích: {{ novel.likeCount }}">
         <mat-icon>favorite</mat-icon>
-        <span class="text-truncate">{{ (novel.likeCount || 0) | number:'1.0-0' }}</span>
+        <span class="text-truncate">{{ formatShortNumber(novel.likeCount) }}</span>
       </div>
     </footer>
   </div>
