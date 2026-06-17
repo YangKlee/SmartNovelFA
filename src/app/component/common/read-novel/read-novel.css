@@ -224,29 +224,349 @@
   color: #111827 !important;
 }
 
-.reading-footer {
-  padding: 30px 20px 40px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
 .toc-btn {
+  position: fixed !important;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   background-color: #f3f4f6 !important;
   color: #111827 !important;
   font-size: 1rem !important;
-  padding: 8px 32px !important;
-  border-radius: 20px !important;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 12px 16px 12px 12px !important;
+  border-radius: 0 20px 20px 0 !important;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1) !important;
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  z-index: 100;
 }
 
 .toc-btn:hover {
   background-color: #e5e7eb !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-50%) translateX(5px);
+  box-shadow: 6px 0 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+@media (max-width: 768px) {
+  .toc-btn span {
+    display: none;
+  }
+
+  .toc-btn {
+    padding: 12px !important;
+  }
+}
+
+.reading-layout-wrapper {
+  display: flex;
+  gap: 24px;
+  max-width: 1300px;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 2;
+  /* Nổi lên trên overlay của banner */
+  position: relative;
+}
+
+.hot-novel-sidebar {
+  width: 320px;
+  /* Bề rộng của sidebar */
+  flex-shrink: 0;
+  position: sticky;
+  top: 20px;
+  /* Ghim cách lề trên 20px khi cuộn trang */
+
+  /* Khung viền thay thế cho .sidebar-wrapper cũ */
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 1100px) {
+  .hot-novel-sidebar {
+    display: none;
+  }
+}
+
+/* --- DARK THEME OVERRIDES --- */
+.dark-theme .hot-novel-sidebar {
+  background-color: #1e1e1e !important;
+  border-color: #374151 !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .dark-theme app-sidebar .section-header {
+  border-bottom-color: #374151 !important;
+}
+
+::ng-deep .dark-theme app-sidebar .section-header h3,
+::ng-deep .dark-theme app-sidebar .novel-title {
+  color: #f3f4f6 !important;
+}
+
+::ng-deep .dark-theme app-sidebar .novel-meta {
+  color: #9ca3af !important;
+}
+
+::ng-deep .dark-theme app-sidebar .novel-item:hover .novel-title {
+  color: #f59e0b !important;
+}
+
+/* --- SEPIA THEME OVERRIDES --- */
+.sepia-theme .hot-novel-sidebar {
+  background-color: #fbf0d9 !important;
+  border-color: rgba(74, 59, 44, 0.12) !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .sepia-theme app-sidebar .section-header {
+  border-bottom-color: rgba(74, 59, 44, 0.12) !important;
+}
+
+::ng-deep .sepia-theme app-sidebar .section-header h3,
+::ng-deep .sepia-theme app-sidebar .novel-title {
+  color: #4a3b2c !important;
+}
+
+::ng-deep .sepia-theme app-sidebar .novel-meta {
+  color: #7d6653 !important;
+}
+
+::ng-deep .sepia-theme app-sidebar .novel-item:hover .novel-title {
+  color: #d97706 !important;
+}
+
+.active-font {
+  font-weight: bold;
+  color: #f59e0b !important;
+  background-color: rgba(245, 158, 11, 0.1) !important;
+}
+
+.dark-theme .toc-btn {
+  background-color: #374151 !important;
+  color: #f3f4f6 !important;
+}
+
+.sepia-theme .toc-btn {
+  background-color: #e8dcb8 !important;
+  color: #2c241b !important;
+}
+
+/* --- COMMENT SECTION STYLING --- */
+.comments-section {
+  padding: 40px 60px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.comments-section h3 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.dark-theme .comments-section h3 {
+  color: #f3f4f6;
+}
+
+.sepia-theme .comments-section h3 {
+  color: #4a3b2c;
+}
+
+.login-prompt,
+.no-comments-msg {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.dark-theme .login-prompt,
+.dark-theme .no-comments-msg {
+  color: #9ca3af;
+}
+
+.sepia-theme .login-prompt,
+.sepia-theme .no-comments-msg {
+  color: #7d6653;
+}
+
+.comments-list {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  width: 100%;
+}
+
+.load-more-btn {
+  font-size: 0.9rem !important;
+  padding: 8px 24px !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+.dark-theme .load-more-btn {
+  color: #d1d5db !important;
+  border-color: #4b5563 !important;
+}
+
+.dark-theme .load-more-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.sepia-theme .load-more-btn {
+  color: #4a3b2c !important;
+  border-color: rgba(74, 59, 44, 0.3) !important;
+}
+
+.sepia-theme .load-more-btn:hover {
+  background-color: rgba(74, 59, 44, 0.05) !important;
+}
+
+/* Custom styles to adjust Angular Material Form Field in dark and sepia modes */
+::ng-deep .dark-theme .write-comment-form textarea {
+  color: #e5e7eb !important;
+}
+
+::ng-deep .sepia-theme .write-comment-form textarea {
+  color: #2c241b !important;
+}
+
+::ng-deep .dark-theme .mat-mdc-form-field-label,
+::ng-deep .dark-theme .mat-mdc-form-field-hint {
+  color: #9ca3af !important;
+}
+
+::ng-deep .sepia-theme .mat-mdc-form-field-label,
+::ng-deep .sepia-theme .mat-mdc-form-field-hint {
+  color: #7d6653 !important;
+}
+
+::ng-deep .dark-theme .mdc-outlined-field__outline-start,
+::ng-deep .dark-theme .mdc-outlined-field__outline-notch,
+::ng-deep .dark-theme .mdc-outlined-field__outline-end {
+  border-color: #4b5563 !important;
+}
+
+::ng-deep .sepia-theme .mdc-outlined-field__outline-start,
+::ng-deep .sepia-theme .mdc-outlined-field__outline-notch,
+::ng-deep .sepia-theme .mdc-outlined-field__outline-end {
+  border-color: rgba(74, 59, 44, 0.3) !important;
+}
+
+/* Comment children text and details themes overrides */
+::ng-deep .dark-theme .comment-body {
+  color: #e5e7eb !important;
+}
+
+::ng-deep .sepia-theme .comment-body {
+  color: #2c241b !important;
+}
+
+::ng-deep .dark-theme .comment-author {
+  color: #9ca3af !important;
+}
+
+::ng-deep .sepia-theme .comment-author {
+  color: #7d6653 !important;
+}
+
+::ng-deep .dark-theme .comment-replies {
+  border-left-color: #374151 !important;
+}
+
+::ng-deep .sepia-theme .comment-replies {
+  border-left-color: rgba(74, 59, 44, 0.15) !important;
+}
+
+/* Force correct text colors for novel content to overwrite inline-styles in dark & sepia themes */
+::ng-deep .dark-theme .reading-content,
+::ng-deep .dark-theme .reading-content * {
+  color: #d1d5db !important;
+}
+
+::ng-deep .sepia-theme .reading-content,
+::ng-deep .sepia-theme .reading-content * {
+  color: #2c241b !important;
+}
+
+/* Styles cho màn hình chặn Developer Tools */
+.devtools-blocked-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 24, 39, 0.97);
+  /* Nền tối mờ bảo vệ nội dung */
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+}
+
+.blocked-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 40px 32px;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+.blocked-card h2 {
+  font-size: 1.5rem;
+  margin: 16px 0 12px 0;
+  font-weight: 600;
+  color: #f87171;
+  /* Đỏ cảnh báo dịu mắt */
+}
+
+.blocked-card p {
+  color: #d1d5db;
+  margin-bottom: 24px;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.warning-icon {
+  font-size: 48px !important;
+  width: 48px !important;
+  height: 48px !important;
+  color: #f87171;
+}
+
+.reload-btn {
+  background-color: #ef4444 !important;
+  color: #ffffff !important;
+  border-radius: 20px !important;
+  padding: 8px 24px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+.reload-btn:hover {
+  background-color: #dc2626 !important;
+  transform: translateY(-1px);
 }

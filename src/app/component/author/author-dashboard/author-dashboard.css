@@ -1,0 +1,55 @@
+.dashboard-container {
+  padding: 15px; /* Giảm padding */
+  background-color: #f8f9fa; /* Màu nền nhạt để làm nổi bật các khối trắng */
+  min-height: 100vh;
+  font-family: sans-serif;
+}
+
+.welcome-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+.dashboard-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1200px; /* Giới hạn chiều rộng tối đa như thiết kế */
+  margin: 0 auto;
+}
+
+.dashboard-section {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Viền đổ bóng nhẹ */
+  overflow: hidden;
+}
+
+.bottom-row {
+  display: flex;
+  gap: 20px;
+}
+
+.left-section {
+  flex: 6; /* Khối truy cập nhanh chiếm ~60% */
+}
+
+.right-section {
+  flex: 4; /* Khối bình luận chiếm ~40% */
+}
+
+/* Class dùng tạm để đánh dấu layout cho bạn dễ nhìn */
+.placeholder-box {
+  padding: 20px; /* Giảm padding */
+  text-align: center;
+  color: #aaa;
+  font-weight: bold;
+  font-size: 16px;
+  /* Đã bỏ border nét đứt theo yêu cầu */
+  border-radius: 6px;
+  margin: 10px; /* Giảm margin */
+}

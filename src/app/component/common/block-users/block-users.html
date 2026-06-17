@@ -1,0 +1,62 @@
+<div class="container py-4 blocked-container">
+
+<div class="d-flex align-items-center bg-dark text-white p-3 rounded shadow-sm mb-4 bg-custom-banner">
+  <h2 class="title d-flex align-items-center mb-0">
+    <i class="bi bi-person-x-fill me-2"></i>
+    Danh sách người đã chặn
+  </h2>
+</div>
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center text-light py-4">
+    Đang tải...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="alert alert-danger text-center">
+    {{ error }}
+  </div>
+
+  <!-- Empty -->
+  <div *ngIf="!loading && !error && blockedUsers.length === 0"
+       class="text-center text-light py-4">
+    Bạn chưa chặn ai.
+  </div>
+
+  <!-- Grid -->
+  <div class="row g-4">
+
+    <div class="col-6 col-md-4 col-lg-3"
+         *ngFor="let user of blockedUsers">
+
+      <div class="card user-card h-100">
+
+        <img class="card-img-top user-avatar"
+             [src]="user.avatarUrl || 'assets/default-avatar.png'"
+             alt="avatar">
+
+        <div class="card-body text-center">
+
+          <h6 class="card-title text-white mb-1">
+            {{ user.displayName }}
+          </h6>
+
+          <small class="text-muted">
+            @{{ user.username }}
+          </small>
+
+          <button class="btn btn-unblock w-100 mt-3"
+                  [disabled]="unblockingUid === user.uid"
+                  (click)="unBlock(user.uid)">
+
+            {{ unblockingUid === user.uid
+              ? 'Đang xử lý...'
+              : 'Bỏ chặn' }}
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

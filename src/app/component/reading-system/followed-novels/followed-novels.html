@@ -1,0 +1,54 @@
+<div class="follow-container">
+
+<div class="d-flex align-items-center bg-dark text-white p-3 rounded shadow-sm mb-4 bg-custom-banner">
+  <h2 class="title d-flex align-items-center mb-0">
+    <i class="bi bi-book-half me-2 novel-icon"></i>
+    Truyện đã theo dõi
+  </h2>
+</div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="state error">
+    {{ error }}
+  </div>
+
+  <!-- Empty -->
+  <div *ngIf="novels.length === 0" class="state">
+    Bạn chưa theo dõi truyện nào
+  </div>
+
+  <!-- List -->
+  <div class="grid" *ngIf="novels.length > 0">
+
+    <div class="card" *ngFor="let novel of novels">
+
+      <img [src]="novel.imageNovelUrl" alt="{{ novel.title }}" />
+
+      <div class="content">
+
+        <h3>{{ novel.title }}</h3>
+
+        <div class="actions">
+
+          <a class="btn-view"
+             [routerLink]="['/novel', novel.novelId]">
+            Xem truyện
+          </a>
+
+          <button class="btn-unfollow"
+                  (click)="unfollow(novel.novelId)"
+                  [disabled]="loadingUnfollowId === novel.novelId">
+
+            {{ loadingUnfollowId === novel.novelId ? 'Đang...' : 'Bỏ theo dõi' }}
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,140 @@
+:host {
+  display: block;
+}
+
+.author-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* TITLE */
+
+h2 {
+  margin-bottom: 24px;
+  color: #2d2f36;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* SEARCH */
+
+.search-box {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.search-box input {
+  flex: 1;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid #555866;
+  border-radius: 999px;
+  background: #2d2f36;
+  color: white;
+  font-size: 14px;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #d2d7d9;
+}
+
+.search-box button {
+  height: 48px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 999px;
+  background: #d2d7d9;
+  color: #2d2f36;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.search-box button {
+  height: 48px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 999px;
+  background: #2d2f36;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* TABLE */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #3f414a;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+thead {
+  background: #2d2f36;
+}
+
+th {
+  padding: 16px;
+  text-align: left;
+  color: white;
+  font-weight: 600;
+}
+
+td {
+  padding: 16px;
+  color: #d2d7d9;
+  border-top: 1px solid #555866;
+}
+
+tbody tr:hover {
+  background: rgba(255, 255, 255, .05);
+}
+
+/* PAGINATION */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.pagination button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #555866;
+  background: #3f414a;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.pagination button:hover {
+  transform: translateY(-2px);
+}
+
+.pagination button.active {
+  background: #d2d7d9;
+  color: #2d2f36;
+  font-weight: 700;
+}
+
+/* ACTIONS */
+.btn-profile {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s, text-decoration 0.2s;
+}
+
+.btn-profile:hover {
+  color: #7dd3fc;
+  text-decoration: underline;
+}

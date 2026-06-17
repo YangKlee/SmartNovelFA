@@ -52,7 +52,7 @@ export class NovelManager implements OnInit, OnDestroy {
             },
             error: (err) => console.error('Lỗi lấy tổng số lượng search:', err)
           });
-          return this.novelServices.seachNovelAuthor(this.selectedStatus, this.keyword, this.currentPage, this.pageSize);
+          return this.novelServices.seachNovelAuthor(this.selectedStatus, this.keyword, '', this.currentPage, this.pageSize);
         })
       );
     } else {

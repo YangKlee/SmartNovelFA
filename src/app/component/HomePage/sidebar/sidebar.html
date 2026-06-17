@@ -1,48 +1,39 @@
-<aside class="sidebar-wrapper">
-  
-  <div class="sidebar-section">
-    <div class="section-header">
-      <h3><mat-icon class="header-icon">leaderboard</mat-icon> Bảng Xếp Hạng Tác Giả</h3>
-    </div>
-    <ul class="sidebar-list">
-      <li *ngFor="let author of topAuthors; let i = index" class="author-item">
+<div class="sidebar-section">
+  <div class="section-header">
+    <h3><mat-icon class="header-icon">{{ icon }}</mat-icon> {{ title }}</h3>
+  </div>
+  <ul class="sidebar-list">
+    
+    <!-- Bảng xếp hạng tác giả -->
+    <ng-container *ngIf="type === 'author'">
+      <li *ngFor="let author of items; let i = index" class="author-item">
         <span class="rank-number" [ngClass]="'rank-' + (i + 1)">{{ i + 1 }}</span>
-        
-        
         <div class="item-info">
-          <span class="author-name">{{ author.displayName }}</span>
+          <a [routerLink]="['/profile', author.uid]" class="author-name">{{ author.displayName }}</a>
           <span class="author-points">{{ author.creatorPoint | number }} điểm</span>
         </div>
       </li>
-    </ul>
-  </div>
+    </ng-container>
 
-  <div class="sidebar-section">
-    <div class="section-header">
-      <h3><mat-icon class="header-icon">update</mat-icon> Truyện Vừa Cập Nhật</h3>
-    </div>
-    <ul class="sidebar-list">
-      <li *ngFor="let novel of newUpdates | slice:0:5" class="novel-item" [routerLink]="['/novel',  novel.novelId]">
+    <!-- Truyện vừa cập nhật -->
+    <ng-container *ngIf="type === 'novel-update'">
+      <li *ngFor="let novel of items" class="novel-item" [routerLink]="['/novel', novel.novelId]">
         <div class="item-info">
           <h4 class="novel-title" [title]="novel.title">{{ novel.title }}</h4>
           <span class="novel-meta">{{ novel.authorName }}</span>
         </div>
       </li>
-    </ul>
-  </div>
+    </ng-container>
 
-  <div class="sidebar-section">
-    <div class="section-header">
-      <h3><mat-icon class="header-icon">auto_stories</mat-icon> Biên Tập Viên Đề Cử</h3>
-    </div>
-    <ul class="sidebar-list">
-      <li *ngFor="let novel of recommendedNovels" class="novel-item" [routerLink]="['/novel', novel.novelId]">
+    <!-- Biên tập viên đề cử -->
+    <ng-container *ngIf="type === 'novel-recommend'">
+      <li *ngFor="let novel of items" class="novel-item" [routerLink]="['/novel', novel.novelId]">
         <div class="item-info">
           <h4 class="novel-title" [title]="novel.title">{{ novel.title }}</h4>
           <span class="novel-meta"><i class="fa-solid fa-eye"></i> Lượt xem: {{ novel.viewCount | number }}</span>
         </div>
       </li>
-    </ul>
-  </div>
+    </ng-container>
 
-</aside>
+  </ul>
+</div>
