@@ -20,6 +20,10 @@ import { NovelDetail } from './component/reading-system/novel-detail/novel-detai
 import { Home } from './component/HomePage/home/home';
 import { FilterPanelComponent } from './component/Search_and_FilterNovel/filter-panel/filter-panel';
 import { UserManagerComponent } from './component/admin/user-manager/user-manager';
+import { ReportNovel } from './component/report/report-novel/report-novel';
+import { ReportComment } from './component/report/report-comment/report-comment';
+import { ReportChapter } from './component/report/report-chapter/report-chapter';
+
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -40,6 +44,24 @@ export const routes: Routes = [
                 ]
 
             },
+        
+                {
+    path: 'report',
+    children: [
+        {
+            path: 'novel/:id',
+            component: ReportNovel
+        },
+        {
+            path: 'chapter/:id',
+            component: ReportChapter
+        },
+        {
+            path: 'comment/:id',
+            component: ReportComment
+        }
+    ]
+},
             {
                 path: "novel/:novelID",
                 children: [

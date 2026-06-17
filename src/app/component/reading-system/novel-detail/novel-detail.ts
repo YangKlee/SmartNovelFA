@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, signal, PLATFORM_ID, inject } from '@angular/core'; // 1. Thêm signal từ @angular/core
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule , Router} from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 import { NovelServices } from '../../../services/novel/novel-services';
@@ -24,6 +24,7 @@ export class NovelDetail implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private novelService: NovelServices,
     private cdr: ChangeDetectorRef
   ) { }
@@ -95,5 +96,18 @@ export class NovelDetail implements OnInit {
           this.cdr.detectChanges();
         }
       });
+  }
+    goReportNovel(): void {
+
+    const novel = this.novel();
+
+    if (!novel?.novelId) {
+      return;
+    }
+
+    this.router.navigate([
+      '/report/novel',
+      novel.novelId
+    ]);
   }
 }
