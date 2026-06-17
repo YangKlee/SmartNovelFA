@@ -252,6 +252,7 @@
   .toc-btn span {
     display: none;
   }
+
   .toc-btn {
     padding: 12px !important;
   }
@@ -264,16 +265,19 @@
   width: 100%;
   justify-content: center;
   align-items: flex-start;
-  z-index: 2; /* Nổi lên trên overlay của banner */
+  z-index: 2;
+  /* Nổi lên trên overlay của banner */
   position: relative;
 }
 
 .hot-novel-sidebar {
-  width: 320px; /* Bề rộng của sidebar */
+  width: 320px;
+  /* Bề rộng của sidebar */
   flex-shrink: 0;
   position: sticky;
-  top: 20px; /* Ghim cách lề trên 20px khi cuộn trang */
-  
+  top: 20px;
+  /* Ghim cách lề trên 20px khi cuộn trang */
+
   /* Khung viền thay thế cho .sidebar-wrapper cũ */
   display: flex;
   flex-direction: column;
@@ -281,7 +285,7 @@
   border-radius: 12px;
   padding: 24px;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 1100px) {
@@ -351,5 +355,153 @@
 
 .sepia-theme .toc-btn {
   background-color: #e8dcb8 !important;
+  color: #2c241b !important;
+}
+
+/* --- COMMENT SECTION STYLING --- */
+.comments-section {
+  padding: 40px 60px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.comments-section h3 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.dark-theme .comments-section h3 {
+  color: #f3f4f6;
+}
+
+.sepia-theme .comments-section h3 {
+  color: #4a3b2c;
+}
+
+.login-prompt,
+.no-comments-msg {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.dark-theme .login-prompt,
+.dark-theme .no-comments-msg {
+  color: #9ca3af;
+}
+
+.sepia-theme .login-prompt,
+.sepia-theme .no-comments-msg {
+  color: #7d6653;
+}
+
+.comments-list {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  width: 100%;
+}
+
+.load-more-btn {
+  font-size: 0.9rem !important;
+  padding: 8px 24px !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+.dark-theme .load-more-btn {
+  color: #d1d5db !important;
+  border-color: #4b5563 !important;
+}
+
+.dark-theme .load-more-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.sepia-theme .load-more-btn {
+  color: #4a3b2c !important;
+  border-color: rgba(74, 59, 44, 0.3) !important;
+}
+
+.sepia-theme .load-more-btn:hover {
+  background-color: rgba(74, 59, 44, 0.05) !important;
+}
+
+/* Custom styles to adjust Angular Material Form Field in dark and sepia modes */
+::ng-deep .dark-theme .write-comment-form textarea {
+  color: #e5e7eb !important;
+}
+
+::ng-deep .sepia-theme .write-comment-form textarea {
+  color: #2c241b !important;
+}
+
+::ng-deep .dark-theme .mat-mdc-form-field-label,
+::ng-deep .dark-theme .mat-mdc-form-field-hint {
+  color: #9ca3af !important;
+}
+
+::ng-deep .sepia-theme .mat-mdc-form-field-label,
+::ng-deep .sepia-theme .mat-mdc-form-field-hint {
+  color: #7d6653 !important;
+}
+
+::ng-deep .dark-theme .mdc-outlined-field__outline-start,
+::ng-deep .dark-theme .mdc-outlined-field__outline-notch,
+::ng-deep .dark-theme .mdc-outlined-field__outline-end {
+  border-color: #4b5563 !important;
+}
+
+::ng-deep .sepia-theme .mdc-outlined-field__outline-start,
+::ng-deep .sepia-theme .mdc-outlined-field__outline-notch,
+::ng-deep .sepia-theme .mdc-outlined-field__outline-end {
+  border-color: rgba(74, 59, 44, 0.3) !important;
+}
+
+/* Comment children text and details themes overrides */
+::ng-deep .dark-theme .comment-body {
+  color: #e5e7eb !important;
+}
+
+::ng-deep .sepia-theme .comment-body {
+  color: #2c241b !important;
+}
+
+::ng-deep .dark-theme .comment-author {
+  color: #9ca3af !important;
+}
+
+::ng-deep .sepia-theme .comment-author {
+  color: #7d6653 !important;
+}
+
+::ng-deep .dark-theme .comment-replies {
+  border-left-color: #374151 !important;
+}
+
+::ng-deep .sepia-theme .comment-replies {
+  border-left-color: rgba(74, 59, 44, 0.15) !important;
+}
+
+/* Force correct text colors for novel content to overwrite inline-styles in dark & sepia themes */
+::ng-deep .dark-theme .reading-content,
+::ng-deep .dark-theme .reading-content * {
+  color: #d1d5db !important;
+}
+
+::ng-deep .sepia-theme .reading-content,
+::ng-deep .sepia-theme .reading-content * {
   color: #2c241b !important;
 }

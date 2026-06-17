@@ -19,11 +19,29 @@ import { Inject, PLATFORM_ID, HostListener } from '@angular/core';
 import { Observable, of, catchError, map, tap } from 'rxjs';
 import da from '@angular/common/locales/da';
 import { HttpClient } from '@angular/common/http';
-import{Sidebar} from '../../HomePage/sidebar/sidebar';
+import { Sidebar } from '../../HomePage/sidebar/sidebar';
+import { CommentServices } from '../../../services/comment/comment-services';
+import { UserServices } from '../../../services/user/user-services';
+import { CommentRes } from '../../../models/comment/comment-res';
+import { Comment as CommentModel } from '../../../models/comment/comment.model';
+import { Comment as CommentComponent } from '../comment/comment';
+import { WriteComment } from '../write-comment/write-comment';
 @Component({
   selector: 'app-read-novel',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, MatDividerModule, MatTooltipModule, MatSidenavModule, MatListModule, MatMenuModule, Sidebar],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatTooltipModule,
+    MatSidenavModule,
+    MatListModule,
+    MatMenuModule,
+    Sidebar,
+    CommentComponent,
+    WriteComment
+  ],
   templateUrl: './read-novel.html',
   styleUrl: './read-novel.css',
 })
@@ -44,7 +62,8 @@ export class ReadNovel implements OnInit {
     private chapterServices: ChapterServices, @Inject(PLATFORM_ID) private platformId: Object,
     private crl: ChangeDetectorRef, private http: HttpClient,
     private sanitizer: DomSanitizer, private location: Location,
-    private authServices: AuthServices) { }
+    private authServices: AuthServices, private commentServices: CommentServices,
+    private userServices: UserServices) { }
   novel!: Observable<Novel>;
   chapter!: Observable<Chapter>;
   chapters$!: Observable<Chapter[]>;
@@ -55,6 +74,7 @@ export class ReadNovel implements OnInit {
   fontFamily: string = 'Roboto'; // Kiểu chữ
 
   ngOnInit() {
+    this.checkLoginStatus();
     this.loadUserAndSettings();
     this.loadNovelUpdate();
     this.loadNovelFollowing();
@@ -135,7 +155,10 @@ export class ReadNovel implements OnInit {
           // Khi copy từ Word hoặc các trang web khác, khoảng trắng thường bị biến thành &nbsp; (non-breaking space)
           // Các thẻ &nbsp; này ngăn không cho trình duyệt xuống dòng, khiến chữ bị tuột ra ngoài hoặc bị cắt đôi.
           // Ta cần chuyển đổi toàn bộ &nbsp; thành khoảng trắng bình thường.
-          const cleanedData = dataRaw.replace(/&nbsp;/g, ' ');
+          // Lọc bỏ toàn bộ inline styles liên quan đến background để tránh xung đột màu nền ở các chế độ đọc
+          const cleanedData = dataRaw
+            .replace(/&nbsp;/g, ' ')
+            .replace(/background[^;"]*:\s*[^;"]+;?/gi, '');
 
           // bỏ qua tính năng an toàn angular, k cho angular lượt bớt các thẻ html
           this.safeHtmlContent = this.sanitizer.bypassSecurityTrustHtml(cleanedData);
@@ -237,5 +260,32 @@ export class ReadNovel implements OnInit {
       },
       error: (err) => console.error('Lỗi tải Following:', err)
     });
+  }
+
+  submitComment(content: string) {
+    if (this.novelId != null && this.chapterId != null) {
+      const body = {
+        novelId: this.novelId,
+        chapterId: this.chapterId,
+        content: content
+      };
+      this.commentServices.addComment(body).subscribe({
+        next: (res) => {
+          this.commentServices.isReloadComment.next(true);
+        },
+        error: (err) => {
+          console.error('Lỗi thêm bình luận:', err);
+        }
+      });
+    }
+  }
+
+  cancelComment() {
+    // No action needed for cancel on top-level comment input
+  }
+
+  loadMoreComments() {
+    this.countComment = this.comments.length;
+    this.loadComment(true);
   }
 }

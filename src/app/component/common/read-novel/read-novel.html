@@ -16,7 +16,8 @@
 
   <!-- Nội dung đọc truyện -->
   <mat-sidenav-content>
-    <div class="reading-background" [ngStyle]="{'background-color': theme === 'dark' ? '#121212' : (theme === 'sepia' ? '#e8dcb8' : '#f3f4f6')}">
+    <div class="reading-background"
+      [ngStyle]="{'background-color': theme === 'dark' ? '#121212' : (theme === 'sepia' ? '#e8dcb8' : '#f3f4f6')}">
       <!-- Hiển thị ảnh nền làm mờ nếu có banner -->
       <ng-container *ngIf="(novel | async)?.imageBanerNovelUrl as bannerUrl">
         <div class="banner-bg" [style.backgroundImage]="'url(' + bannerUrl + ')'"></div>
@@ -24,79 +25,125 @@
       </ng-container>
 
       <div class="reading-layout-wrapper" [class.dark-theme]="theme === 'dark'" [class.sepia-theme]="theme === 'sepia'">
-        <div class="reading-paper" [ngStyle]="{'background-color': theme === 'dark' ? '#1e1e1e' : (theme === 'sepia' ? '#fbf0d9' : '#ffffff'), 'box-shadow': theme === 'dark' ? 'none' : '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'}">
+        <div class="reading-paper"
+          [ngStyle]="{'background-color': theme === 'dark' ? '#1e1e1e' : (theme === 'sepia' ? '#fbf0d9' : '#ffffff'), 'box-shadow': theme === 'dark' ? 'none' : '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'}">
           <div class="reading-header">
-          <!-- Nút Quay lại -->
-          <button mat-icon-button class="back-btn" matTooltip="Quay lại" (click)="goBack()">
-            <mat-icon>arrow_back</mat-icon>
-          </button>
+            <!-- Nút Quay lại -->
+            <button mat-icon-button class="back-btn" matTooltip="Quay lại" (click)="goBack()">
+              <mat-icon>arrow_back</mat-icon>
+            </button>
 
-          <div class="title-container">
-            <h1 class="novel-title" [ngStyle]="{'color': theme === 'dark' ? '#f3f4f6' : (theme === 'sepia' ? '#4a3b2c' : '#111827')}">{{(novel|async)?.title}}</h1>
-            <h2 class="chapter-title" [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">Chương {{(chapter|async)?.chaperOrder}}: {{(chapter|async)?.chapterTitle}}</h2>
+            <div class="title-container">
+              <h1 class="novel-title"
+                [ngStyle]="{'color': theme === 'dark' ? '#f3f4f6' : (theme === 'sepia' ? '#4a3b2c' : '#111827')}">
+                {{(novel|async)?.title}}</h1>
+              <h2 class="chapter-title"
+                [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">Chương
+                {{(chapter|async)?.chaperOrder}}: {{(chapter|async)?.chapterTitle}}</h2>
+            </div>
+
+            <div class="toolbar-actions">
+              <!-- Nút Đổi Giao Diện -->
+              <button mat-icon-button
+                [matTooltip]="theme === 'light' ? 'Chuyển sang Màu giấy (Sepia)' : (theme === 'sepia' ? 'Chuyển sang Ban đêm' : 'Chuyển sang Ban ngày')"
+                (click)="cycleTheme()"
+                [ngStyle]="{'color': theme === 'dark' ? '#f59e0b' : (theme === 'sepia' ? '#d97706' : '#4b5563')}">
+                <mat-icon>{{ theme === 'light' ? 'menu_book' : (theme === 'sepia' ? 'dark_mode' : 'light_mode')
+                  }}</mat-icon>
+              </button>
+              <!-- Nút Chọn Kiểu Chữ -->
+              <button mat-icon-button matTooltip="Kiểu chữ" [matMenuTriggerFor]="fontMenu"
+                [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">
+                <mat-icon>font_download</mat-icon>
+              </button>
+              <mat-menu #fontMenu="matMenu">
+                <button mat-menu-item (click)="changeFontFamily('Roboto')"
+                  [class.active-font]="fontFamily === 'Roboto'">Roboto</button>
+                <button mat-menu-item (click)="changeFontFamily('Arial')"
+                  [class.active-font]="fontFamily === 'Arial'">Arial</button>
+                <button mat-menu-item (click)="changeFontFamily('Times New Roman')"
+                  [class.active-font]="fontFamily === 'Times New Roman'">Times New Roman</button>
+                <button mat-menu-item (click)="changeFontFamily('Palatino Linotype')"
+                  [class.active-font]="fontFamily === 'Palatino Linotype'">Palatino</button>
+              </mat-menu>
+
+              <!-- Nút Thu nhỏ chữ [A-] -->
+              <button mat-icon-button matTooltip="Thu nhỏ chữ" (click)="decreaseFontSize()"
+                [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">
+                <mat-icon>text_decrease</mat-icon>
+              </button>
+              <!-- Nút Phóng to chữ [A+] -->
+              <button mat-icon-button matTooltip="Phóng to chữ" (click)="increaseFontSize()"
+                [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">
+                <mat-icon>text_increase</mat-icon>
+              </button>
+              <!-- Nút Star -->
+              <button mat-icon-button matTooltip="Đánh dấu / Yêu thích" aria-label="Bookmark"
+                [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">
+                <mat-icon>star_border</mat-icon>
+              </button>
+              <!-- Nút Bell -->
+              <button mat-icon-button matTooltip="Theo dõi thông báo" aria-label="Subscribe"
+                [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">
+                <mat-icon>notifications_none</mat-icon>
+              </button>
+              <!-- Nút Plus -->
+              <button mat-icon-button matTooltip="Thêm vào danh sách" aria-label="Add to list"
+                [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
           </div>
 
-          <div class="toolbar-actions">
-            <!-- Nút Đổi Giao Diện -->
-            <button mat-icon-button [matTooltip]="theme === 'light' ? 'Chuyển sang Màu giấy (Sepia)' : (theme === 'sepia' ? 'Chuyển sang Ban đêm' : 'Chuyển sang Ban ngày')" (click)="cycleTheme()" [ngStyle]="{'color': theme === 'dark' ? '#f59e0b' : (theme === 'sepia' ? '#d97706' : '#4b5563')}">
-              <mat-icon>{{ theme === 'light' ? 'menu_book' : (theme === 'sepia' ? 'dark_mode' : 'light_mode') }}</mat-icon>
-            </button>
-            <!-- Nút Chọn Kiểu Chữ -->
-            <button mat-icon-button matTooltip="Kiểu chữ" [matMenuTriggerFor]="fontMenu" [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">
-              <mat-icon>font_download</mat-icon>
-            </button>
-            <mat-menu #fontMenu="matMenu">
-              <button mat-menu-item (click)="changeFontFamily('Roboto')" [class.active-font]="fontFamily === 'Roboto'">Roboto</button>
-              <button mat-menu-item (click)="changeFontFamily('Arial')" [class.active-font]="fontFamily === 'Arial'">Arial</button>
-              <button mat-menu-item (click)="changeFontFamily('Times New Roman')" [class.active-font]="fontFamily === 'Times New Roman'">Times New Roman</button>
-              <button mat-menu-item (click)="changeFontFamily('Palatino Linotype')" [class.active-font]="fontFamily === 'Palatino Linotype'">Palatino</button>
-            </mat-menu>
+          <mat-divider
+            [ngStyle]="{'border-top-color': theme === 'dark' ? '#374151' : (theme === 'sepia' ? 'rgba(74, 59, 44, 0.12)' : 'rgba(0,0,0,0.12)')}"></mat-divider>
 
-            <!-- Nút Thu nhỏ chữ [A-] -->
-            <button mat-icon-button matTooltip="Thu nhỏ chữ" (click)="decreaseFontSize()" [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">
-              <mat-icon>text_decrease</mat-icon>
-            </button>
-            <!-- Nút Phóng to chữ [A+] -->
-            <button mat-icon-button matTooltip="Phóng to chữ" (click)="increaseFontSize()" [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">
-              <mat-icon>text_increase</mat-icon>
-            </button>
-            <!-- Nút Star -->
-            <button mat-icon-button matTooltip="Đánh dấu / Yêu thích" aria-label="Bookmark" [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">
-              <mat-icon>star_border</mat-icon>
-            </button>
-            <!-- Nút Bell -->
-            <button mat-icon-button matTooltip="Theo dõi thông báo" aria-label="Subscribe" [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">
-              <mat-icon>notifications_none</mat-icon>
-            </button>
-            <!-- Nút Plus -->
-            <button mat-icon-button matTooltip="Thêm vào danh sách" aria-label="Add to list" [ngStyle]="{'color': theme === 'dark' ? '#9ca3af' : (theme === 'sepia' ? '#7d6653' : '#4b5563')}">
-              <mat-icon>add</mat-icon>
-            </button>
-          </div>
-        </div>
-
-        <mat-divider [ngStyle]="{'border-top-color': theme === 'dark' ? '#374151' : (theme === 'sepia' ? 'rgba(74, 59, 44, 0.12)' : 'rgba(0,0,0,0.12)')}"></mat-divider>
-
-        <div class="reading-content ql-snow" [ngStyle]="{
+          <div class="reading-content ql-snow" [ngStyle]="{
           'color': theme === 'dark' ? '#d1d5db' : (theme === 'sepia' ? '#2c241b' : '#1f2937'), 
           'font-size': fontSize + 'px',
           'font-family': fontFamily
         }">
-          <div class="content ql-editor" [innerHTML]="safeHtmlContent">
+            <div class="content ql-editor" [innerHTML]="safeHtmlContent">
+            </div>
           </div>
+
+          <mat-divider
+            [ngStyle]="{'border-top-color': theme === 'dark' ? '#374151' : (theme === 'sepia' ? 'rgba(74, 59, 44, 0.12)' : 'rgba(0,0,0,0.12)')}"></mat-divider>
+
+          <div class="comments-section">
+            <h3>Bình luận</h3>
+            <app-write-comment *ngIf="isLoggedIn; else loginPrompt" (submitComment)="submitComment($event)"
+              (cancel)="cancelComment()"></app-write-comment>
+            <ng-template #loginPrompt>
+              <p class="login-prompt">Vui lòng đăng nhập để có thể bình luận.</p>
+            </ng-template>
+            <div class="comments-list" *ngIf="comments.length > 0; else noComments">
+              <app-comment *ngFor="let c of comments" [comment]="c"></app-comment>
+
+              <div class="load-more-container" *ngIf="countComment < totalComment ">
+                <button mat-stroked-button class="load-more-btn" (click)="loadMoreComments()">
+                  Tải thêm bình luận
+                </button>
+              </div>
+            </div>
+            <ng-template #noComments>
+              <p class="no-comments-msg">Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>
+            </ng-template>
+          </div>
+
         </div>
 
-      </div>
-      
-      <aside class="hot-novel-sidebar">
-        <app-sidebar title="Truyện Vừa Cập Nhật" icon="update" [items]="novelUpdate | slice:0:5" type="novel-update"></app-sidebar>
-        <app-sidebar title="Truyện Đã Theo Dõi" icon="favorite" [items]="novelFollowing | slice:0:5" type="novel-update"></app-sidebar>
-      </aside>
+        <aside class="hot-novel-sidebar">
+          <app-sidebar title="Truyện Vừa Cập Nhật" icon="update" [items]="novelUpdate | slice:0:5"
+            type="novel-update"></app-sidebar>
+          <app-sidebar title="Truyện Đã Theo Dõi" icon="favorite" [items]="novelFollowing | slice:0:5"
+            type="novel-update"></app-sidebar>
+        </aside>
 
-      <!-- Nút Mục lục ghim mép trái -->
-      <button mat-flat-button class="toc-btn" (click)="sidenav.toggle()" matTooltip="Mục lục">
-        <mat-icon>menu_open</mat-icon> <span>Mục lục</span>
-      </button>
+        <!-- Nút Mục lục ghim mép trái -->
+        <button mat-flat-button class="toc-btn" (click)="sidenav.toggle()" matTooltip="Mục lục">
+          <mat-icon>menu_open</mat-icon> <span>Mục lục</span>
+        </button>
 
       </div>
     </div>
