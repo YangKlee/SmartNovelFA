@@ -1,32 +1,33 @@
+
 .search-wrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-/* BUTTON */
-.search-trigger {
+/* --- BUTTON KÍCH HOẠT --- */
+.search-wrapper .search-trigger {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: white !important;
+  color: white;
   cursor: pointer;
   font-weight: 600;
   padding: 8px 12px;
   border-radius: 20px;
-  transition: 0.3s;
+  transition: background 0.3s ease;
 }
 
-.search-trigger:hover {
+.search-wrapper .search-trigger:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.search-trigger span {
+.search-wrapper .search-trigger span {
   color: white;
 }
 
-/* SEARCH BOX */
-.search-box {
+/* --- KHUNG INPUT TÌM KIẾM --- */
+.search-wrapper .search-box {
   width: 320px;
   height: 42px;
   background: #2b2b35;
@@ -35,70 +36,92 @@
   align-items: center;
   padding: 0 14px;
   gap: 10px;
+  box-sizing: border-box; /* Đảm bảo padding không làm nở khung gây mất focus */
   animation: fadeIn 0.2s ease-in-out;
 }
 
-.search-box i {
+.search-wrapper .search-box i {
   color: white;
 }
 
-.search-box input {
+.search-wrapper .search-box input {
   flex: 1;
   background: transparent;
   border: none;
   outline: none;
   color: white;
   font-size: 14px;
+  padding: 0;
 }
 
-.search-box input::placeholder {
+.search-wrapper .search-box input::placeholder {
   color: #bdbdbd;
 }
 
-.close-icon {
+.search-wrapper .close-icon {
   cursor: pointer;
 }
 
-/* RESULT */
-.search-result {
+/* --- BẢNG ĐỔ XUỐNG HIỂN THỊ KẾT QUẢ --- */
+.search-wrapper .search-result {
   position: absolute;
   top: 52px;
   left: 0;
   width: 320px;
   background: #2b2b35;
   border-radius: 14px;
-  padding: 10px 0;
-  z-index: 999;
-  max-height: 400px;
+  padding: 8px 0;
+  z-index: 9999; 
+  
+
+  max-height: 300px;
   overflow-y: auto;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  display: block;
 }
 
-/* ITEM */
-.novel-item {
+.search-wrapper .novel-item {
   padding: 12px 16px;
   color: white;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background 0.2s ease;
+  display: block; 
 }
 
-.novel-item:hover {
+.search-wrapper .novel-item:hover {
   background: #3a3a46;
 }
 
-/* không có kết quả */
-.no-result {
-  text-align: center;
-  padding: 12px;
+.search-wrapper .novel-item span {
+  color: white;
+  text-decoration: none;
+  display: block;
+  width: 100%;
 }
 
-/* animation */
+
+.search-wrapper .no-result {
+  text-align: center;
+  padding: 16px;
+  color: #ff6b6b;
+  font-style: italic;
+}
+
+
+.search-wrapper .search-result::-webkit-scrollbar {
+  width: 6px;
+}
+.search-wrapper .search-result::-webkit-scrollbar-thumb {
+  background: #4a4a5a;
+  border-radius: 3px;
+}
+
+/* --- ANIMATION --- */
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(-5px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
