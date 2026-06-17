@@ -1,0 +1,126 @@
+/* Header Container chung */
+.header-container {
+    background-color: #34313a; /* Dark theme Header */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Đổ bóng nhẹ sang trọng */
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Đẩy Logo sang trái, Auth sang phải */
+    position: sticky;
+    top: 0;
+    z-index: 1020; /* Đảm bảo luôn nằm trên cùng khi cuộn trang */
+}
+
+/* Kiểu dáng cho Logo */
+.header-container .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff; /* Sửa lại thành màu trắng do nền đen */
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.header-container .logo:hover {
+    color: #0d6efd; /* Đổi màu khi hover (màu xanh mặc định Bootstrap) */
+}
+
+/* Vùng chứa các nút Auth (Chưa đăng nhập) */
+.auth-section {
+    display: flex;
+    align-items: center;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 12px; /* Khoảng cách giữa 2 nút */
+}
+
+/* Nút Đăng nhập */
+.btn-login {
+    color: #4f46e5 !important;
+    font-weight: 500 !important;
+    padding: 0 16px !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-login:hover {
+    background-color: #f3f4f6 !important;
+    color: #4338ca !important;
+}
+
+/* Nút Đăng ký */
+.btn-register {
+    background-color: #4f46e5 !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    padding: 0 16px !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2) !important;
+}
+
+.btn-register:hover {
+    background-color: #4338ca !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3) !important;
+}
+
+/* Nút thông tin User (Đã đăng nhập) */
+.user-info-btn {
+    background-color: #f3f4f6 !important;
+    color: #1f2937 !important;
+    font-weight: 500 !important;
+    padding: 0 16px !important;
+    border-radius: 20px !important; /* Bo tròn dạng capsule */
+    transition: all 0.2s ease !important;
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.user-info-btn:hover {
+    background-color: #e5e7eb !important;
+    color: #111827 !important;
+}
+
+.user-info-btn mat-icon {
+    color: #1f2937 !important;
+    margin: 0 4px 0 0;
+}
+
+/* Menu Dropdown đổ xuống */
+::ng-deep .custom-user-menu {
+    margin-top: 8px;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    border-radius: 8px !important;
+    padding: 6px !important;
+    min-width: 180px !important;
+}
+
+::ng-deep .custom-user-menu .mat-mdc-menu-item {
+    border-radius: 6px !important;
+    font-size: 0.95rem !important;
+    font-weight: 500 !important;
+    color: #4b5563 !important;
+    transition: all 0.15s ease !important;
+    margin-bottom: 2px;
+}
+
+::ng-deep .custom-user-menu .mat-mdc-menu-item:hover {
+    background-color: #f3f4f6 !important;
+    color: #1f2937 !important;
+}
+
+/* Nút Đăng xuất riêng biệt */
+::ng-deep .custom-user-menu .mat-mdc-menu-item.text-danger:hover {
+    background-color: #fee2e2 !important;
+    color: #dc2626 !important;
+}
+
+::ng-deep .custom-user-menu .mat-mdc-menu-item.text-danger:hover mat-icon {
+    color: #dc2626 !important;
+}

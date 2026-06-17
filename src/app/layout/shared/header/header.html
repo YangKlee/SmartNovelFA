@@ -4,7 +4,7 @@
 
   <!-- THANH MENU CHUNG (MẶC ĐỊNH LUÔN HIỆN GIỮA THANH HEADER) -->
   <nav class="nav-links">
-    
+
     <div class="dropdown" *ngFor="let item of menus">
       <a class="nav-item" [routerLink]="item.urlLink || '/'">
         <i *ngIf="item.iconBootstrap" [class]="item.iconBootstrap"></i>
@@ -30,19 +30,36 @@
   <!-- KHU VỰC BÊN PHẢI: ĐÃ ĐĂNG NHẬP (DI CHUỘT VÀO HIỆN ROLE MENU) -->
   <div class="user-dropdown" *ngIf="user$ | async as user">
     <button class="user-info">
-      <i class="bi bi-person-circle"></i>
-      <span>{{ user.username }}</span>
+      <img *ngIf="user.avartarUrl" [src]="user.avartarUrl" alt="Avatar" class="header-avatar">
+      <i *ngIf="!user.avartarUrl" class="bi bi-person-circle"></i>
+      <div class="user-details">
+        <span class="username">{{ user.username }}</span>
+        @switch (user.roleId?.toString()) {
+        @case ('1') { <span class="role-badge">Quản trị viên</span> }
+        @case ('2') { <span class="role-badge">Moderator</span> }
+        @case ('3') { <span class="role-badge">Tác giả</span> }
+        @default { <span class="role-badge">Độc giả</span> }
+        }
+      </div>
     </button>
 
     <!-- Hộp menu xổ xuống khi HOVER vào Avatar -->
     <div class="user-dropdown-menu">
+      <a routerLink="/account">
+        <i class="bi bi-person-circle"></i>
+        <span>Thông tin cá nhân</span>
+      </a>
+      <a routerLink="/history">
+        <i class="bi bi-clock-history"></i>
+        <span>Lịch sử đọc</span>
+      </a>
+      <div class="dropdown-divider"></div>
       <!-- Hiện danh sách menu theo loại tài khoản -->
       <a *ngFor="let role of roleMenus" [routerLink]="role.urlLink === '/auth/login' ? null : (role.urlLink || '/')"
         (click)="role.urlLink === '/auth/login' ? doLogout() : null">
         <i *ngIf="role.iconBootstrap" [class]="role.iconBootstrap"></i>
         <span>{{ role.content }}</span>
       </a>
-
     </div>
   </div>
 </header>
