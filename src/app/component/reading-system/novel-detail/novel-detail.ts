@@ -4,7 +4,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NovelServices } from '../../../services/novel/novel-services';
 import { NovelInteractionService } from '../../../services/follow/novel-interaction.service';
 import { BlockServices } from '../../../services/block/block-services';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-novel-detail',
@@ -192,13 +191,10 @@ readLatestChapter(): void {
 }
 //Follow truyện, bỏ follow
 toggleFollow(): void {
-
   const novelId = this.novel()?.novelId;
-
   if (!novelId) return;
 
   if (this.isFollowing()) {
-
     this.novelInteractionService
       .unFollowNovel(novelId)
       .subscribe({
@@ -206,21 +202,7 @@ toggleFollow(): void {
           this.isFollowing.set(false);
         }
       });
-
     return;
-  }
-    goReportNovel(): void {
-
-    const novel = this.novel();
-
-    if (!novel?.novelId) {
-      return;
-    }
-
-    this.router.navigate([
-      '/report/novel',
-      novel.novelId
-    ]);
   }
 
   this.novelInteractionService
@@ -230,6 +212,17 @@ toggleFollow(): void {
         this.isFollowing.set(true);
       }
     });
+}
+
+goReportNovel(): void {
+  const novel = this.novel();
+  if (!novel?.novelId) {
+    return;
+  }
+  this.router.navigate([
+    '/report/novel',
+    novel.novelId
+  ]);
 }
 // Chặn / bỏ chặn tác giả
 toggleBlockAuthor(): void {

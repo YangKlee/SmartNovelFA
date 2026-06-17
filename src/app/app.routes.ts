@@ -33,6 +33,12 @@ import { CommentManager } from './component/admin/comment-manager/comment-manage
 import { UserProfile } from './component/common/user-profile/user-profile';
 import { BlockUsers } from './component/common/block-users/block-users';
 import { FollowedNovelsComponent } from './component/reading-system/followed-novels/followed-novels';
+import { ReportNovel } from './component/report/report-novel/report-novel';
+import { ReportChapter } from './component/report/report-chapter/report-chapter';
+import { ReportComment } from './component/report/report-comment/report-comment';
+import { ModerationComponent } from './component/moderation/moderation';
+import { CategoryNovel } from './component/category-novel/category-novel';
+import { AuthorListComponent } from './component/admin/author-list/author-list';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -43,6 +49,16 @@ export const routes: Routes = [
                 path: "filter",
                 component: FilterPanelComponent
             },
+            {
+                path: "the-loai/:slug",
+                component: CategoryNovel
+            },
+            {
+                path: "tac-gia",
+                component: AuthorListComponent
+            },
+
+
             { path: "profile/:id", component: UserProfile },
             { path: "profile", component: UserProfile },
             { path: 'blocked-users', component: BlockUsers },
@@ -59,24 +75,24 @@ export const routes: Routes = [
                 ]
 
             },
-        
-                {
-    path: 'report',
-    children: [
-        {
-            path: 'novel/:id',
-            component: ReportNovel
-        },
-        {
-            path: 'chapter/:id',
-            component: ReportChapter
-        },
-        {
-            path: 'comment/:id',
-            component: ReportComment
-        }
-    ]
-},
+
+            {
+                path: 'report',
+                children: [
+                    {
+                        path: 'novel/:id',
+                        component: ReportNovel
+                    },
+                    {
+                        path: 'chapter/:id',
+                        component: ReportChapter
+                    },
+                    {
+                        path: 'comment/:id',
+                        component: ReportComment
+                    }
+                ]
+            },
             {
                 path: "novel/:novelID",
                 children: [
@@ -130,8 +146,10 @@ export const routes: Routes = [
                 path: "moderator", children: [
                     { path: "", component: AdminDashboard },
                     { path: "novel-manager", component: NovelManagerAdmin },
-                    { path: "chapter-manager/:id", component: ChapterManagermentAdmin }
+                    { path: "chapter-manager/:id", component: ChapterManagermentAdmin },
+                    { path: "report-manager", component: ModerationComponent }
                 ], canActivate: [authGuard],
+
                 data: {
                     requiredRoles: ['moderator', 'admin']
                 },
@@ -150,10 +168,5 @@ export const routes: Routes = [
             }
         ]
     },
-    {
-        path: "moderation", component: ModerationComponent, canActivate: [authGuard],
-        data: {
-            requiredRoles: ['moderator']
-        }
-    }
+
 ];
