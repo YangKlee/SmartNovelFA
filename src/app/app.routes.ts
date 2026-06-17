@@ -37,13 +37,22 @@ export const routes: Routes = [
                     requiredRoles: ['admin', 'moderator', 'author', 'reader']
                 }
             },
-                  {
-                  path: "filter",
-                  component: FilterPanelComponent
-                  },
-                    { path: 'blocked-users', component: BlockUsers},
-                    { path:'Novel/Following',component: FollowedNovelsComponent},
-                {
+            {
+                path: 'profile',
+                component: UserProfile,
+                canActivate: [authGuard],
+                data: {
+                    requiredRoles: ['author', 'reader']
+                }
+            }
+            ,
+            {
+                path: "filter",
+                component: FilterPanelComponent
+            },
+            { path: 'blocked-users', component: BlockUsers },
+            { path: 'Novel/Following', component: FollowedNovelsComponent },
+            {
                 path: "account", component: Account, canActivate: [authGuard],
                 data: {
                     requiredRoles: ['admin', 'moderator', 'author', 'reader']
@@ -53,7 +62,7 @@ export const routes: Routes = [
                 ]
 
             },
-       
+
             {
                 path: "novel/:novelID",
                 children: [
@@ -99,9 +108,9 @@ export const routes: Routes = [
                 },
             },
             {
-              path:"admin", children:[
-                  {path:"user-manager", component:UserManagerComponent}
-              ], canActivate: [authGuard],
+                path: "admin", children: [
+                    { path: "user-manager", component: UserManagerComponent }
+                ], canActivate: [authGuard],
                 data: {
                     requiredRoles: ['admin']
                 },

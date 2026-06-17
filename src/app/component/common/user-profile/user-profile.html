@@ -1,7 +1,7 @@
 <div class="account-container">
 
   <!-- LOADING -->
-  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="loading" class="loading">Loading...</div>
 
   <div *ngIf="!loading && user" class="profile-wrapper">
 
@@ -11,11 +11,7 @@
       <div class="profile-card">
 
         <div class="avatar-wrap">
-          <img
-            *ngIf="user.avatarUrl"
-            [src]="user.avatarUrl"
-            class="avatar-img"
-          />
+          <img *ngIf="user.avatarUrl" [src]="user.avatarUrl" class="avatar-img" />
 
           <div *ngIf="!user.avatarUrl" class="avatar-placeholder">
             <mat-icon>person</mat-icon>
@@ -27,7 +23,7 @@
         </h2>
 
         <span class="role-badge">
-          Role: {{ user.roleId }}
+          Role: {{ getRoleName(user.roleId) }}
         </span>
 
         <!-- STATS nhỏ -->
@@ -43,19 +39,19 @@
 
         <div class="btn-group-custom" *ngIf="!user.isSelf">
 
-          <button *ngIf="!user.isFollowing" (click)="follow()">
+          <button class="btn-follow" *ngIf="!user.isFollowing" (click)="follow()">
             Follow
           </button>
 
-          <button *ngIf="user.isFollowing" (click)="unfollow()">
+          <button class="btn-unfollow" *ngIf="user.isFollowing" (click)="unfollow()">
             Unfollow
           </button>
 
-          <button *ngIf="!user.isBlocked" (click)="block()">
+          <button class="btn-block" *ngIf="!user.isBlocked" (click)="block()">
             Block
           </button>
 
-          <button *ngIf="user.isBlocked" (click)="unblock()">
+          <button class="btn-unblock" *ngIf="user.isBlocked" (click)="unblock()">
             Unblock
           </button>
 
@@ -96,7 +92,7 @@
 
             <tr>
               <td>Role</td>
-              <td>{{ user.roleId }}</td>
+              <td>{{ getRoleName(user.roleId) }}</td>
             </tr>
 
           </tbody>
@@ -105,7 +101,7 @@
       </div>
 
       <!-- AUTHOR STATS -->
-      <div *ngIf="user.roleId == 3" class="info-card">
+      <div *ngIf="user.roleId == '3'" class="info-card">
 
         <div class="info-card-header">
           <mat-icon>menu_book</mat-icon>
@@ -115,8 +111,8 @@
         <p>Views: {{ user.totalViews }}</p>
         <p>Novels: {{ user.novelCount }}</p>
 
-        <div *ngFor="let n of user.novels">
-          📚 {{ n.title }}
+        <div class="novels-grid">
+          <app-card-novel *ngFor="let n of user.novels" [novel]="n"></app-card-novel>
         </div>
 
       </div>
@@ -129,8 +125,8 @@
           <h2>Truyện đã theo dõi</h2>
         </div>
 
-        <div *ngFor="let n of user.followedNovels">
-          ❤️ {{ n.title }}
+        <div class="novels-grid">
+          <app-card-novel *ngFor="let n of user.followedNovels" [novel]="n"></app-card-novel>
         </div>
 
       </div>

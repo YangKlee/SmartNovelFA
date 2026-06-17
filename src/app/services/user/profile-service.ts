@@ -9,10 +9,14 @@ export class ProfileService {
 
   private api = `${environment.apiUrl}/account`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getProfile(uid: string): Observable<any> {
+    if (uid == null) {
+      return this.http.get(`${this.api}/profile`);
+    }
     return this.http.get(`${this.api}/profile/${uid}`);
+
   }
 
   follow(uid: string) {
