@@ -1,4 +1,4 @@
-import { Component, OnInit,Inject,PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -23,160 +23,229 @@ export class ModerationComponent implements OnInit {
 
   activeTab = 'novels';
 
-  // Khai báo biến lưu UID của người đăng nhập (không gán cứng dữ liệu giả nữa)
-  moderatorUid!: string;
+  moderatorUid = '';
 
   constructor(
     private reportService: ModerationReportServices,
     @Inject(PLATFORM_ID) private platformId: Object
-    
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    const token = localStorage.getItem("token");
-    
+
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+
     if (!token) {
-      alert("Bạn chưa đăng nhập hoặc phiên làm việc đã hết hạn!");
-      // Bạn có thể inject thêm Router để điều hướng về trang login tại đây nếu muốn: this.router.navigate(['/auth/login']);
-      return; 
+      alert('Bạn chưa đăng nhập hoặc phiên làm việc đã hết hạn!');
+      return;
     }
 
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      
-      // Bóc chuẩn UID từ Token do người dùng đăng nhập vào
-      this.moderatorUid = payload.uid || payload.nameid || payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-      
+
+      const payload = JSON.parse(
+        atob(token.split('.')[1])
+      );
+
+      this.moderatorUid =
+        payload.uid ||
+        payload.nameid ||
+        payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+
+      console.log('Moderator UID:', this.moderatorUid);
+
       if (!this.moderatorUid) {
-        alert("Token không chứa thông tin định danh (UID). Vui lòng đăng nhập lại!");
+        alert('Không tìm thấy UID trong token');
         return;
       }
 
-      // Có UID thật của người đăng nhập rồi mới tiến hành load dữ liệu
       this.loadAll();
 
-    } catch (e) {
-      console.error("Lỗi giải mã token:", e);
-      alert("Hệ thống không thể xác thực tài khoản của bạn!");
+    }
+    catch (e) {
+      console.error('Lỗi giải mã token:', e);
+      alert('Token không hợp lệ');
     }
   }
 
-  loadAll() {
+  loadAll(): void {
     this.loadNovels();
     this.loadChapters();
     this.loadComments();
     this.loadHistory();
   }
 
-  // ========================================================
-  // CÁC HÀM TẢI DỮ LIỆU ĐỘNG
-  // ========================================================
-
-  loadNovels() {
+  loadNovels(): void {
     this.reportService
       .getReportedNovels()
       .subscribe({
         next: (res) => {
-          setTimeout(() => this.novels = res, 0);
+          console.log('Reported novels:', res);
+          this.novels = [...res];
         },
-        error: (err) => console.error("Lỗi khi fetch danh sách truyện:", err)
+        error: (err) => {
+          console.error('Lỗi tải truyện:', err);
+        }
       });
   }
 
-  loadChapters() {
+  loadChapters(): void {
     this.reportService
       .getReportedChapters()
       .subscribe({
         next: (res) => {
-          setTimeout(() => this.chapters = res, 0);
+          console.log('Reported chapters:', res);
+          this.chapters = [...res];
         },
-        error: (err) => console.error("Lỗi khi fetch danh sách chương:", err)
+        error: (err) => {
+          console.error('Lỗi tải chương:', err);
+        }
       });
   }
 
-  loadComments() {
+  loadComments(): void {
     this.reportService
       .getReportedComments()
       .subscribe({
         next: (res) => {
-          setTimeout(() => this.comments = res, 0);
+          console.log('Reported comments:', res);
+          this.comments = [...res];
         },
-        error: (err) => console.error("Lỗi khi fetch danh sách bình luận:", err)
+        error: (err) => {
+          console.error('Lỗi tải bình luận:', err);
+        }
       });
   }
 
-  loadHistory() {
+  loadHistory(): void {
     this.reportService
       .getHistory()
       .subscribe({
         next: (res) => {
-          setTimeout(() => this.history = res, 0);
+          console.log('History:', res);
+          this.history = [...res];
         },
-        error: (err) => console.error("Lỗi khi fetch lịch sử hệ thống:", err)
+        error: (err) => {
+          console.error('Lỗi tải lịch sử:', err);
+        }
       });
   }
 
-  // ========================================================
-  // CÁC HÀM HÀNH ĐỘNG XỬ LÝ (Sử dụng trực tiếp UID người dùng)
-  // ========================================================
+  removeNovel(ticketId: string): void {
 
-  removeNovel(ticketId: string) {
     if (!ticketId) return;
-    if (!confirm('Bạn có chắc chắn muốn GỠ truyện vi phạm này không?')) return;
+
+    if (!confirm('Bạn có chắc muốn gỡ truyện này không?')) {
+      return;
+    }
 
     this.reportService
       .removeNovel(ticketId, this.moderatorUid)
       .subscribe({
-        next: () => {
-          alert('Đã gỡ truyện vi phạm thành công!');
-          this.loadAll(); 
+        next: (res) => {
+
+          console.log('REMOVE NOVEL SUCCESS:', res);
+
+          alert('Đã gỡ truyện thành công');
+
+          this.loadAll();
+
         },
-        error: (err) => alert('Thao tác thất bại, vui lòng thử lại!')
+        error: (err) => {
+
+          console.error(err);
+
+          alert('Không thể gỡ truyện');
+        }
       });
   }
 
-  removeChapter(ticketId: string) {
+  removeChapter(ticketId: string): void {
+
     if (!ticketId) return;
-    if (!confirm('Bạn có chắc chắn muốn GỠ chương vi phạm này không?')) return;
+
+    if (!confirm('Bạn có chắc muốn gỡ chương này không?')) {
+      return;
+    }
 
     this.reportService
       .removeChapter(ticketId, this.moderatorUid)
       .subscribe({
-        next: () => {
-          alert('Đã gỡ chương vi phạm thành công!');
+        next: (res) => {
+
+          console.log('REMOVE CHAPTER SUCCESS:', res);
+
+          alert('Đã gỡ chương thành công');
+
           this.loadAll();
+
         },
-        error: (err) => alert('Không thể gỡ chương truyện!')
+        error: (err) => {
+
+          console.error(err);
+
+          alert('Không thể gỡ chương');
+        }
       });
   }
 
-  removeComment(ticketId: string) {
+  removeComment(ticketId: string): void {
+
     if (!ticketId) return;
-    if (!confirm('Bạn có chắc chắn muốn GỠ bình luận vi phạm này không?')) return;
+
+    if (!confirm('Bạn có chắc muốn gỡ bình luận này không?')) {
+      return;
+    }
 
     this.reportService
       .removeComment(ticketId, this.moderatorUid)
       .subscribe({
-        next: () => {
-          alert('Đã gỡ bình luận vi phạm thành công!');
+        next: (res) => {
+
+          console.log('REMOVE COMMENT SUCCESS:', res);
+
+          alert('Đã gỡ bình luận thành công');
+
           this.loadAll();
+
         },
-        error: (err) => alert('Không thể gỡ bình luận!')
+        error: (err) => {
+
+          console.error(err);
+
+          alert('Không thể gỡ bình luận');
+        }
       });
   }
 
-  reject(ticketId: string) {
+  reject(ticketId: string): void {
+
     if (!ticketId) return;
-    if (!confirm('Bạn có chắc chắn muốn BÁC BỎ đơn báo cáo này không?')) return;
+
+    if (!confirm('Bạn có chắc muốn bác bỏ báo cáo này không?')) {
+      return;
+    }
 
     this.reportService
       .rejectTicket(ticketId, this.moderatorUid)
       .subscribe({
-        next: () => {
-          alert('Đã bác bỏ đơn báo cáo!');
+        next: (res) => {
+
+          console.log('REJECT SUCCESS:', res);
+
+          alert('Đã bác bỏ báo cáo');
+
           this.loadAll();
+
         },
-        error: (err) => alert('Bác bỏ đơn báo cáo thất bại!')
+        error: (err) => {
+
+          console.error(err);
+
+          alert('Không thể bác bỏ báo cáo');
+        }
       });
   }
 }
