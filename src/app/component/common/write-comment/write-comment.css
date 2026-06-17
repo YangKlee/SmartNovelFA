@@ -1,0 +1,16 @@
+.write-comment-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+    width: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}

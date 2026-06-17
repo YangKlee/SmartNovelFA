@@ -1,0 +1,54 @@
+.newest-comment-container {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  font-family: sans-serif;
+  height: 100%;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.comment-header i {
+  font-size: 20px;
+  color: #17a2b8;
+  margin-right: 10px;
+}
+
+.comment-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* Tùy chỉnh thanh cuộn */
+.comment-list::-webkit-scrollbar {
+  width: 6px;
+}
+.comment-list::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.no-comment-msg {
+  text-align: center;
+  color: #888;
+  padding: 30px 0;
+  font-style: italic;
+}

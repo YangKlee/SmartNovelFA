@@ -1,0 +1,23 @@
+<div class="comment-management-wrapper">
+  <div class="comment-header">
+    <i class="bi bi-chat-left-text-fill"></i>
+    <h2>Quản lý bình luận hệ thống</h2>
+  </div>
+
+  <div class="comment-controls">
+    <input type="text" class="search-input" [(ngModel)]="keyword" (keyup.enter)="onSearchChange()"
+      placeholder="Tìm kiếm theo người dùng, nội dung bình luận...">
+    <button class="search-btn" (click)="onSearchChange()">Tìm kiếm</button>
+  </div>
+
+  <div class="comment-list">
+    <div *ngFor="let c of comments" class="comment-item-wrapper">
+      <app-comment [comment]="c" [isParent]="true"></app-comment>
+    </div>
+    <span *ngIf="comments.length === 0" class="empty-noti">Không tìm thấy bình luận nào.</span>
+  </div>
+
+  <app-pagination *ngIf="totalPages > 1" [currentPage]="currentPage" [totalPage]="totalPages"
+    (pageChange)="onPageChange($event)">
+  </app-pagination>
+</div>

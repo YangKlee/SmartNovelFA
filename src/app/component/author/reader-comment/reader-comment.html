@@ -1,0 +1,31 @@
+<div class="story-management-wrapper">
+  <div class="story-header">
+    <h1 class="story-title">Quản lý bình luận độc giả</h1>
+  </div>
+
+  <div class="story-controls">
+    <select class="status-dropdown" [(ngModel)]="selectedNovelId" (change)="onNovelChange()">
+      <option value="">Tất cả truyện</option>
+      <option *ngFor="let n of novels" [value]="n.novelId">{{n.title || n.novelTitle || n.name}}</option>
+    </select>
+    <select class="status-dropdown" [(ngModel)]="selectedChapterId" (change)="onChapterChange()"
+      [disabled]="!selectedNovelId">
+      <option value="">Tất cả chương</option>
+      <option *ngFor="let c of chapters" [value]="c.chapterId">Chương {{c.chaperOrder}}: {{c.chapterTitle}}</option>
+    </select>
+    <input type="text" class="search-input" [(ngModel)]="keyword" (keyup.enter)="onSearchChange()"
+      placeholder="Tìm kiếm từ khóa và Enter...">
+  </div>
+
+  <div class="novel-list">
+    <div *ngFor="let c of comments" class="comment-item-wrapper"
+      style="border: 1px solid #eee; margin-bottom: 15px; padding: 15px; border-radius: 8px;">
+      <app-comment [comment]="c" [isParent]="true"></app-comment>
+    </div>
+    <span *ngIf="comments.length === 0" class="empty-noti">Không có bình luận nào.</span>
+  </div>
+
+  <app-pagination *ngIf="totalPages > 1" [currentPage]="currentPage" [totalPage]="totalPages"
+    (pageChange)="onPageChange($event)">
+  </app-pagination>
+</div>
