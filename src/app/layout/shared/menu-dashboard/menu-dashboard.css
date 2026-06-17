@@ -1,0 +1,100 @@
+/* Sidebar Container */
+.author-sidebar {
+    background-color: #34313a;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100%;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* User Profile Section */
+.sidebar-profile {
+    background: linear-gradient(to bottom, #413d47 0%, #34313a 100%);
+    padding: 30px 20px 20px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-avatar {
+    width: 130px;
+    height: 130px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+    margin: 0 auto 15px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fallback-icon {
+    font-size: 80px;
+    width: 80px;
+    height: 80px;
+    color: #adb5bd;
+}
+
+.profile-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+.profile-role {
+    font-size: 0.85rem;
+    color: #b3b2b5;
+    margin: 0;
+}
+
+/* Navigation Links */
+.sidebar-nav {
+    padding: 10px 15px;
+    flex-grow: 1;
+}
+
+.sidebar-nav .mat-mdc-list-item {
+    border-radius: 6px;
+    margin: 4px 0;
+    width: 100%;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Ghi đè màu chữ của text và icon trong thẻ mat-list-item */
+.sidebar-nav .mat-mdc-list-item .mdc-list-item__primary-text {
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.sidebar-nav mat-icon {
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin-right: 10px;
+}
+
+.sidebar-nav .mat-mdc-list-item:hover {
+    background-color: #4a4752;
+}
+
+/* Trạng thái được chọn (Active) */
+.active-link {
+    background-color: #4a4752 !important;
+}
+
+.active-link .mdc-list-item__primary-text,
+.active-link mat-icon {
+    color: #ffffff !important;
+}

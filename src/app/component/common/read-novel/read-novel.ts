@@ -34,6 +34,12 @@ export class ReadNovel implements OnInit {
 
   chapterFileUrl: string | null = null;
   safeHtmlContent!: SafeHtml;
+  comments: CommentModel[] = [];
+  countComment: number = 0;
+  totalComment: number = 0;
+  limitComment: number = 5;
+  isLoggedIn: boolean = false;
+
   constructor(private route: ActivatedRoute, private router: Router, private novelServices: NovelServices,
     private chapterServices: ChapterServices, @Inject(PLATFORM_ID) private platformId: Object,
     private crl: ChangeDetectorRef, private http: HttpClient,
@@ -65,8 +71,47 @@ export class ReadNovel implements OnInit {
         this.novel = this.novelServices.getInfoNovelForReader(this.novelId);
         this.chapters$ = this.chapterServices.getChapterByNovel(this.novelId);
         this.loadChapter();
+        this.loadComment();
+      }
+      this.commentServices.isReloadComment.subscribe((data: boolean) => {
+        if (data) {
+          this.countComment = 0;
+          this.loadComment();
+        }
+      });
+    });
+  }
+
+  checkLoginStatus() {
+    this.userServices.getUserInfo().subscribe({
+      next: (user) => {
+        this.isLoggedIn = !!user;
+        this.crl.detectChanges();
+      },
+      error: () => {
+        this.isLoggedIn = false;
+        this.crl.detectChanges();
       }
     });
+  }
+
+  loadComment(isAppend: boolean = false) {
+    if (this.novelId != null && this.chapterId != null) {
+      this.commentServices.getComment(this.novelId, this.chapterId, this.countComment, this.limitComment).subscribe({
+        next: (data: CommentRes) => {
+          if (isAppend) {
+            this.comments = [...this.comments, ...data.comments];
+          } else {
+            this.comments = data.comments;
+          }
+          this.totalComment = data.totalComment;
+          this.crl.detectChanges();
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
   }
   loadChapter() {
     if (this.novelId != null && this.chapterId != null && isPlatformBrowser(this.platformId)) {
