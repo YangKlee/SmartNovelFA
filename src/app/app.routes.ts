@@ -21,9 +21,6 @@ import { NovelDetail } from './component/reading-system/novel-detail/novel-detai
 import { Home } from './component/HomePage/home/home';
 import { FilterPanelComponent } from './component/Search_and_FilterNovel/filter-panel/filter-panel';
 import { UserManagerComponent } from './component/admin/user-manager/user-manager';
-import { FollowedNovelsComponent } from './component/reading-system/followed-novels/followed-novels';
-import { BlockUsers } from './component/common/block-users/block-users';
-import { UserProfile } from './component/common/user-profile/user-profile';
 import { ChangeAvatar } from './component/common/change-avatar/change-avatar';
 import { ChangeAuthor } from './component/common/change-author/change-author';
 import { FollowManager } from './component/common/follow-manager/follow-manager';
@@ -59,7 +56,10 @@ export const routes: Routes = [
                     requiredRoles: ['admin', 'moderator', 'author', 'reader']
                 }, children: [
                     { path: "update-info", component: ModifyInfo },
-                    { path: "change-password", component: ChangePassword }
+                    { path: "change-password", component: ChangePassword },
+                    { path: "change-avatar", component: ChangeAvatar },
+                    { path: "change-author", component: ChangeAuthor },
+
                 ]
 
             },
