@@ -1,0 +1,25 @@
+<form [formGroup]="commentForm" (ngSubmit)="onSubmit()" class="write-comment-form">
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Viết bình luận...</mat-label>
+        <textarea 
+            matInput 
+            formControlName="content" 
+            rows="3" 
+            placeholder="Nhập bình luận của bạn">
+        </textarea>
+        <mat-error *ngIf="commentForm.get('content')?.hasError('required')">
+            Vui lòng nhập nội dung bình luận
+        </mat-error>
+    </mat-form-field>
+
+    <div class="actions">
+        <button mat-button type="button" (click)="onCancel()">Hủy</button>
+        <button 
+            mat-flat-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="commentForm.invalid || !commentForm.value.content?.trim()">
+            Đăng bình luận
+        </button>
+    </div>
+</form>

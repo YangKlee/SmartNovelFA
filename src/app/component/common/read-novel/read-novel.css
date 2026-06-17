@@ -11,31 +11,6 @@
   /* Ngăn ảnh làm mờ bị tràn viền */
 }
 
-.banner-bg {
-  position: absolute;
-  top: -20px;
-  left: -20px;
-  right: -20px;
-  bottom: -20px;
-  /* Làm cho ảnh to ra chút xíu để viền làm mờ không bị lem nền */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: blur(10px);
-  /* Làm mờ ảnh */
-  z-index: 0;
-}
-
-.banner-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.3);
-  /* Phủ lớp màu đen mờ để làm tối */
-  z-index: 1;
-}
 
 .reading-paper {
   background-color: #ffffff;
@@ -49,6 +24,89 @@
   flex-direction: column;
   z-index: 2;
   /* Phải lớn hơn z-index của nền */
+}
+
+/* Breadcrumb Bar */
+.breadcrumb-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.breadcrumb-left {
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  color: #4b5563;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.bc-link {
+  cursor: pointer;
+  font-weight: 600;
+  color: #374151;
+  transition: color 0.2s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+}
+
+.bc-link:hover {
+  color: #111827;
+  text-decoration: underline;
+}
+
+.bc-separator {
+  font-size: 1.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 8px;
+  color: #9ca3af;
+}
+
+.bc-current {
+  font-weight: 400;
+  color: #6b7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.bc-toc-btn {
+  color: #374151 !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  padding: 0 16px !important;
+  border-radius: 6px !important;
+  background-color: #e5e7eb !important;
+}
+
+.bc-toc-btn:hover {
+  background-color: #d1d5db !important;
+}
+
+@media (max-width: 768px) {
+  .breadcrumb-bar {
+    padding: 10px 16px;
+  }
+
+  .bc-link {
+    max-width: 120px;
+  }
+
+  .bc-current {
+    max-width: 80px;
+  }
 }
 
 .reading-header {
@@ -109,6 +167,10 @@
   color: #1f2937;
   box-sizing: border-box;
   width: 100%;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
 }
 
 /* Dùng ::ng-deep kết hợp !important để đè bẹp TẤT CẢ inline-style rác khi copy-paste từ nơi khác */
@@ -119,6 +181,12 @@
   word-wrap: break-word !important;
   box-sizing: border-box !important;
   max-width: 100% !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
 }
 
 ::ng-deep .reading-content p {
@@ -129,6 +197,21 @@
   max-width: 100%;
   height: auto;
   box-sizing: border-box;
+  pointer-events: none !important;
+  -webkit-user-drag: none !important;
+}
+
+/* Chống in ấn và xuất PDF */
+@media print {
+
+  body,
+  html,
+  .reading-background,
+  .reading-paper,
+  .reading-content {
+    display: none !important;
+    visibility: hidden !important;
+  }
 }
 
 ::ng-deep .ql-editor {
@@ -168,7 +251,19 @@
 
 .reader-sidenav-container {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+}
+
+/* Ghi đè CSS của Angular Material Sidenav để tắt thanh cuộn bên trong, 
+   giúp cuộn bằng thanh cuộn của toàn bộ trang web (Window).
+   Nhờ đó kéo xuống sẽ thấy Footer và các nút cuộn nhanh mới hoạt động đúng. */
+::ng-deep .mat-drawer-container,
+::ng-deep .mat-sidenav-container,
+::ng-deep .mat-drawer-inner-container,
+::ng-deep .mat-sidenav-inner-container,
+::ng-deep .mat-drawer-content,
+::ng-deep .mat-sidenav-content {
+  overflow: visible !important;
 }
 
 .chapter-sidenav {
@@ -229,7 +324,43 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 16px;
   width: 100%;
+}
+
+.nav-btn {
+  border-radius: 20px !important;
+  color: #4b5563 !important;
+  border-color: #d1d5db !important;
+  padding: 0 20px !important;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:not([disabled]):hover {
+  background-color: #f3f4f6 !important;
+  color: #111827 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 600px) {
+  .reading-footer {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .nav-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .toc-btn {
+    order: -1;
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 .toc-btn {
@@ -249,4 +380,123 @@
   background-color: #e5e7eb !important;
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.comments-section {
+  padding: 30px 60px 40px 60px;
+  background-color: #ffffff;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .comments-section {
+    padding: 24px 20px;
+  }
+}
+
+.comments-section h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.comments-list {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.no-comments-msg {
+  color: #6b7280;
+  font-style: italic;
+  margin-top: 24px;
+  text-align: center;
+}
+
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  padding-bottom: 8px;
+}
+
+.load-more-btn {
+  border-radius: 20px !important;
+  color: #4b5563 !important;
+  border-color: #d1d5db !important;
+  padding: 0 24px !important;
+}
+
+.load-more-btn:hover {
+  background-color: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+/* Styles cho màn hình chặn Developer Tools */
+.devtools-blocked-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 24, 39, 0.97);
+  /* Nền tối mờ bảo vệ nội dung */
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+}
+
+.blocked-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 40px 32px;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+.blocked-card h2 {
+  font-size: 1.5rem;
+  margin: 16px 0 12px 0;
+  font-weight: 600;
+  color: #f87171;
+  /* Đỏ cảnh báo dịu mắt */
+}
+
+.blocked-card p {
+  color: #d1d5db;
+  margin-bottom: 24px;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.warning-icon {
+  font-size: 48px !important;
+  width: 48px !important;
+  height: 48px !important;
+  color: #f87171;
+}
+
+.reload-btn {
+  background-color: #ef4444 !important;
+  color: #ffffff !important;
+  border-radius: 20px !important;
+  padding: 8px 24px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+.reload-btn:hover {
+  background-color: #dc2626 !important;
+  transform: translateY(-1px);
 }

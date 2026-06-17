@@ -34,7 +34,7 @@
 
     margin-bottom: 25px;
 
-    box-shadow: 0 15px 40px rgba(0,0,0,.4);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, .4);
 
 }
 
@@ -64,7 +64,7 @@
 
     border: 1px solid var(--border-color);
 
-    box-shadow: 0 15px 40px rgba(0,0,0,.35);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, .35);
 
 }
 
@@ -84,7 +84,7 @@
 
     border-radius: 12px;
 
-    box-shadow: 0 15px 35px rgba(0,0,0,.5);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, .5);
 
 }
 
@@ -246,9 +246,12 @@
 .action-buttons {
     margin-top: 20px;
     display: flex;
-    flex-wrap: nowrap;      /* Ép tuyệt đối cả 5 nút nằm trên một hàng ngang */
-    gap: 8px;               /* Khoảng cách vừa phải giữa các nút */
-    width: 100%;            /* Chiếm trọn chiều ngang vùng chứa */
+    flex-wrap: nowrap;
+    /* Ép tuyệt đối cả 5 nút nằm trên một hàng ngang */
+    gap: 8px;
+    /* Khoảng cách vừa phải giữa các nút */
+    width: 100%;
+    /* Chiếm trọn chiều ngang vùng chứa */
 }
 
 /* 2. Ép cả 5 nút con tự động chia đều diện tích bằng nhau */
@@ -257,29 +260,61 @@
 .btn-follow,
 .btn-block,
 .btn-report {
-    flex: 1;                /* Chia đều 100% không gian cho 5 nút */
+    flex: 1;
+    /* Chia đều 100% không gian cho 5 nút */
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;               /* Khoảng cách giữa icon và chữ */
-    
+    gap: 6px;
+    /* Khoảng cách giữa icon và chữ */
+
     border: 1px solid var(--border-color);
     background: #2d2f36;
     color: white;
-    padding: 10px 4px;      /* Thu nhỏ padding hai bên để chữ không bị tràn */
+    padding: 10px 4px;
+    /* Thu nhỏ padding hai bên để chữ không bị tràn */
     border-radius: 8px;
     cursor: pointer;
     transition: .25s;
-    
-    white-space: nowrap;    /* Giữ chữ trên một hàng, không cho tự xuống dòng */
-    font-size: 14px;        /* Kích thước chữ vừa vặn */
+
+    white-space: nowrap;
+    /* Giữ chữ trên một hàng, không cho tự xuống dòng */
+    font-size: 14px;
+    /* Kích thước chữ vừa vặn */
 }
 
 /* Hiệu ứng hover giữ nguyên của bạn */
-.btn-read:hover, .btn-latest:hover, .btn-follow:hover, .btn-block:hover, .btn-report:hover {
+.btn-read:hover,
+.btn-latest:hover,
+.btn-follow:hover,
+.btn-block:hover,
+.btn-report:hover {
     background: #d2d7d9;
     color: #2d2f36;
 }
+
+.btn-follow.active {
+    background: rgba(13, 110, 253, 0.15);
+    border-color: #0d6efd;
+    color: #8bb9ff;
+}
+
+.btn-follow.active:hover {
+    background: #0d6efd;
+    color: white;
+}
+
+.btn-report.active {
+    background: rgba(220, 53, 69, 0.15);
+    border-color: #dc3545;
+    color: #ff8e9b;
+}
+
+.btn-report.active:hover {
+    background: #dc3545;
+    color: white;
+}
+
 /* Chapter */
 
 .chapter-section,
@@ -295,7 +330,7 @@
 
     border: 1px solid var(--border-color);
 
-    box-shadow: 0 15px 40px rgba(0,0,0,.35);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, .35);
 
 }
 
@@ -317,7 +352,7 @@
 
     display: grid;
 
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
 
 }
 
@@ -399,7 +434,7 @@
 
 /* Mobile */
 
-@media(max-width:768px){
+@media(max-width:768px) {
 
     .novel-header {
 
@@ -428,6 +463,7 @@
     }
 
 }
+
 .chapter-link {
 
     display: flex;
@@ -445,18 +481,42 @@
     font-size: 12px;
 
 }
-.rating-box {
-    display: flex;
+
+/* Rating Selector Styles */
+.novel-rating-selector {
+    background: #2d2f36;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+    display: inline-flex;
     align-items: center;
-    gap: 10px;
+    width: fit-content;
 }
 
-.rating-star {
+.star-btn {
+    font-size: 22px;
     cursor: pointer;
-    font-size: 24px;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: #555866;
 }
 
-.rating-info {
-    font-size: 14px;
-    color: #666;
+.star-btn:hover {
+    transform: scale(1.25);
+}
+
+.text-warning {
+    color: #ffc107 !important;
+}
+
+.rating-badge {
+    color: #ffc107;
+    font-weight: 700;
+    font-size: 15px;
+    background: rgba(255, 193, 7, 0.1);
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 }

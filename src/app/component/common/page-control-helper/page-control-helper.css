@@ -1,0 +1,43 @@
+.page-control-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 9999; /* Luôn hiển thị trên cùng */
+  pointer-events: auto;
+}
+
+.control-btn {
+  background-color: rgba(17, 24, 39, 0.85) !important; /* Dark background */
+  color: #ffffff !important; /* Light text */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.control-btn:hover {
+  background-color: #ffffff !important; /* Light background */
+  color: #111827 !important; /* Dark text */
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Nút Home cho màu nổi hơn một chút nếu muốn */
+.home-btn {
+  background-color: rgba(31, 41, 55, 0.85) !important;
+}
+.home-btn:hover {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+@media (max-width: 768px) {
+  .page-control-container {
+    bottom: 20px;
+    right: 16px;
+    gap: 8px;
+  }
+}

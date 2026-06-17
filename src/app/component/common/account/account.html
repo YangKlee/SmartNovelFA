@@ -9,15 +9,29 @@
             <div class="profile-card">
                 <div class="avatar-wrap">
                     @if (userData?.avartarUrl) {
-                        <img [src]="userData?.avartarUrl" alt="Avatar" class="avatar-img">
+                    <img [src]="userData?.avartarUrl" alt="Avatar" class="avatar-img">
                     } @else {
-                        <div class="avatar-placeholder">
-                            <mat-icon>person</mat-icon>
-                        </div>
+                    <div class="avatar-placeholder">
+                        <mat-icon>person</mat-icon>
+                    </div>
                     }
                 </div>
                 <h2 class="username">{{userData?.username || 'Người dùng'}}</h2>
-                <span class="role-badge">{{userData?.roleId || 'Thành viên'}}</span>
+
+                @switch (userData?.roleId) {
+                @case ('1') {
+                <span class="role-badge">Quản trị viên</span>
+                }
+                @case ('2') {
+                <span class="role-badge">Moderator</span>
+                }
+                @case ('3') {
+                <span class="role-badge">Tác giả</span>
+                }
+                @default {
+                <span class="role-badge">Độc giả</span>
+                }
+                }
             </div>
 
             <div class="action-card">
@@ -29,6 +43,23 @@
                     <button mat-stroked-button color="primary" class="compact-btn" routerLink="change-password">
                         <mat-icon>lock</mat-icon>
                         Đổi mật khẩu
+                    </button>
+                    <button mat-stroked-button color="primary" class="compact-btn" routerLink="change-avatar">
+                        <mat-icon>image</mat-icon>
+                        Đổi ảnh đại diện
+                    </button>
+                    <button mat-stroked-button color="primary" class="compact-btn" routerLink="/history">
+                        <mat-icon>history</mat-icon>
+                        Lịch sử đọc truyện
+                    </button>
+                    <button mat-stroked-button color="primary" class="compact-btn" routerLink="follow-manager">
+                        <mat-icon>bookmark</mat-icon>
+                        Theo dõi & Chặn
+                    </button>
+                    <button *ngIf="userData?.roleId == '4'" mat-stroked-button color="primary" class="compact-btn"
+                        routerLink="change-author">
+                        <mat-icon>book</mat-icon>
+                        Đăng ký làm tác giả
                     </button>
                     <button mat-stroked-button color="primary" class="compact-btn">
                         <mat-icon>email</mat-icon>
