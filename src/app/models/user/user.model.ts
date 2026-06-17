@@ -27,6 +27,10 @@ export class User {
 
   creatorPoint?: number;
 
+  readingTheme?: string;
+  readingFontSize?: number;
+  readingFontFamily?: string;
+
   constructor(init?: Partial<User>) {
     Object.assign(this, init);
   }

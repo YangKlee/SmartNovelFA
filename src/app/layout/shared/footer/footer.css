@@ -1,225 +1,153 @@
-@import '@fortawesome/fontawesome-free/css/all.min.css';
+/* =========================================
+   FOOTER - 4 CỘT DỌC, SIÊU MỎNG (DARK THEME)
+   ========================================= */
 .footer {
-  --bg-color: #dbe1de;
-  --text-main: #111111;
-  --text-muted: #333333;
-  --input-bg: #eba8a8;
-  --btn-bg: #f56d6d;
-  --font-family: 'Inter', 'Segoe UI', sans-serif;
-
-  background-color: var(--bg-color);
-  color: var(--text-main);
-  font-family: var(--font-family);
-  padding: 3rem 2rem 4rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #e2e8f0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  /* Ép mỏng viền trên dưới xuống mức tối đa (20px) */
+  padding: 1.25rem 2rem; 
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .footer__container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-}
-
-/* --- Top Header Area --- */
-.footer__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  display: grid;
+  /* Chia thẳng 4 cột: Cột 1 to nhất (2.5fr), 3 cột sau chia đều */
+grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
+  align-items: start;
 }
 
+/* ===== CỘT 1: BRAND ===== */
 .footer__brand {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.7rem;
 }
 
 .footer__logo-group {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 0.5rem;
 }
 
+/* Khung bọc ảnh GIF */
 .footer__logo-placeholder {
-  width: 80px;
-  height: 80px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  overflow: hidden; /* Bắt buộc để ảnh không tràn ra ngoài viền bo góc */
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.footer__logo-placeholder .icon-img {
-  font-size: 1.5rem;
-  opacity: 0.3;
-}
-
-.footer__logo-placeholder .text-logo {
-  font-weight: bold;
-  font-size: 0.8rem;
-  margin-top: 4px;
+/* Căn chỉnh ảnh GIF lấp đầy khung */
+.footer__logo-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .footer__brand-name {
-  font-size: 1.75rem;
-  font-weight: 500;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
   margin: 0;
-  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #ffffff, #94a3b8);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 .footer__slogan {
-  font-size: 1.1rem;
+  font-size: 1rem;
+  color: #94a3b8;
   margin: 0;
-  color: var(--text-main);
 }
 
-/* --- Legal Texts --- */
-.footer__legal {
-  text-align: right;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 10px;
+.footer__copyright {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0.5rem 0 0 0;
 }
 
-.footer__legal p {
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-.footer__legal-links {
-  font-size: 1.1rem;
-}
-
-.footer__legal-links a {
-  color: var(--text-main);
-  text-decoration: none;
-  transition: opacity 0.2s;
-}
-
-.footer__legal-links a:hover {
-  opacity: 0.7;
-  text-decoration: underline;
-}
-
-.footer__legal-links .divider {
-  margin: 0 0.5rem;
-  color: var(--text-main);
-}
-
-/* --- Main 4-Column Grid --- */
-.footer__main {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
-  gap: 2rem;
-}
-
+/* ===== CỘT 2 & 3: MENU LINKS ===== */
 .footer__heading {
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin: 0 0 1.5rem 0;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #cbd5e1;
+  margin: 0 0 0.8rem 0; /* Thu nhỏ khoảng cách dưới tiêu đề */
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  text-transform: uppercase;
-}
-
-.footer__heading--mt {
-  margin-top: 2.5rem;
+  gap: 0.4rem;
 }
 
 .footer__heading i {
-  font-size: 1.2rem;
-  color: var(--text-muted);
+  color: #60a5fa;
+  font-size: 0.85rem;
 }
 
-/* --- Connect Column & Socials --- */
-.footer__socials {
-  display: flex;
-  gap: 1.25rem;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-}
-
-.footer__socials .social-icon {
-  color: var(--text-main);
-  text-decoration: none;
-  transition: transform 0.2s ease;
-}
-
-.footer__socials .social-icon:hover {
-  transform: scale(1.1);
-}
-
-.footer__socials .social-icon.x-icon i { color: #000000; }
-.footer__socials .social-icon.reddit-icon i { color: #ff4500; }
-.footer__socials .social-icon.insta-icon i { color: #000000; }
-.footer__socials .social-icon.yt-icon i { color: #ff0000; }
-.footer__socials .social-icon.bsky-icon i { color: #0085ff; }
-
-/* --- Subscribe Inputs --- */
-.footer__subscribe {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  max-width: 250px;
-}
-
-.footer__input,
-.footer__button {
-  width: 100%;
-  padding: 0.6rem 0.75rem;
-  border: none;
-  font-size: 1.05rem;
-  font-family: inherit;
-  border-radius: 0;
-}
-
-.footer__input {
-  background-color: var(--input-bg);
-  color: var(--text-main);
-  outline: none;
-}
-
-.footer__input::placeholder {
-  color: rgba(0, 0, 0, 0.7);
-}
-
-.footer__button {
-  background-color: var(--btn-bg);
-  color: var(--text-main);
-  cursor: pointer;
-  text-align: left;
-  transition: filter 0.2s;
-}
-
-.footer__button:hover {
-  filter: brightness(0.9);
-}
-
-/* --- Navigation Links --- */
 .footer__nav {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.8rem; /* Ép các link sát lại nhau */
 }
 
-.footer__nav a {
-  color: var(--text-main);
+.footer__nav a, .footer__legal-vertical a {
+  font-size: 1rem;
+  color: #94a3b8;
   text-decoration: none;
-  font-size: 1.1rem;
+  transition: all 0.2s ease;
   width: fit-content;
-  transition: transform 0.2s, opacity 0.2s;
 }
 
-.footer__nav a:hover {
-  opacity: 0.7;
-  transform: translateX(4px);
+.footer__nav a:hover, .footer__legal-vertical a:hover {
+  color: #60a5fa;
+  transform: translateX(3px);
+}
+
+/* ===== CỘT 4: MẠNG XÃ HỘI & PHÁP LÝ ===== */
+.footer__col--right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; /* Khoảng cách giữa cục Icon và cục Pháp lý */
+}
+
+.footer__social {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.footer__social .social-icon {
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.05);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.footer__social mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.footer__social .social-icon:hover {
+  color: #ffffff;
+  background: #3b82f6;
+  transform: translateY(-3px);
+}
+
+.footer__legal-vertical {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
 

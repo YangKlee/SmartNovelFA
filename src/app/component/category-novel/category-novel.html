@@ -1,0 +1,67 @@
+<div class="category-container">
+
+  <div class="category-header">
+  <h1>{{ slug | titlecase }}</h1> <p class="stats-label">
+    <span class="count-badge">{{ totalItems }}</span> Truyện được tìm thấy
+  </p>
+</div>
+
+  <div *ngIf="loading" class="loading">
+    Đang tải...
+  </div>
+
+  <div *ngIf="!loading && novels.length === 0" class="empty">
+    Không có truyện nào thuộc thể loại này
+  </div>
+
+    <div class="novel-grid">
+
+    <a
+        class="novel-card"
+        *ngFor="let novel of novels"
+        [routerLink]="['/novel', novel.novelId]">
+
+        <img
+        [src]="novel.imageNovelUrl"
+        [alt]="novel.title">
+
+        <div class="novel-info">
+
+        <h3>{{ novel.title }}</h3>
+
+        <div class="novel-stats">
+            <span>👁 {{ novel.viewCount }}</span>
+            <span>❤️ {{ novel.likeCount }}</span>
+        </div>
+
+        </div>
+
+    </a>
+    </div>
+
+  <div class="pagination" *ngIf="totalPages > 1">
+
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1">
+      ‹
+    </button>
+
+    <button
+      *ngFor="let page of pages"
+      (click)="changePage(page)"
+      [class.active]="page === currentPage">
+
+      {{ page }}
+
+    </button>
+
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage === totalPages">
+      ›
+    </button>
+
+  </div>
+
+</div>

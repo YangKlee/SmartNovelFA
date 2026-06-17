@@ -1,1 +1,41 @@
-<p>header-dashboard works!</p>
+<div class="header-container mat-elevation-z2">
+    <!-- Logo -->
+    <a routerLink="/" class="logo text-decoration-none">Logo</a>
+
+    <!-- Auth Section -->
+    <div class="auth-section">
+        <ng-container *ngIf="!userData; else loggedIn">
+            <!-- Khi CHƯA đăng nhập -->
+            <div class="auth-buttons">
+                <a mat-stroked-button color="primary" routerLink="/auth/login" class="btn-login">Đăng nhập</a>
+                <a mat-flat-button color="primary" routerLink="/auth/regist" class="btn-register">Đăng ký</a>
+            </div>
+        </ng-container>
+
+        <!-- Khi ĐÃ đăng nhập (Sử dụng Angular Material Menu) -->
+        <ng-template #loggedIn>
+            <button mat-button [matMenuTriggerFor]="userMenu" class="user-info-btn">
+                <mat-icon>account_circle</mat-icon>
+                <span>{{ userData?.displayName || userData?.username || 'User' }}</span>
+                <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <mat-menu #userMenu="matMenu" xPosition="before" class="custom-user-menu">
+                <a mat-menu-item routerLink="/account">
+                    <mat-icon color="primary">manage_accounts</mat-icon>
+                    <span>Trung tâm tài khoản</span>
+                </a>
+                <a mat-menu-item routerLink="/">
+                    <mat-icon color="primary">home</mat-icon>
+                    <span>Quay lại trang chính</span>
+                </a>
+                <mat-divider></mat-divider>
+                <button mat-menu-item (click)="doLogout()" class="text-danger">
+                    <mat-icon color="warn">logout</mat-icon>
+                    <span class="text-danger">Đăng xuất</span>
+                </button>
+            </mat-menu>
+        </ng-template>
+    </div>
+</div>

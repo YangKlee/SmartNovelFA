@@ -1,0 +1,38 @@
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Mã Thể Loại</th>
+                <th>Tên Thể Loại</th>
+                <th>Mô Tả</th>
+                <th>Slug</th>
+                <th>Trạng Thái</th>
+                <th>Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cat of categories">
+                <td>{{ cat.categoryId }}</td>
+                <td class="font-weight-bold">{{ cat.name }}</td>
+                <td>{{ cat.description || 'Không có mô tả' }}</td>
+                <td>{{ cat.slug }}</td>
+                <td>
+                    <span class="status-badge" [ngClass]="cat.status === 'ACTIVE' ? 'active' : 'HIDDEN'">
+                        {{ cat.status === 'ACTIVE' ? 'Hiển thị' : 'Đang ẩn' }}
+                    </span>
+                </td>
+                <td class="actions">
+                    <button class="btn-edit" (click)="onEdit(cat)">
+                        <i class="bi bi-pencil-square"></i> Sửa
+                    </button>
+                    <button class="btn-delete" (click)="onDelete(cat.categoryId, cat.name)">
+                        <i class="bi bi-trash"></i> Xóa
+                    </button>
+                </td>
+            </tr>
+            <tr *ngIf="categories.length === 0">
+                <td colspan="6" class="text-center">Không tìm thấy thể loại nào.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

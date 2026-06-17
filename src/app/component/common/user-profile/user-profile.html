@@ -1,1 +1,165 @@
-<p>user-profile works!</p>
+<div class="account-container">
+
+  <!-- LOADING -->
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <div *ngIf="!loading && user" class="profile-wrapper">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <div class="profile-card">
+
+        <div class="avatar-wrap">
+          <img *ngIf="user.avatarUrl" [src]="user.avatarUrl" class="avatar-img" />
+
+          <div *ngIf="!user.avatarUrl" class="avatar-placeholder">
+            <mat-icon>person</mat-icon>
+          </div>
+        </div>
+
+        <h2 class="username">
+          {{ user.displayName || user.username }}
+        </h2>
+
+        <span class="role-badge">
+          Role: {{ getRoleName(user.roleId) }}
+        </span>
+
+        <!-- STATS nhỏ -->
+        <div class="mini-stats">
+          <div>Followers: {{ user.followerCount }}</div>
+          <div>Following: {{ user.followingCount }}</div>
+        </div>
+
+      </div>
+
+      <!-- ACTION -->
+      <div class="action-card">
+
+        <div class="btn-group-custom" *ngIf="!user.isSelf">
+
+          <button class="btn-follow" *ngIf="!user.isFollowing" (click)="follow()">
+            Follow
+          </button>
+
+          <button class="btn-unfollow" *ngIf="user.isFollowing" (click)="unfollow()">
+            Unfollow
+          </button>
+
+          <button class="btn-block" *ngIf="!user.isBlocked" (click)="block()">
+            Block
+          </button>
+
+          <button class="btn-unblock" *ngIf="user.isBlocked" (click)="unblock()">
+            Unblock
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- INFO -->
+      <div class="info-card">
+
+        <div class="info-card-header">
+          <mat-icon>account_circle</mat-icon>
+          <h2>Thông tin chi tiết</h2>
+        </div>
+
+        <table class="custom-table">
+          <tbody>
+
+            <tr>
+              <td>UID</td>
+              <td>{{ user.uid }}</td>
+            </tr>
+
+            <tr>
+              <td>Tên đăng nhập</td>
+              <td>{{ user.username }}</td>
+            </tr>
+
+            <tr>
+              <td>Tên hiển thị</td>
+              <td>{{ user.displayName }}</td>
+            </tr>
+
+            <tr>
+              <td>Role</td>
+              <td>{{ getRoleName(user.roleId) }}</td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+      <!-- AUTHOR STATS -->
+      <div *ngIf="user.roleId == '3'" class="info-card">
+
+        <div class="info-card-header">
+          <mat-icon>menu_book</mat-icon>
+          <h2>Tác giả</h2>
+        </div>
+
+        <p>Views: {{ user.totalViews }}</p>
+        <p>Novels: {{ user.novelCount }}</p>
+
+        <div class="novels-grid">
+          <app-card-novel *ngFor="let n of user.novels" [novel]="n"></app-card-novel>
+        </div>
+
+      </div>
+
+      <!-- FOLLOWED NOVELS -->
+      <div class="info-card">
+
+        <div class="info-card-header">
+          <mat-icon>favorite</mat-icon>
+          <h2>Truyện đã theo dõi</h2>
+        </div>
+
+        <div class="novels-grid">
+          <app-card-novel *ngFor="let n of user.followedNovels" [novel]="n"></app-card-novel>
+        </div>
+
+      </div>
+
+      <!-- FOLLOWERS -->
+      <div class="info-card">
+
+        <div class="info-card-header">
+          <mat-icon>group</mat-icon>
+          <h2>Followers</h2>
+        </div>
+
+        <div *ngFor="let u of user.followers">
+          👤 {{ u.displayName }}
+        </div>
+
+      </div>
+
+      <!-- FOLLOWING -->
+      <div class="info-card">
+
+        <div class="info-card-header">
+          <mat-icon>person_add</mat-icon>
+          <h2>Following</h2>
+        </div>
+
+        <div *ngFor="let u of user.following">
+          👥 {{ u.displayName }}
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

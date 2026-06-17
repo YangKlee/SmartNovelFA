@@ -1,0 +1,17 @@
+<div class="stats-container" *ngIf="activityData.length > 0">
+  <div class="stats-header">
+    <i class="bi bi-bar-chart-fill"></i>
+    <h2>Hoạt động hệ thống</h2>
+  </div>
+
+  <div class="charts-wrapper">
+    <div class="chart-section">
+      <div class="chart-main">
+        <h3 class="chart-title">Số chương và số truyện được thêm hàng ngày</h3>
+        <div class="canvas-container">
+          <canvas #activityChart></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
