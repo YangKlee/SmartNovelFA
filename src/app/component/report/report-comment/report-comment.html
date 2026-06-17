@@ -1,0 +1,29 @@
+<div class="report-page">
+
+    <h2>Báo cáo bình luận</h2>
+
+    <div class="report-form">
+
+        <select [(ngModel)]="reasonDetail">
+
+            <option value="">
+                Chọn lý do báo cáo
+            </option>
+
+            <option
+                *ngFor="let item of reasons"
+                [value]="item">
+
+                {{ item }}
+
+            </option>
+
+        </select>
+
+        <button (click)="submitReport()">
+            Gửi báo cáo
+        </button>
+
+    </div>
+
+</div>

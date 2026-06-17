@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, signal, PLATFORM_ID, inject } from '@angular/core'; // 1. Thêm signal từ @angular/core
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule , Router} from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NovelServices } from '../../../services/novel/novel-services';
 import { NovelInteractionService } from '../../../services/follow/novel-interaction.service';
@@ -208,6 +208,19 @@ toggleFollow(): void {
       });
 
     return;
+  }
+    goReportNovel(): void {
+
+    const novel = this.novel();
+
+    if (!novel?.novelId) {
+      return;
+    }
+
+    this.router.navigate([
+      '/report/novel',
+      novel.novelId
+    ]);
   }
 
   this.novelInteractionService

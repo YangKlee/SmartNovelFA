@@ -59,7 +59,24 @@ export const routes: Routes = [
                 ]
 
             },
-
+        
+                {
+    path: 'report',
+    children: [
+        {
+            path: 'novel/:id',
+            component: ReportNovel
+        },
+        {
+            path: 'chapter/:id',
+            component: ReportChapter
+        },
+        {
+            path: 'comment/:id',
+            component: ReportComment
+        }
+    ]
+},
             {
                 path: "novel/:novelID",
                 children: [
@@ -133,4 +150,10 @@ export const routes: Routes = [
             }
         ]
     },
+    {
+        path: "moderation", component: ModerationComponent, canActivate: [authGuard],
+        data: {
+            requiredRoles: ['moderator']
+        }
+    }
 ];
