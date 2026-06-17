@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReadingSystem } from './reading-system';
+import { NovelReader } from './followed-novels';
 
-describe('ReadingSystem', () => {
-  let component: ReadingSystem;
-  let fixture: ComponentFixture<ReadingSystem>;
+describe('NovelReader', () => {
+  let component: NovelReader;
+  let fixture: ComponentFixture<NovelReader>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReadingSystem]
+      imports: [NovelReader]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ReadingSystem);
+    fixture = TestBed.createComponent(NovelReader);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
