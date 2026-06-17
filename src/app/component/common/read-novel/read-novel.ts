@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonModule, isPlatformBrowser, Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,6 +26,7 @@ import { CommentRes } from '../../../models/comment/comment-res';
 import { Comment as CommentModel } from '../../../models/comment/comment.model';
 import { Comment as CommentComponent } from '../comment/comment';
 import { WriteComment } from '../write-comment/write-comment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-read-novel',
   standalone: true,
@@ -45,7 +46,9 @@ import { WriteComment } from '../write-comment/write-comment';
   templateUrl: './read-novel.html',
   styleUrl: './read-novel.css',
 })
-export class ReadNovel implements OnInit {
+export class ReadNovel implements OnInit, OnDestroy {
+  isDevToolsOpen = false;
+  private devToolsIntervalId: any;
   novelId!: string | null;
   chapterId!: string | null;
   chapterIdSelected!: string | null;
@@ -63,7 +66,7 @@ export class ReadNovel implements OnInit {
     private crl: ChangeDetectorRef, private http: HttpClient,
     private sanitizer: DomSanitizer, private location: Location,
     private authServices: AuthServices, private commentServices: CommentServices,
-    private userServices: UserServices) { }
+    private userServices: UserServices, private snackBar: MatSnackBar) { }
   novel!: Observable<Novel>;
   chapter!: Observable<Chapter>;
   chapters$!: Observable<Chapter[]>;
@@ -74,6 +77,7 @@ export class ReadNovel implements OnInit {
   fontFamily: string = 'Roboto'; // Kiểu chữ
 
   ngOnInit() {
+    this.startDevToolsDetection();
     this.checkLoginStatus();
     this.loadUserAndSettings();
     this.loadNovelUpdate();
@@ -140,6 +144,11 @@ export class ReadNovel implements OnInit {
           if (data.chapterFileUrl != null) {
             this.chapterFileUrl = data.chapterFileUrl;
             this.loadContentNovel();
+          }
+          if (this.chapterId) {
+            this.userServices.recordChapterView(this.chapterId).subscribe({
+              error: (err) => console.error('Lỗi khi ghi lịch sử:', err)
+            });
           }
         })
       );
@@ -287,5 +296,115 @@ export class ReadNovel implements OnInit {
   loadMoreComments() {
     this.countComment = this.comments.length;
     this.loadComment(true);
+  }
+
+  ngOnDestroy() {
+    if (this.devToolsIntervalId) {
+      clearInterval(this.devToolsIntervalId);
+    }
+  }
+
+  startDevToolsDetection() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    // Kiểm tra ngay lập tức khi vào trang
+    this.checkDevTools();
+
+    // Thiết lập kiểm tra định kỳ mỗi 1 giây
+    this.devToolsIntervalId = setInterval(() => {
+      this.checkDevTools();
+    }, 1000);
+  }
+
+  checkDevTools() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    // Bỏ qua kiểm tra nếu ở localhost (phục vụ phát triển)
+    // if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    //   return;
+    // }
+
+    const threshold = 160;
+    // 1. Kiểm tra kích thước cửa sổ (DevTools gắn liền)
+    const widthDiff = window.outerWidth - window.innerWidth > threshold;
+    const heightDiff = window.outerHeight - window.innerHeight > threshold;
+
+    if (widthDiff || heightDiff) {
+      this.isDevToolsOpen = true;
+      this.crl.detectChanges();
+      return;
+    }
+
+    // 2. Kiểm tra bằng console log getter (cho trường hợp DevTools tách rời hoặc thu nhỏ)
+    let devtoolsOpen = false;
+    const element = new Image();
+    Object.defineProperty(element, 'id', {
+      get: () => {
+        devtoolsOpen = true;
+        return 'devtools-detected';
+      }
+    });
+    console.log(element);
+
+    // 3. Đo lường thời gian chạy debugger
+    const start = performance.now();
+    debugger;
+    const end = performance.now();
+    if (end - start > 100) {
+      devtoolsOpen = true;
+    }
+
+    if (devtoolsOpen) {
+      this.isDevToolsOpen = true;
+      this.crl.detectChanges();
+    }
+  }
+
+  reloadPage() {
+    if (isPlatformBrowser(this.platformId)) {
+      window.location.reload();
+    }
+  }
+
+  // Ngăn chặn chuột phải (contextmenu)
+  @HostListener('document:contextmenu', ['$event'])
+  blockContextMenu(event: MouseEvent) {
+    event.preventDefault();
+  }
+
+  // Ngăn chặn copy/cut
+  @HostListener('document:copy', ['$event'])
+  @HostListener('document:cut', ['$event'])
+  blockCopy(event: ClipboardEvent) {
+    event.preventDefault();
+  }
+
+  // Ngăn chặn các phím tắt F12, Ctrl+C, Ctrl+Shift+I, Ctrl+U, Ctrl+P, etc.
+  @HostListener('document:keydown', ['$event'])
+  blockHotkeys(event: KeyboardEvent) {
+    // F12
+    if (event.key === 'F12') {
+      event.preventDefault();
+      return;
+    }
+
+    // Các phím tắt với Ctrl hoặc Cmd
+    if (event.ctrlKey || event.metaKey) {
+      const key = event.key.toLowerCase();
+      // c (copy), x (cut), a (select all), s (save), u (view source), p (print)
+      if (key === 'c' || key === 'x' || key === 'a' || key === 's' || key === 'u' || key === 'p') {
+        event.preventDefault();
+        return;
+      }
+      // Ctrl + Shift hotkeys (I, J, C)
+      if (event.shiftKey && (key === 'i' || key === 'j' || key === 'c')) {
+        event.preventDefault();
+        return;
+      }
+    }
   }
 }

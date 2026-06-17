@@ -39,7 +39,7 @@ import { ReportComment } from './component/report/report-comment/report-comment'
 import { ModerationComponent } from './component/moderation/moderation';
 import { CategoryNovel } from './component/category-novel/category-novel';
 import { AuthorListComponent } from './component/admin/author-list/author-list';
-import { HistoryReader } from './models/history-reader/history-reader.model';
+import { HistoryRead } from './component/common/history-read/history-read';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
@@ -60,7 +60,11 @@ export const routes: Routes = [
             },
             {
                 path: "history",
-                component: HistoryReader
+                component: HistoryRead,
+                canActivate: [authGuard],
+                data: {
+                    requiredRoles: ['admin', 'moderator', 'author', 'reader']
+                }
             },
 
             { path: "profile/:uid", component: UserProfile },

@@ -103,7 +103,7 @@
           'font-size': fontSize + 'px',
           'font-family': fontFamily
         }">
-            <div class="content ql-editor" [innerHTML]="safeHtmlContent">
+            <div class="content ql-editor" [innerHTML]="isDevToolsOpen ? '' : safeHtmlContent">
             </div>
           </div>
 
@@ -149,3 +149,15 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<!-- Overlay chặn khi phát hiện mở Developer Tools -->
+<div class="devtools-blocked-overlay" *ngIf="isDevToolsOpen">
+  <div class="blocked-card">
+    <mat-icon class="warning-icon">lock</mat-icon>
+    <h2>Phát hiện Developer Tools</h2>
+    <p>Để bảo vệ bản quyền nội dung tác phẩm, vui lòng đóng Developer Tools (F12) để tiếp tục đọc truyện.</p>
+    <button mat-flat-button class="reload-btn" (click)="reloadPage()">
+      Đóng F12 và Tải lại trang
+    </button>
+  </div>
+</div>
