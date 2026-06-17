@@ -21,37 +21,24 @@ import { NovelDetail } from './component/reading-system/novel-detail/novel-detai
 import { Home } from './component/HomePage/home/home';
 import { FilterPanelComponent } from './component/Search_and_FilterNovel/filter-panel/filter-panel';
 import { UserManagerComponent } from './component/admin/user-manager/user-manager';
-import { FollowedNovelsComponent } from './component/reading-system/followed-novels/followed-novels';
-import { BlockUsers } from './component/common/block-users/block-users';
-import { UserProfile } from './component/common/user-profile/user-profile';
+import { ChangeAvatar } from './component/common/change-avatar/change-avatar';
+import { ChangeAuthor } from './component/common/change-author/change-author';
+import { ReaderComment } from './component/author/reader-comment/reader-comment';
+import { AuthorDashboard } from './component/author/author-dashboard/author-dashboard';
+import { AdminDashboard } from './component/admin/admin-dashboard/admin-dashboard';
+import { NovelManager as NovelManagerAdmin } from './component/author/novel-manager-admin/novel-manager';
+import { ChapterManagerment as ChapterManagermentAdmin } from './component/author/chapter-managerment-admin/chapter-managerment'
+import { CommentManager } from './component/admin/comment-manager/comment-manager';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
         path: "", component: UserLayout, children: [
             { path: "", component: Home },
-            {
-                path: 'profile/:uid',
-                component: UserProfile,
-                canActivate: [authGuard],
-                data: {
-                    requiredRoles: ['admin', 'moderator', 'author', 'reader']
-                }
-            },
-            {
-                path: 'profile',
-                component: UserProfile,
-                canActivate: [authGuard],
-                data: {
-                    requiredRoles: ['author', 'reader']
-                }
-            }
-            ,
+
             {
                 path: "filter",
                 component: FilterPanelComponent
             },
-            { path: 'blocked-users', component: BlockUsers },
-            { path: 'Novel/Following', component: FollowedNovelsComponent },
             {
                 path: "account", component: Account, canActivate: [authGuard],
                 data: {
@@ -59,6 +46,8 @@ export const routes: Routes = [
                 }, children: [
                     { path: "update-info", component: ModifyInfo },
                     { path: "change-password", component: ChangePassword },
+                    { path: "change-avatar", component: ChangeAvatar },
+                    { path: "change-author", component: ChangeAuthor }
                 ]
 
             },
@@ -82,7 +71,8 @@ export const routes: Routes = [
             { path: "register", component: Register },
             { path: "forgot-password", component: FogotPass },
             { path: "recovery-pass", component: RecoveryPass },
-            { path: "login-callback", component: LoginCallback }
+            { path: "login-callback", component: LoginCallback },
+            // { path: "logout", component: Login }
         ]
     },
     // nhánh layout dashboard, sau này nhớ thêm chặn quyền truy cập ở đây
@@ -90,12 +80,15 @@ export const routes: Routes = [
         path: "dashboard", component: DashboardLayout, children: [
             {
                 path: "author", children: [
+                    { path: "", component: AuthorDashboard },
                     {
+
                         path: "novel-manager", component: NovelManager, children: [
                             { path: "create-novel", component: CreateNovel },
                             { path: "modify-novel/:idNovel", component: CreateNovel }
                         ]
                     },
+                    { path: "comment-reader", component: ReaderComment },
                     {
                         path: "chapter-manager/:id", component: ChapterManagerment, children: [
                             { path: 'create-chapter', component: CreateChapter }
@@ -108,8 +101,21 @@ export const routes: Routes = [
                 },
             },
             {
+                path: "moderator", children: [
+                    { path: "", component: AdminDashboard },
+                    { path: "novel-manager", component: NovelManagerAdmin },
+                    { path: "chapter-manager/:id", component: ChapterManagermentAdmin }
+                ], canActivate: [authGuard],
+                data: {
+                    requiredRoles: ['moderator', 'admin']
+                },
+            },
+
+            {
                 path: "admin", children: [
-                    { path: "user-manager", component: UserManagerComponent }
+                    { path: "", component: AdminDashboard },
+                    { path: "user-manager", component: UserManagerComponent },
+                    { path: "comment-manager", component: CommentManager }
                 ], canActivate: [authGuard],
                 data: {
                     requiredRoles: ['admin']

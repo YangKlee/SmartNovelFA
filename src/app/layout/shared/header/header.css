@@ -115,14 +115,39 @@
   color: white;
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 600;
+  gap: 10px;
   cursor: pointer;
+  text-align: left;
 }
 
-.user-info i { font-size: 20px; }
+.user-info i { font-size: 32px; }
 
+.header-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.user-details .username {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.user-details .role-badge {
+  font-size: 11px;
+  color: #a0a0a0;
+  font-weight: 500;
+  margin-top: 2px;
+}
 /* Menu quản trị của User (Hover sẽ hiện) */
 .user-dropdown-menu {
   position: absolute;

@@ -154,3 +154,24 @@ body {
 	font-size: 0.85rem;
 	margin-top: 5px;
 }
+
+/* Custom SnackBar Backgrounds */
+.success-snackbar .mdc-snackbar__surface {
+	background-color: #2e7d32 !important;
+}
+
+.success-snackbar .mdc-snackbar__label,
+.success-snackbar .mat-mdc-button .mdc-button__label,
+.success-snackbar .mat-mdc-button {
+	color: #ffffff !important;
+}
+
+.error-snackbar .mdc-snackbar__surface {
+	background-color: #d32f2f !important;
+}
+
+.error-snackbar .mdc-snackbar__label,
+.error-snackbar .mat-mdc-button .mdc-button__label,
+.error-snackbar .mat-mdc-button {
+	color: #ffffff !important;
+}

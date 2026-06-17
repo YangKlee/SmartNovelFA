@@ -8,6 +8,8 @@ import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { User } from '../../../models/user/user.model';
 import { UserServices } from '../../../services/user/user-services';
 import { ChangeDetectorRef } from '@angular/core';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-modify-info',
   standalone: true,
@@ -17,7 +19,8 @@ import { ChangeDetectorRef } from '@angular/core';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    RouterLink
+    RouterLink,
+    MatSnackBarModule
   ],
   templateUrl: './modify-info.html',
   styleUrl: './modify-info.css',
@@ -34,7 +37,8 @@ export class ModifyInfo implements OnInit {
     private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -60,7 +64,12 @@ export class ModifyInfo implements OnInit {
       },
       error: () => {
         if (isPlatformBrowser(this.platformId)) {
-          alert("Không lấy được thông tin tài khoản, phiên đăng nhập không hợp lệ");
+          this.snackBar.open("Không lấy được thông tin tài khoản, phiên đăng nhập không hợp lệ", "Đóng", {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['error-snackbar']
+          });
         }
       }
     })
@@ -76,7 +85,12 @@ export class ModifyInfo implements OnInit {
 
       this.userServices.updateInfoAccount(body).subscribe({
         next: (res) => {
-          alert('Cập nhật thông tin thành công!');
+          this.snackBar.open('Cập nhật thông tin thành công!', 'Đóng', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['success-snackbar']
+          });
           this.userServices.notifyUserUpdated();
           this.router.navigate(['../'], { relativeTo: this.route });
         },
@@ -84,7 +98,12 @@ export class ModifyInfo implements OnInit {
           console.error(err);
 
           const errorMessage = err.error?.Msg || 'Cập nhật thất bại. Vui lòng thử lại!';
-          alert(errorMessage);
+          this.snackBar.open(errorMessage, 'Đóng', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['error-snackbar']
+          });
         }
       });
     } else {
