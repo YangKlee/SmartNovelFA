@@ -110,6 +110,24 @@
           <mat-divider
             [ngStyle]="{'border-top-color': theme === 'dark' ? '#374151' : (theme === 'sepia' ? 'rgba(74, 59, 44, 0.12)' : 'rgba(0,0,0,0.12)')}"></mat-divider>
 
+          <!-- Nút Mục lục và điều hướng ở dưới cùng -->
+          <div class="reading-footer">
+            <button mat-stroked-button class="nav-btn prev-btn" [disabled]="!prevChapterId" (click)="prevChapterId && goToChapter(prevChapterId)">
+              <mat-icon>chevron_left</mat-icon> Chương trước
+            </button>
+            
+            <button mat-flat-button class="toc-btn" (click)="sidenav.toggle()">
+              <mat-icon>menu</mat-icon> Mục lục
+            </button>
+            
+            <button mat-stroked-button class="nav-btn next-btn" [disabled]="!nextChapterId" (click)="nextChapterId && goToChapter(nextChapterId)">
+              Chương sau <mat-icon>chevron_right</mat-icon>
+            </button>
+          </div>
+
+          <mat-divider
+            [ngStyle]="{'border-top-color': theme === 'dark' ? '#374151' : (theme === 'sepia' ? 'rgba(74, 59, 44, 0.12)' : 'rgba(0,0,0,0.12)')}"></mat-divider>
+
           <div class="comments-section">
             <h3>Bình luận</h3>
             <app-write-comment *ngIf="isLoggedIn; else loginPrompt" (submitComment)="submitComment($event)"
