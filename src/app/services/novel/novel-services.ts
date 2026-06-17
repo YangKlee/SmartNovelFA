@@ -178,11 +178,11 @@ export class NovelServices {
       .set('pageSize', pageSize.toString())
       .set('keyword', keyword)
       .set('type', type);
-      
+
     if (authorID) {
       params = params.set('authorID', authorID);
     }
-    
+
     return this.httpClient.get<any>(`${this.URL_NOVEL}/getNovelForAdmin`, { params }).pipe(
       map(res => {
         return {
@@ -198,5 +198,11 @@ export class NovelServices {
 
   public rejectNovel(novelId: string): Observable<any> {
     return this.httpClient.put<any>(`${this.URL_NOVEL}/rejectNovel/${novelId}`, null);
+  }
+
+  public getNovelsByAuthor(uid: string): Observable<any[]> {
+    return this.httpClient.get<any[]>(
+      `${this.baseUrl}/novels/author/${uid}/novels`
+    );
   }
 }

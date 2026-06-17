@@ -1,0 +1,74 @@
+/* CONTAINER */
+.blocked-container {
+  padding: 20px;
+}
+
+/* TITLE (giữ nếu bạn muốn custom thêm sau này) */
+.blocked-container h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* GRID ROW: dùng Bootstrap nên không cần viết lại grid */
+
+/* CARD */
+.user-card {
+  border-radius: 14px;
+  overflow: hidden;
+  background: #edeef1;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  transition: 0.25s ease;
+  border: none;
+}
+
+.user-card:hover {
+  transform: translateY(-5px);
+}
+
+/* AVATAR */
+.user-avatar {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* CARD BODY */
+.user-card .card-body {
+  padding: 12px;
+}
+
+/* NAME */
+.user-card .card-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* USERNAME */
+.user-card small {
+  font-size: 13px;
+  color: #aaa !important;
+}
+
+/* BUTTON UNBLOCK */
+.btn-unblock {
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.btn-unblock:hover {
+  background: #e63b3d;
+}
+
+/* disabled state */
+.btn-unblock:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

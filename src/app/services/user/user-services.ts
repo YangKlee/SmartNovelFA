@@ -49,3 +49,4 @@ export class UserServices {
     return this.httpClient.get<any[]>(`${this.URL_Account}/getHistoryView`, this.httpOptions);
   }
 }
+
