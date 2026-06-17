@@ -9,7 +9,7 @@
       <li *ngFor="let author of items; let i = index" class="author-item">
         <span class="rank-number" [ngClass]="'rank-' + (i + 1)">{{ i + 1 }}</span>
         <div class="item-info">
-          <span class="author-name">{{ author.displayName }}</span>
+          <a [routerLink]="['/profile', author.uid]" class="author-name">{{ author.displayName }}</a>
           <span class="author-points">{{ author.creatorPoint | number }} điểm</span>
         </div>
       </li>

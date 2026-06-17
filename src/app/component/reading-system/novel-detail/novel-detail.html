@@ -24,7 +24,8 @@
                 <div class="meta-item">
                     <i class="bi bi-person-fill"></i>
                     <strong>Tác giả:</strong>
-                    {{ novel().authorName || novel().uidNavigation?.displayName || 'Đang cập nhật' }}
+                    <a [routerLink]="['/profile', novel()?.uid]"><i class="bi bi-person-fill"></i> {{
+                        novel().authorName || novel().uidNavigation?.displayName || 'Đang cập nhật' }}</a>
                 </div>
 
                 <div class="meta-item">
@@ -130,9 +131,7 @@
                         ? 'Bỏ chặn tác giả'
                         : 'Chặn tác giả' }}
                     </button>
-                    <button
-                        class="btn-report"
-                        (click)="goReportNovel()">
+                    <button class="btn-report" (click)="goReportNovel()">
 
                         <i class="bi bi-flag-fill"></i>
                         Báo cáo
