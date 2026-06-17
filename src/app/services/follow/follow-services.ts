@@ -1,35 +1,57 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../env';
 
-export interface FollowedNovel {
-  novelId: string;
-  title: string;
-  slug: string;
-  imageNovelUrl: string;
+export interface UserSimpleDto {
+  uid: string;
+  username: string;
+  displayName: string;
+  avatarUrl?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class FollowService {
+export class UserFollowService {
 
-  private api = 'https://localhost:7134/api/novel-interaction';
+  private apiUrl = `${environment.apiUrl}/user-relation`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  // GET danh sách đang follow
-  getFollowedNovels(): Observable<FollowedNovel[]> {
-    return this.http.get<FollowedNovel[]>(`${this.api}/following`);
+  // Theo dõi người dùng
+  follow(uid: string): Observable<boolean> {
+    return this.http.post<boolean>(
+      `${this.apiUrl}/follow/${uid}`,
+      {}
+    );
   }
 
-  // FOLLOW
-  followNovel(novelId: string) {
-    return this.http.post(`${this.api}/follow/${novelId}`, {});
+  // Bỏ theo dõi
+  unfollow(uid: string): Observable<boolean> {
+    return this.http.delete<boolean>(
+      `${this.apiUrl}/follow/${uid}`
+    );
   }
 
-  // UNFOLLOW
-  unfollowNovel(novelId: string) {
-    return this.http.delete(`${this.api}/unfollow/${novelId}`);
+  // Kiểm tra đã follow chưa
+  isFollowing(uid: string): Observable<boolean> {
+    return this.http.get<boolean>(
+      `${this.apiUrl}/is-following/${uid}`
+    );
+  }
+
+  // Danh sách follower
+  getFollowers(uid: string): Observable<UserSimpleDto[]> {
+    return this.http.get<UserSimpleDto[]>(
+      `${this.apiUrl}/followers/${uid}`
+    );
+  }
+
+  // Danh sách following
+  getFollowing(uid: string): Observable<UserSimpleDto[]> {
+    return this.http.get<UserSimpleDto[]>(
+      `${this.apiUrl}/following/${uid}`
+    );
   }
 }

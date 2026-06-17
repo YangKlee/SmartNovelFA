@@ -22,30 +22,38 @@ import { Home } from './component/HomePage/home/home';
 import { FilterPanelComponent } from './component/Search_and_FilterNovel/filter-panel/filter-panel';
 import { UserManagerComponent } from './component/admin/user-manager/user-manager';
 import { FollowedNovelsComponent } from './component/reading-system/followed-novels/followed-novels';
+import { BlockUsers } from './component/common/block-users/block-users';
+import { UserProfile } from './component/common/user-profile/user-profile';
 export const routes: Routes = [
     // nhánh layout cho đọc giả, tác giả (trừ khi ở dashboard)
     {
         path: "", component: UserLayout, children: [
             { path: "", component: Home },
-            
+            {
+                path: 'profile/:uid',
+                component: UserProfile,
+                canActivate: [authGuard],
+                data: {
+                    requiredRoles: ['admin', 'moderator', 'author', 'reader']
+                }
+            },
                   {
                   path: "filter",
                   component: FilterPanelComponent
                   },
+                    { path: 'blocked-users', component: BlockUsers},
+                    { path:'Novel/Following',component: FollowedNovelsComponent},
                 {
                 path: "account", component: Account, canActivate: [authGuard],
                 data: {
                     requiredRoles: ['admin', 'moderator', 'author', 'reader']
                 }, children: [
                     { path: "update-info", component: ModifyInfo },
-                    { path: "change-password", component: ChangePassword }
+                    { path: "change-password", component: ChangePassword },
                 ]
 
             },
-             {
-                path: 'Novel/Following',
-                component: FollowedNovelsComponent
-            },
+       
             {
                 path: "novel/:novelID",
                 children: [

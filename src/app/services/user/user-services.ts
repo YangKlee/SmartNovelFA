@@ -37,7 +37,5 @@ export class UserServices {
     return this.httpClient.post<any>(`${this.URL_Account}/changePassword`, { oldPassword, newPassword }, this.httpOptions);
   }
 
-
-
-
 }
+

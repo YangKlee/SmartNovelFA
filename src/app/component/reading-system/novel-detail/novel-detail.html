@@ -70,7 +70,7 @@
 
                     <div class="stat-card">
                         <i class="bi bi-bookmark-check-fill"></i>
-                        <span></span>
+                        <span>{{ novel()?.followCount || 0 }}</span>
                         <small>Theo dõi</small>
                     </div>
 
@@ -79,7 +79,22 @@
                         <span>{{ novel().likeCount || 0 }}</span>
                         <small>Yêu thích</small>
                     </div>
+                     <div class="stat-card">
+                        <div class="rating-box">
+                    <i
+                        *ngFor="let star of [1,2,3,4,5]"
+                        class="bi rating-star"
+                        [class.bi-star-fill]="star <= currentRating()"
+                        [class.bi-star]="star > currentRating()"
+                        (click)="rateNovel(star)">
+                    </i>
+                    <span class="rating-info">
+                        {{ averageRating() | number:'1.1-1' }}/5
+                        ({{ totalRatings() }} đánh giá)
+                    </span>
+                </div>
 
+                     </div>
                     <div class="stat-card">
                         <i class="bi bi-book-half"></i>
                         <span>{{ chapters().length }}</span>

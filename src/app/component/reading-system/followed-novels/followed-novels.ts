@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FollowedNovel, FollowService } from '../../../services/follow/follow-services';
+import { NovelInteractionService } from '../../../services/follow/novel-interaction.service';
 import { RouterModule } from '@angular/router';
+
+interface FollowedNovel {
+  novelId: string;
+  title: string;
+  imageNovelUrl?: string;
+  authorName?: string;
+}
 
 @Component({
   selector: 'app-followed-novels',
@@ -21,7 +28,7 @@ export class FollowedNovelsComponent implements OnInit {
 
   loadingUnfollowId: string | null = null;
 
-  constructor(private followService: FollowService) {}
+  constructor(private followService: NovelInteractionService) {}
 
   ngOnInit(): void {
     this.loadNovels();
@@ -31,7 +38,7 @@ export class FollowedNovelsComponent implements OnInit {
     this.loading = true;
     this.error = '';
 
-    this.followService.getFollowedNovels().subscribe({
+    this.followService.getFollowingNovels().subscribe({
       next: (res) => {
         this.novels = res;
         this.loading = false;
@@ -48,9 +55,9 @@ export class FollowedNovelsComponent implements OnInit {
 
     this.loadingUnfollowId = novelId;
 
-    this.followService.unfollowNovel(novelId).subscribe({
+    this.followService.unFollowNovel(novelId).subscribe({
       next: () => {
-        this.novels = this.novels.filter(x => x.novelId !== novelId);
+        this.novels = this.novels.filter( x => x.novelId !== novelId);
         this.loadingUnfollowId = null;
       },
       error: () => {

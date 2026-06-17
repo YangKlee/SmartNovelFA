@@ -1,10 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef, signal, PLATFORM_ID, inject } from '@angular/core'; // 1. Thêm signal từ @angular/core
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-
 import { NovelServices } from '../../../services/novel/novel-services';
 import { NovelInteractionService } from '../../../services/follow/novel-interaction.service';
-import { UserBlockService } from '../../../services/block/user-block.service';
+import { BlockServices } from '../../../services/block/block-services';
 import { Router } from '@angular/router';
 
 @Component({
@@ -26,15 +25,17 @@ export class NovelDetail implements OnInit {
   isLoading = signal<boolean>(true);
   isFollowing = signal(false);
   isBlocked = signal(false);
-
-  constructor(
-    private route: ActivatedRoute,
-    private novelService: NovelServices,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-    private novelInteractionService: NovelInteractionService,
-    private userBlockService: UserBlockService
-  ) { }
+  currentRating = signal(0);
+  averageRating = signal(0);
+  totalRatings = signal(0);
+ constructor(
+  private route: ActivatedRoute,
+  private novelService: NovelServices,
+  private cdr: ChangeDetectorRef,
+  private router: Router,
+  private novelInteractionService: NovelInteractionService,
+  private BlockService: BlockServices
+) { }
 
   ngOnInit(): void {
 
@@ -56,98 +57,83 @@ export class NovelDetail implements OnInit {
     });
   }
 
+// Kiểm tra trạng thái follow truyện và block tác giả
 loadInteractionStatus(): void {
-  const novelId = this.novel()?.novelId || this.novel()?.NovelId;
-  const authorId = this.novel()?.authorId || this.novel()?.AuthorId || this.novel()?.uid || this.novel()?.Uid;
-
-  console.log('Kiểm tra trạng thái - NovelId:', novelId, 'AuthorId:', authorId);
-
-  if (!novelId || !authorId) return;
-
-  this.novelInteractionService
-    .getFollowingNovels()
-    .subscribe({
-      next: (novels: any[]) => {
-        console.log('Danh sách truyện đang theo dõi từ API:', novels);
-        
-        if (!novels || !Array.isArray(novels)) {
-          this.isFollowing.set(false);
-          return;
-        }
-
-        // So sánh an toàn không phân biệt hoa thường
-        const followed = novels.some(x => {
-          const idFromList = String(x.novelId || x.NovelId || '').toLowerCase();
-          const currentNovelId = String(novelId).toLowerCase();
-          return idFromList === currentNovelId;
-        });
-
-        console.log('Kết quả so sánh Followed:', followed);
-        this.isFollowing.set(followed);
-      },
-      error: err => {
-        console.error('Lỗi khi lấy danh sách follow:', err);
-        this.isFollowing.set(false);
-      }
-    });
-
-  this.userBlockService
-    .getBlockedUsers()
-    .subscribe({
-      next: (users: any[]) => {
-        console.log('Danh sách user đã block từ API:', users);
-
-        if (!users || !Array.isArray(users)) {
-          this.isBlocked.set(false);
-          return;
-        }
-
-        // So sánh an toàn không phân biệt hoa thường
-        const blocked = users.some(x => {
-          const idFromList = String(x.uid || x.Uid || x.id || x.Id || '').toLowerCase();
-          const currentAuthorId = String(authorId).toLowerCase();
-          return idFromList === currentAuthorId;
-        });
-
-        console.log('Kết quả so sánh Blocked:', blocked);
-        this.isBlocked.set(blocked);
-      },
-      error: err => {
-        console.error('Lỗi khi lấy danh sách block:', err);
-        this.isBlocked.set(false);
-      }
-    });
-}
-
-  loadNovel(novelID: string): void {
-    this.isLoading.set(true);
-
-    this.novelService
-      .getNovel(novelID)
+  const novelId = this.novel()?.novelId;
+  const authorId = this.novel()?.authorId;
+  console.log('Kiểm tra trạng thái','NovelId:',novelId,'AuthorId:',authorId);
+  // Kiểm tra follow truyện
+  if (novelId) {
+    this.novelInteractionService
+      .getFollowingNovels()
       .subscribe({
-        next: (res: any) => {
-          console.log('Novel API:', res);
-
-          // Dùng hàm .set() của Signal để cập nhật dữ liệu an toàn
-          this.novel.set(res);
-
-          // ===== LOAD TRẠNG THÁI FOLLOW/BLOCK =====
-          this.loadInteractionStatus();
-
-          if (res?.novelId) { 
-            this.loadChapters(res.novelId);
-          } else {
-            this.isLoading.set(false);
-            this.cdr.detectChanges();
-          }
+        next: (novels: any[]) => {
+          const followed = novels?.some(x =>String(x.novelId).toLowerCase() === String(novelId).toLowerCase()
+          );
+          this.isFollowing.set(!!followed);
         },
-        error: (err) => {
-          console.error('Lỗi lấy truyện:', err);
-          this.isLoading.set(false);
-          this.cdr.detectChanges();
+        error: err => {
+          console.error('Lỗi follow:', err);
+          this.isFollowing.set(false);
         }
       });
   }
+  // Kiểm tra block tác giả
+  if (authorId) {
+    this.BlockService
+      .isBlocked(authorId)
+      .subscribe({next: (blocked) => {this.isBlocked.set(blocked); },
+        error: err => {
+          console.error('Lỗi block:', err);
+          this.isBlocked.set(false);
+        }
+      });
+  }
+}
+
+loadMyRating(novelId: string): void {
+
+  this.novelInteractionService
+    .getMyRating(novelId)
+    .subscribe({
+      next: (rating) => {
+        this.currentRating.set(rating ?? 0);
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+}
+loadNovel(novelID: string): void {
+  this.isLoading.set(true);
+
+  this.novelService
+    .getNovel(novelID)
+    .subscribe({
+      next: (res: any) => {
+        console.log('Novel API:', res);
+        this.novel.set(res);
+        this.averageRating.set(res.averageRating ?? 0);
+        this.totalRatings.set(res.totalRatings ?? 0);
+        // Load trạng thái follow/block
+        this.loadInteractionStatus();
+
+        // Load điểm đánh giá của user hiện tại
+        if (res?.novelId) {
+          this.loadMyRating(res.novelId);
+          this.loadChapters(res.novelId);
+        } else {
+          this.isLoading.set(false);
+          this.cdr.detectChanges();
+        }
+      },
+      error: (err) => {
+        console.error('Lỗi lấy truyện:', err);
+        this.isLoading.set(false);
+        this.cdr.detectChanges();
+      }
+    });
+}
 
   loadChapters(novelId: string): void {
     this.novelService
@@ -224,7 +210,7 @@ toggleFollow(): void {
       }
     });
 }
-//Chặn tác giả, bỏ chặn
+// Chặn / bỏ chặn tác giả
 toggleBlockAuthor(): void {
 
   const authorId = this.novel()?.authorId;
@@ -233,22 +219,50 @@ toggleBlockAuthor(): void {
 
   if (this.isBlocked()) {
 
-    this.userBlockService
-      .unBlockAuthor(authorId)
+    this.BlockService
+      .unblock(authorId)
       .subscribe({
         next: () => {
           this.isBlocked.set(false);
+        },
+        error: err => {
+          console.error('Unblock failed', err);
         }
       });
 
-    return;
-  }
+  } else {
 
-  this.userBlockService
-    .blockAuthor(authorId)
+    this.BlockService
+      .block(authorId)
+      .subscribe({
+        next: () => {
+          this.isBlocked.set(true);
+        },
+        error: err => {
+          console.error('Block failed', err);
+        }
+      });
+
+  }
+}
+rateNovel(star: number): void {
+  const novelId = this.novel()?.novelId;
+  if (!novelId) return;
+  this.novelInteractionService
+    .rateNovel(novelId, star)
     .subscribe({
-      next: () => {
-        this.isBlocked.set(true);
+      next: (res) => {
+        if (!res.success) {
+          alert(res.message);
+          return;
+        }
+        this.currentRating.set(star);
+        this.averageRating.set(res.averageRating);
+        this.totalRatings.set(res.totalRatings);
+        console.log('Đánh giá thành công', res);
+      },
+      error: (err) => {
+        console.error(err);
       }
     });
 }

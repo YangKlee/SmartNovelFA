@@ -445,3 +445,18 @@
     font-size: 12px;
 
 }
+.rating-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rating-star {
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.rating-info {
+    font-size: 14px;
+    color: #666;
+}

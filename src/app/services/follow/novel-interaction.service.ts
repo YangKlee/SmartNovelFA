@@ -3,6 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../env';
 
+export interface RateNovelResponse {
+  success: boolean;
+  message: string;
+  averageRating: number;
+  totalRatings: number;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -31,13 +37,17 @@ export class NovelInteractionService {
     );
   }
 
-  rateNovel(novelId: string, score: number): Observable<any> {
-    return this.http.post(
+  rateNovel( novelId: string,ratingValue: number): Observable<RateNovelResponse> {
+    return this.http.post<RateNovelResponse>(
       `${this.apiUrl}/rate`,
       {
         novelId,
-        score
+        ratingValue
       }
     );
-  }
+}
+getMyRating(novelId: string): Observable<number | null> {
+  return this.http.get<number | null>(`${this.apiUrl}/my-rating/${novelId}`
+  );
+}
 }

@@ -165,4 +165,10 @@ export class NovelServices {
       .set('keyworld', keyword);
     return this.httpClient.get<number>(`${this.URL_NOVEL}/seachNovelAuthor/count`, { params });
   }
+
+  public getNovelsByAuthor(uid: string): Observable<any[]> {
+  return this.httpClient.get<any[]>(
+    `${this.baseUrl}/novels/author/${uid}/novels`
+  );
+}
 }

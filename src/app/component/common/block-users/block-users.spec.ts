@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReadingSystem } from './reading-system';
+import { BlockUsers } from './block-users';
 
-describe('ReadingSystem', () => {
-  let component: ReadingSystem;
-  let fixture: ComponentFixture<ReadingSystem>;
+describe('BlockUsers', () => {
+  let component: BlockUsers;
+  let fixture: ComponentFixture<BlockUsers>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReadingSystem]
+      imports: [BlockUsers]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ReadingSystem);
+    fixture = TestBed.createComponent(BlockUsers);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
