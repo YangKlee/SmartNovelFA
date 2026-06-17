@@ -21,7 +21,8 @@ export class Home implements OnInit {
   NovelUpdate: Novel[] = [];
   heroNovel: Novel | null = null;
   NovelFollowing: Novel[] = [];
-
+  topAuthors: any[] = [];
+  recommendedAdmin: Novel[] = [];
   constructor(private novelServices: NovelServices, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -30,6 +31,8 @@ export class Home implements OnInit {
     this.loadNovelUpdate();
     this.loadHeroNovel();
     this.loadNovelFollowing();
+    this.loadTopAuthors();
+    this.loadRecommendedAdmin();
   }
 
   private loadHeroNovel(): void {
@@ -83,4 +86,23 @@ private loadNovelFollowing(): void {
 
 }
 
+  private loadTopAuthors(): void {
+    this.novelServices.getTopAuthors().subscribe({
+      next: (authors) => {
+        this.topAuthors = authors && authors.length > 0 ? [...authors] : [];
+        this.cdr.markForCheck();
+      },
+      error: (err) => console.error('Lỗi tải Top Authors:', err)
+    });
+  }
+
+  private loadRecommendedAdmin(): void {
+    this.novelServices.getNovelAdminRecommend().subscribe({
+      next: (novels) => {
+        this.recommendedAdmin = novels && novels.length > 0 ? [...novels] : [];
+        this.cdr.markForCheck();
+      },
+      error: (err) => console.error('Lỗi tải Recommended Admin:', err)
+    });
+  }
 }

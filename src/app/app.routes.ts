@@ -20,6 +20,8 @@ import { ReadNovel } from './component/common/read-novel/read-novel';
 import { NovelDetail } from './component/reading-system/novel-detail/novel-detail';
 import { Home } from './component/HomePage/home/home';
 import { FilterPanelComponent } from './component/Search_and_FilterNovel/filter-panel/filter-panel';
+import { UserManagerComponent } from './component/admin/adminUser/user-manager/user-manager';
+import { CategoryManagerComponent } from './component/admin/adminCategory/category-manager/category-manager';
 import { UserManagerComponent } from './component/admin/user-manager/user-manager';
 import { ChangeAvatar } from './component/common/change-avatar/change-avatar';
 import { ChangeAuthor } from './component/common/change-author/change-author';
@@ -115,7 +117,8 @@ export const routes: Routes = [
                 path: "admin", children: [
                     { path: "", component: AdminDashboard },
                     { path: "user-manager", component: UserManagerComponent },
-                    { path: "comment-manager", component: CommentManager }
+                    { path: "comment-manager", component: CommentManager },
+                     {path:"category-manager", component:CategoryManagerComponent}
                 ], canActivate: [authGuard],
                 data: {
                     requiredRoles: ['admin']

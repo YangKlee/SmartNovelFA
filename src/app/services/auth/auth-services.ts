@@ -52,6 +52,14 @@ export class AuthServices {
     return this.httpClient.get<any>(`${this.URL_AUTH}/checkLogin`);
   }
 
+  public updateReadingPreferences(theme: string, fontSize: number, fontFamily: string): Observable<any> {
+    return this.httpClient.put<any>(`${this.URL_AUTH}/ReadingPreferences`, {
+      theme: theme,
+      fontSize: fontSize,
+      fontFamily: fontFamily
+    }, this.httpOptions);
+  }
+
   public loginGoogle() {
     window.location.href = `${this.URL_AUTH}/LoginGoogle`;
   }

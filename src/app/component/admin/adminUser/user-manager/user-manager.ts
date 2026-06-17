@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { AdminService } from '../../../services/admin-service/admin-service';
-import { User } from '../../../models/user/user.model';
-import { UserListComponent } from '../../../component/adminUser/user-list/user-list';
-// 1. Phải import thêm component Edit vào đây
-import { UserEditComponent } from '../../../component/adminUser/user-edit/user-edit';
+import { AdminService } from '../../../../services/admin-service/admin-service';
+import { User } from '../../../../models/user/user.model';
+import { UserListComponent } from '../user-list/user-list';
+import { UserEditComponent } from '../user-edit/user-edit';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({

@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { AdminService } from '../../../services/admin-service/admin-service';
-import { User } from '../../../models/user/user.model';
+import { AdminService } from '../../../../services/admin-service/admin-service';
+import { User } from '../../../../models/user/user.model';
 
 @Component({
   selector: 'app-user-edit',
