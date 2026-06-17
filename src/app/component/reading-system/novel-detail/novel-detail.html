@@ -79,22 +79,19 @@
                         <span>{{ novel().likeCount || 0 }}</span>
                         <small>Yêu thích</small>
                     </div>
-                     <div class="stat-card">
+                    <div class="stat-card">
                         <div class="rating-box">
-                    <i
-                        *ngFor="let star of [1,2,3,4,5]"
-                        class="bi rating-star"
-                        [class.bi-star-fill]="star <= currentRating()"
-                        [class.bi-star]="star > currentRating()"
-                        (click)="rateNovel(star)">
-                    </i>
-                    <span class="rating-info">
-                        {{ averageRating() | number:'1.1-1' }}/5
-                        ({{ totalRatings() }} đánh giá)
-                    </span>
-                </div>
+                            <i *ngFor="let star of [1,2,3,4,5]" class="bi rating-star"
+                                [class.bi-star-fill]="star <= currentRating()" [class.bi-star]="star > currentRating()"
+                                (click)="rateNovel(star)">
+                            </i>
+                            <span class="rating-info">
+                                {{ averageRating() | number:'1.1-1' }}/5
+                                ({{ totalRatings() }} đánh giá)
+                            </span>
+                        </div>
 
-                     </div>
+                    </div>
                     <div class="stat-card">
                         <i class="bi bi-book-half"></i>
                         <span>{{ chapters().length }}</span>
@@ -102,18 +99,39 @@
                     </div>
                 </div>
 
+                <!-- Đánh giá bằng chọn từ 1-5 sao -->
+                <div class="novel-rating-selector mb-3 d-flex align-items-center gap-2">
+                    <span class="text-secondary"><strong>Đánh giá truyện:</strong></span>
+                    <div class="stars-container d-flex gap-1">
+                        <i *ngFor="let star of [1, 2, 3, 4, 5]" class="bi star-btn"
+                            [class.bi-star-fill]="(hoverRating() || userRating()) >= star"
+                            [class.bi-star]="(hoverRating() || userRating()) < star"
+                            [class.text-warning]="(hoverRating() || userRating()) >= star" (click)="submitRating(star)"
+                            (mouseenter)="hoverRating.set(star)" (mouseleave)="hoverRating.set(0)">
+                        </i>
+                    </div>
+                    <span class="rating-badge ms-2" *ngIf="averageRating() > 0">
+                        {{ averageRating() | number:'1.1-1' }} / 5 <i class="bi bi-star-fill text-warning"></i>
+                    </span>
+                    <span class="text-white-50 ms-2" *ngIf="averageRating() === 0">
+                        (Chưa có đánh giá)
+                    </span>
+                </div>
+
                 <div class="action-buttons">
-                    <button class="btn-read"(click)="readFirstChapter()">
+                    <button class="btn-read" (click)="readFirstChapter()">
                         <i class="bi bi-book"></i>
-                        Đọc truyện
+                        Đọc từ đầu
+                    </button>
+                    <button class="btn-read" *ngIf="readingChapter != null" (click)="continueReading()">
+                        <i class="bi bi-play-circle-fill"></i>
+                        Đọc tiếp
                     </button>
                     <button class="btn-latest" (click)="readLatestChapter()">
                         <i class="bi bi-lightning-fill"></i>
                         Chương mới nhất
                     </button>
-                    <button
-                        class="btn-follow"
-                        (click)="toggleFollow()">
+                    <button class="btn-follow" (click)="toggleFollow()">
 
                         <i [class]="isFollowing()
                             ? 'bi bi-bookmark-check-fill'
@@ -124,9 +142,7 @@
                         ? 'Bỏ theo dõi'
                         : 'Theo dõi' }}
                     </button>
-                    <button
-                        class="btn-block"
-                        (click)="toggleBlockAuthor()">
+                    <button class="btn-block" (click)="toggleBlockAuthor()">
 
                         <i [class]="isBlocked()
                             ? 'bi bi-person-check-fill'
@@ -137,7 +153,7 @@
                         ? 'Bỏ chặn tác giả'
                         : 'Chặn tác giả' }}
                     </button>
-                    <button class="btn-report">
+                    <button class="btn-report" (click)="reportNovel()">
                         <i class="bi bi-flag-fill"></i>
                         Báo cáo
                     </button>
@@ -152,7 +168,8 @@
             </div>
 
             <div class="chapter-grid" *ngIf="chapters().length > 0; else noChaptersTemplate">
-                <a *ngFor="let chapter of chapters()" class="chapter-link" [routerLink]="['./chapter', chapter.chapterId]">
+                <a *ngFor="let chapter of chapters()" class="chapter-link"
+                    [routerLink]="['./chapter', chapter.chapterId]">
                     <i class="bi bi-bookmark"></i>
                     Chương {{ chapter.chaperOrder }}
                     -

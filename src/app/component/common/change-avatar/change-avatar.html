@@ -1,0 +1,39 @@
+<div class="avatar-popup-overlay">
+  <mat-card class="avatar-card">
+    <mat-card-header>
+      <mat-card-title>Đổi ảnh đại diện</mat-card-title>
+      <button mat-icon-button class="close-btn" (click)="onCancel()" type="button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <form [formGroup]="avatarForm" (ngSubmit)="onSubmit()">
+        <div class="avatar-preview-container">
+          <!-- Hiển thị preview nếu có, nếu không thì hiển thị avatar hiện tại, nếu không có nữa thì hiển thị placeholder -->
+          <img *ngIf="previewAvatarUrl || currentAvatarUrl" 
+               [src]="previewAvatarUrl || currentAvatarUrl" 
+               alt="Avatar Preview" 
+               class="avatar-preview">
+          <div *ngIf="!previewAvatarUrl && !currentAvatarUrl" class="avatar-placeholder">
+            <mat-icon>person</mat-icon>
+          </div>
+        </div>
+        
+        <div class="file-upload-container">
+          <input type="file" #fileInput (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png" style="display: none;">
+          <button type="button" mat-stroked-button color="primary" (click)="fileInput.click()">
+            <mat-icon>upload</mat-icon> Chọn ảnh
+          </button>
+          <p class="description">Định dạng hỗ trợ: JPG, JPEG, PNG. Dung lượng tối đa: 5MB.</p>
+          <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+        </div>
+      </form>
+    </mat-card-content>
+    
+    <mat-card-actions align="end">
+      <button mat-button (click)="onCancel()" type="button">Hủy</button>
+      <button mat-flat-button color="primary" [disabled]="!selectedFile" (click)="onSubmit()" type="button">Lưu thay đổi</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

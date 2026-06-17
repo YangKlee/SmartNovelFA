@@ -1,0 +1,62 @@
+<div class="stats-container" *ngIf="novelInfo">
+  <div class="stats-header">
+    <i class="bi bi-bar-chart-fill"></i>
+    <h2>Thống kê đóng góp</h2>
+  </div>
+
+  <div class="charts-wrapper">
+    <!-- Novels Chart -->
+    <div class="chart-section">
+      <div class="chart-main">
+        <h3 class="chart-title">Bộ truyện</h3>
+        <div class="canvas-container">
+          <canvas #novelChart></canvas>
+        </div>
+        <div class="chart-footer">
+          Tổng bộ truyện: {{ novelInfo.totalNovels || 0 }}
+        </div>
+      </div>
+      <div class="custom-legend">
+        <div class="legend-item">
+          <span class="color-box bg-green"></span>
+          <span>Đã đăng: {{ novelInfo.publicNovels || 0 }}</span>
+        </div>
+        <div class="legend-item">
+          <span class="color-box bg-red"></span>
+          <span>Bị gỡ: {{ novelInfo.removedNovels || 0 }}</span>
+        </div>
+        <div class="legend-item">
+          <span class="color-box bg-gray"></span>
+          <span>Nháp: {{ novelInfo.draftNovels || 0 }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapters Chart -->
+    <div class="chart-section">
+      <div class="chart-main">
+        <h3 class="chart-title">Chương</h3>
+        <div class="canvas-container">
+          <canvas #chapterChart></canvas>
+        </div>
+        <div class="chart-footer">
+          Tổng chương: {{ novelInfo.totalChapters || 0 }}
+        </div>
+      </div>
+      <div class="custom-legend">
+        <div class="legend-item">
+          <span class="color-box bg-green"></span>
+          <span>Đã đăng: {{ novelInfo.publicChapters || 0 }}</span>
+        </div>
+        <div class="legend-item">
+          <span class="color-box bg-red"></span>
+          <span>Bị gỡ: {{ novelInfo.removedChapters || 0 }}</span>
+        </div>
+        <div class="legend-item">
+          <span class="color-box bg-gray"></span>
+          <span>Nháp: {{ novelInfo.draftChapters || 0 }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

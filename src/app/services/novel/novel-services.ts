@@ -33,7 +33,7 @@ export class NovelServices {
   // Base URLs được tách ra để giữ nguyên vẹn endpoint của cả 2 nhánh
   private URL_HOME = `${environment.apiUrl}`;
   private URL_NOVEL = `${environment.apiUrl}/Novel`;
-  
+
   public reloadNovelList = new BehaviorSubject<boolean>(false);
 
   // --- Từ nhánh HomePage ---
@@ -65,7 +65,7 @@ export class NovelServices {
 
     if (this.filterParams.search) params = params.set('search', this.filterParams.search);
     if (this.filterParams.selectedCategoryId) params = params.set('categoryId', this.filterParams.selectedCategoryId);
-    
+
     // Các tham số mở rộng gửi lên backend nếu cần lọc sâu hơn
     // if (this.filterParams.chapterMin) params = params.set('chapterMin', this.filterParams.chapterMin);
 
@@ -150,12 +150,15 @@ export class NovelServices {
     return this.httpClient.delete<any>(`${this.URL_NOVEL}/deleteNovel/${id}`)
   }
 
-  public seachNovelAuthor(status: string, keyword: string, pageNumber: number = 1, pageSize: number = 10000000): Observable<any> {
-    const params = new HttpParams()
+  public seachNovelAuthor(status: string, keyword: string, authorId: string = '', pageNumber: number = 1, pageSize: number = 10000000): Observable<any> {
+    let params = new HttpParams()
       .set('status', status)
       .set('keyworld', keyword)
       .set('pageNumber', pageNumber.toString())
       .set('pageSize', pageSize.toString());
+    if (authorId) {
+      params = params.set('authorId', authorId);
+    }
     return this.httpClient.get<any>(`${this.URL_NOVEL}/seachNovelAuthor`, { params });
   }
 
@@ -167,8 +170,8 @@ export class NovelServices {
   }
 
   public getNovelsByAuthor(uid: string): Observable<any[]> {
-  return this.httpClient.get<any[]>(
-    `${this.baseUrl}/novels/author/${uid}/novels`
-  );
-}
+    return this.httpClient.get<any[]>(
+      `${this.baseUrl}/novels/author/${uid}/novels`
+    );
+  }
 }

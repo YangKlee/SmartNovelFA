@@ -1,0 +1,20 @@
+<div class="newest-comment-container" *ngIf="commentRes">
+  <div class="comment-header">
+    <i class="bi bi-chat-left-text-fill"></i>
+    <h3>Bình luận mới nhất ({{ commentRes.totalComment }})</h3>
+  </div>
+
+  <div class="comment-list" *ngIf="commentRes.comments?.length; else noComments">
+    <app-comment 
+      *ngFor="let comment of commentRes.comments" 
+      [comment]="comment" 
+      [isParent]="true">
+    </app-comment>
+  </div>
+
+  <ng-template #noComments>
+    <div class="no-comment-msg">
+      Chưa có bình luận nào.
+    </div>
+  </ng-template>
+</div>
