@@ -24,7 +24,7 @@
                 <div class="meta-item">
                     <i class="bi bi-person-fill"></i>
                     <strong>Tác giả:</strong>
-                    {{ novel().authorName || 'Đang cập nhật' }}
+                    {{ novel().authorName || novel().uidNavigation?.displayName || 'Đang cập nhật' }}
                 </div>
 
                 <div class="meta-item">
@@ -79,22 +79,19 @@
                         <span>{{ novel().likeCount || 0 }}</span>
                         <small>Yêu thích</small>
                     </div>
-                     <div class="stat-card">
+                    <div class="stat-card">
                         <div class="rating-box">
-                    <i
-                        *ngFor="let star of [1,2,3,4,5]"
-                        class="bi rating-star"
-                        [class.bi-star-fill]="star <= currentRating()"
-                        [class.bi-star]="star > currentRating()"
-                        (click)="rateNovel(star)">
-                    </i>
-                    <span class="rating-info">
-                        {{ averageRating() | number:'1.1-1' }}/5
-                        ({{ totalRatings() }} đánh giá)
-                    </span>
-                </div>
+                            <i *ngFor="let star of [1,2,3,4,5]" class="bi rating-star"
+                                [class.bi-star-fill]="star <= currentRating()" [class.bi-star]="star > currentRating()"
+                                (click)="rateNovel(star)">
+                            </i>
+                            <span class="rating-info">
+                                {{ averageRating() | number:'1.1-1' }}/5
+                                ({{ totalRatings() }} đánh giá)
+                            </span>
+                        </div>
 
-                     </div>
+                    </div>
                     <div class="stat-card">
                         <i class="bi bi-book-half"></i>
                         <span>{{ chapters().length }}</span>
@@ -103,7 +100,7 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn-read"(click)="readFirstChapter()">
+                    <button class="btn-read" (click)="readFirstChapter()">
                         <i class="bi bi-book"></i>
                         Đọc truyện
                     </button>
@@ -111,9 +108,7 @@
                         <i class="bi bi-lightning-fill"></i>
                         Chương mới nhất
                     </button>
-                    <button
-                        class="btn-follow"
-                        (click)="toggleFollow()">
+                    <button class="btn-follow" (click)="toggleFollow()">
 
                         <i [class]="isFollowing()
                             ? 'bi bi-bookmark-check-fill'
@@ -124,9 +119,7 @@
                         ? 'Bỏ theo dõi'
                         : 'Theo dõi' }}
                     </button>
-                    <button
-                        class="btn-block"
-                        (click)="toggleBlockAuthor()">
+                    <button class="btn-block" (click)="toggleBlockAuthor()">
 
                         <i [class]="isBlocked()
                             ? 'bi bi-person-check-fill'
@@ -152,7 +145,8 @@
             </div>
 
             <div class="chapter-grid" *ngIf="chapters().length > 0; else noChaptersTemplate">
-                <a *ngFor="let chapter of chapters()" class="chapter-link" [routerLink]="['./chapter', chapter.chapterId]">
+                <a *ngFor="let chapter of chapters()" class="chapter-link"
+                    [routerLink]="['./chapter', chapter.chapterId]">
                     <i class="bi bi-bookmark"></i>
                     Chương {{ chapter.chaperOrder }}
                     -

@@ -60,7 +60,7 @@ export class NovelDetail implements OnInit {
 // Kiểm tra trạng thái follow truyện và block tác giả
 loadInteractionStatus(): void {
   const novelId = this.novel()?.novelId;
-  const authorId = this.novel()?.authorId;
+  const authorId = this.novel()?.uid;
   console.log('Kiểm tra trạng thái','NovelId:',novelId,'AuthorId:',authorId);
   // Kiểm tra follow truyện
   if (novelId) {
@@ -112,16 +112,24 @@ loadNovel(novelID: string): void {
     .subscribe({
       next: (res: any) => {
         console.log('Novel API:', res);
-        this.novel.set(res);
-        this.averageRating.set(res.averageRating ?? 0);
-        this.totalRatings.set(res.totalRatings ?? 0);
-        // Load trạng thái follow/block
-        this.loadInteractionStatus();
+        if (res && res.novel) {
+          this.novel.set(res.novel);
+          this.averageRating.set(res.averageRating ?? 0);
+          this.totalRatings.set(res.novel.ratings?.length ?? 0);
+          this.isFollowing.set(res.isFollowNovel ?? false);
+          this.isBlocked.set(res.isBlockedAuthor ?? false);
+          this.currentRating.set(res.userRating ?? 0);
 
-        // Load điểm đánh giá của user hiện tại
-        if (res?.novelId) {
-          this.loadMyRating(res.novelId);
-          this.loadChapters(res.novelId);
+          // Load trạng thái follow/block
+          this.loadInteractionStatus();
+
+          if (res.novel.novelId) {
+            this.loadMyRating(res.novel.novelId);
+            this.loadChapters(res.novel.novelId);
+          } else {
+            this.isLoading.set(false);
+            this.cdr.detectChanges();
+          }
         } else {
           this.isLoading.set(false);
           this.cdr.detectChanges();
@@ -213,7 +221,7 @@ toggleFollow(): void {
 // Chặn / bỏ chặn tác giả
 toggleBlockAuthor(): void {
 
-  const authorId = this.novel()?.authorId;
+  const authorId = this.novel()?.uid;
 
   if (!authorId) return;
 
